@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- Add CompXenotypeSource to Xenogerm ThingDef -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="Xenogerm"]/comps</xpath>
+    <value>
+      <li Class="TradersStockXenogerms.CompProperties_XenotypeSource" />
+    </value>
+  </Operation>
+</Patch>

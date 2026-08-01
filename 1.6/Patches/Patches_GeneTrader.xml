@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- Add xenogerm stock generator to Gene Trader orbital trader (conditional on mod being loaded) -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Gene Trader</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/TraderKindDef[defName="Orbital_GeneTrader"]/stockGenerators</xpath>
+      <value>
+        <li Class="TradersStockXenogerms.StockGenerator_Xenogerms">
+          <!-- Guaranteed stock since this is a specialized gene trader -->
+          <countRange>2~4</countRange>
+        </li>
+      </value>
+    </match>
+  </Operation>
+</Patch>

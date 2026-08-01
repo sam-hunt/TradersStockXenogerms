@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Add StatPart_XenogermValue to MarketValue stat -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="MarketValue"]/parts</xpath>
+    <value>
+      <li Class="TradersStockXenogerms.StatPart_XenogermValue" />
+    </value>
+  </Operation>
+
+  <!-- Add SellPriceFactor to Xenogerm ThingDef to prevent buy-sell exploits -->
+  <!-- 5% sell price means a 2000 silver xenogerm sells for ~100 silver -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="Xenogerm"]/statBases</xpath>
+    <value>
+      <SellPriceFactor>0.05</SellPriceFactor>
+    </value>
+  </Operation>
+
+  <!-- Add StatPart_XenogermSellFactor to SellPriceFactor stat -->
+  <!-- This increases sell price for archite xenogerms based on archite count -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/StatDef[defName="SellPriceFactor"]/parts</xpath>
+    <value>
+      <li Class="TradersStockXenogerms.StatPart_XenogermSellFactor" />
+    </value>
+  </Operation>
+
+</Patch>
