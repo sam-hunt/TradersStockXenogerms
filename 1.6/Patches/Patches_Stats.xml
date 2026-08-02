@@ -2,29 +2,83 @@
 <Patch>
 
   <!-- Add StatPart_XenogermValue to MarketValue stat -->
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/StatDef[defName="MarketValue"]/parts</xpath>
-    <value>
-      <li Class="TradersStockXenogerms.StatPart_XenogermValue" />
-    </value>
+  <!-- First ensure parts element exists, then add our stat part -->
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>/Defs/StatDef[defName="MarketValue"]/parts</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/StatDef[defName="MarketValue"]/parts</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/StatDef[defName="MarketValue"]</xpath>
+          <value>
+            <parts />
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/StatDef[defName="MarketValue"]/parts</xpath>
+        <value>
+          <li Class="TradersStockXenogerms.StatPart_XenogermValue" />
+        </value>
+      </li>
+    </operations>
   </Operation>
 
   <!-- Add SellPriceFactor to Xenogerm ThingDef to prevent buy-sell exploits -->
   <!-- 5% sell price means a 2000 silver xenogerm sells for ~100 silver -->
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ThingDef[defName="Xenogerm"]/statBases</xpath>
-    <value>
-      <SellPriceFactor>0.05</SellPriceFactor>
-    </value>
+  <!-- First ensure statBases element exists, then add our stat -->
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>/Defs/ThingDef[defName="Xenogerm"]/statBases</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="Xenogerm"]/statBases</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="Xenogerm"]</xpath>
+          <value>
+            <statBases />
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[defName="Xenogerm"]/statBases</xpath>
+        <value>
+          <SellPriceFactor>0.05</SellPriceFactor>
+        </value>
+      </li>
+    </operations>
   </Operation>
 
   <!-- Add StatPart_XenogermSellFactor to SellPriceFactor stat -->
   <!-- This increases sell price for archite xenogerms based on archite count -->
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/StatDef[defName="SellPriceFactor"]/parts</xpath>
-    <value>
-      <li Class="TradersStockXenogerms.StatPart_XenogermSellFactor" />
-    </value>
+  <!-- First ensure parts element exists, then add our stat part -->
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <li Class="PatchOperationTest">
+        <xpath>/Defs/StatDef[defName="SellPriceFactor"]/parts</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/StatDef[defName="SellPriceFactor"]/parts</xpath>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/StatDef[defName="SellPriceFactor"]</xpath>
+          <value>
+            <parts />
+          </value>
+        </nomatch>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/StatDef[defName="SellPriceFactor"]/parts</xpath>
+        <value>
+          <li Class="TradersStockXenogerms.StatPart_XenogermSellFactor" />
+        </value>
+      </li>
+    </operations>
   </Operation>
 
 </Patch>
