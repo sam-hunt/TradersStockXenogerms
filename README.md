@@ -83,7 +83,3 @@ For development setup, see [CLAUDE.md](CLAUDE.md).
 - [Ludeon Studios](https://ludeon.com) for RimWorld and modding API
 - [The RimWorld modding community](https://steamcommunity.com/app/294100/workshop/) for inspiration and working examples
 - [Claude Code](https://claude.com/claude-code) for wading through `monodis` output and breathing C#
-
-## License
-
-MIT
