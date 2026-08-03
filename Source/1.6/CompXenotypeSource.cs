@@ -11,17 +11,15 @@ namespace TradersStockXenogerms
         }
     }
 
-    /// <summary>
-    /// Stores a reference to the XenotypeDef that a xenogerm was created from.
-    /// Added to xenogerms sold by traders so that implantation can assign the
-    /// preset xenotype to the pawn (via Patch_ImplantXenogermItem).
-    ///
-    /// Player-crafted xenogerms don't have this comp set, so they behave normally
-    /// (pawn gets genes as a custom xenotype).
-    ///
-    /// Save-safe: Scribe_Defs.Look returns null gracefully if the XenotypeDef is
-    /// missing (e.g., if a mod providing the xenotype is removed).
-    /// </summary>
+    // Stores a reference to the XenotypeDef that a xenogerm was created from.
+    // Added to xenogerms sold by traders so that implantation can assign the
+    // preset xenotype to the pawn (via Patch_ImplantXenogermItem).
+    //
+    // Player-crafted xenogerms don't have this comp set, so they behave normally
+    // (pawn gets genes as a custom xenotype).
+    //
+    // Save-safe: Scribe_Defs.Look returns null gracefully if the XenotypeDef is
+    // missing (e.g., if a mod providing the xenotype is removed).
     public class CompXenotypeSource : ThingComp
     {
         public XenotypeDef sourceXenotype;

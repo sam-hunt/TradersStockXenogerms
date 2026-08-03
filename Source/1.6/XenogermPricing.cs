@@ -5,20 +5,14 @@ using Verse;
 
 namespace TradersStockXenogerms
 {
-    /// <summary>
-    /// Centralized pricing calculations for xenogerms.
-    /// Used by both StockGenerator (for spawn weighting) and StatPart (for market value display).
-    /// </summary>
+    // Centralized pricing calculations for xenogerms.
+    // Used by both StockGenerator (for spawn weighting) and StatPart (for market value display).
     public static class XenogermPricing
     {
-        /// <summary>
-        /// Base xenogerm value from vanilla ThingDef.
-        /// </summary>
+        // Base xenogerm value from vanilla ThingDef.
         public const float BaseXenogermValue = 20f;
 
-        /// <summary>
-        /// Breakdown of pricing components for a xenogerm.
-        /// </summary>
+        // Breakdown of pricing components for a xenogerm.
         public struct PricingBreakdown
         {
             public int AbsoluteMetabolism;
@@ -29,10 +23,8 @@ namespace TradersStockXenogerms
 
         private static TradersStockXenogermsSettings Settings => TradersStockXenogermsMod.Settings;
 
-        /// <summary>
-        /// Calculates the pricing breakdown for a set of genes.
-        /// Returns the raw stats and the calculated premium (excluding base xenogerm value).
-        /// </summary>
+        // Calculates the pricing breakdown for a set of genes.
+        // Returns the raw stats and the calculated premium (excluding base xenogerm value).
         public static PricingBreakdown Calculate(IEnumerable<GeneDef> genes)
         {
             var breakdown = new PricingBreakdown();
@@ -55,10 +47,8 @@ namespace TradersStockXenogerms
             return breakdown;
         }
 
-        /// <summary>
-        /// Estimates the full market value of a xenogerm (base value + premium).
-        /// Used for spawn weighting in stock generation.
-        /// </summary>
+        // Estimates the full market value of a xenogerm (base value + premium).
+        // Used for spawn weighting in stock generation.
         public static float EstimateMarketValue(IEnumerable<GeneDef> genes)
         {
             return BaseXenogermValue + Calculate(genes).Premium;

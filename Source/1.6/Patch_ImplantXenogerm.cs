@@ -4,16 +4,14 @@ using Verse;
 
 namespace TradersStockXenogerms
 {
-    /// <summary>
-    /// After xenogerm implantation, assigns the preset xenotype reference to the pawn.
-    ///
-    /// Vanilla implantation (GeneUtility.ImplantXenogermItem) adds genes and sets xenotypeName,
-    /// but leaves the pawn as "Baseliner" with a custom gene set. This patch uses SetXenotypeDirect
-    /// to assign the actual XenotypeDef reference, enabling:
-    /// - Ideology recognition (preferred xenotypes)
-    /// - Proper xenotype display in social/info panels
-    /// - "Naturalized" members of germline xenotypes (e.g., Impid) for social purposes
-    /// </summary>
+    // After xenogerm implantation, assigns the preset xenotype reference to the pawn.
+    //
+    // Vanilla implantation (GeneUtility.ImplantXenogermItem) adds genes and sets xenotypeName,
+    // but leaves the pawn as "Baseliner" with a custom gene set. This patch uses SetXenotypeDirect
+    // to assign the actual XenotypeDef reference, enabling:
+    // - Ideology recognition (preferred xenotypes)
+    // - Proper xenotype display in social/info panels
+    // - "Naturalized" members of germline xenotypes (e.g., Impid) for social purposes
     [HarmonyPatch(typeof(GeneUtility), nameof(GeneUtility.ImplantXenogermItem))]
     public static class Patch_ImplantXenogermItem
     {

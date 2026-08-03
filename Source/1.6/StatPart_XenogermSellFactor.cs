@@ -4,11 +4,9 @@ using Verse;
 
 namespace TradersStockXenogerms
 {
-    /// <summary>
-    /// Increases the SellPriceFactor for xenogerms based on archite gene count.
-    /// This makes archite xenogerms more valuable when sold, compensating for their rarity.
-    /// Base SellPriceFactor (0.05) is set via XML; this adds the archite bonus.
-    /// </summary>
+    // Increases the SellPriceFactor for xenogerms based on archite gene count.
+    // This makes archite xenogerms more valuable when sold, compensating for their rarity.
+    // Base SellPriceFactor (0.05) is set via XML; this adds the archite bonus.
     public class StatPart_XenogermSellFactor : StatPart
     {
         // Bonus to SellPriceFactor per archite gene
