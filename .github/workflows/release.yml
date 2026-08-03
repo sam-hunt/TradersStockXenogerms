@@ -14,6 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check translations
+        run: python3 Scripts/check-translations.py
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -22,26 +25,17 @@ jobs:
       - name: Build
         run: dotnet build TradersStockXenogerms.sln -c Release
 
+      - name: Stage mod files
+        run: dotnet build Source/1.6/TradersStockXenogerms.csproj -c Release -t:StageMod -p:StageDir=${{ github.workspace }}/release/TradersStockXenogerms
+
       - name: Package mod
         run: |
-          set -e
-          mkdir -p release/TradersStockXenogerms/About
-          mkdir -p release/TradersStockXenogerms/1.6/Assemblies
-          mkdir -p release/TradersStockXenogerms/1.6/Defs
-          mkdir -p release/TradersStockXenogerms/1.6/Patches
-          mkdir -p release/TradersStockXenogerms/1.6/Languages
-          cp About/About.xml release/TradersStockXenogerms/About/
-          [ -f About/Preview.png ] && cp About/Preview.png release/TradersStockXenogerms/About/
-          cp LoadFolders.xml release/TradersStockXenogerms/
-          cp 1.6/Assemblies/TradersStockXenogerms.dll release/TradersStockXenogerms/1.6/Assemblies/
-          [ -d 1.6/Defs ] && [ "$(ls -A 1.6/Defs 2>/dev/null)" ] && cp -r 1.6/Defs/* release/TradersStockXenogerms/1.6/Defs/
-          cp -r 1.6/Patches/* release/TradersStockXenogerms/1.6/Patches/
-          [ -d 1.6/Languages ] && [ "$(ls -A 1.6/Languages 2>/dev/null)" ] && cp -r 1.6/Languages/* release/TradersStockXenogerms/1.6/Languages/
-          cd release && zip -r ../TradersStockXenogerms-${{ github.ref_name }}.zip TradersStockXenogerms
+          cd release
+          zip -r ../TradersStockXenogerms-${GITHUB_REF_NAME}.zip TradersStockXenogerms
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: TradersStockXenogerms-${{ github.ref_name }}.zip
-          generate_release_notes: true
+          generate_release_notes: false
           prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') || contains(github.ref_name, '-rc') }}

@@ -1,5 +1,6 @@
-# Claude Code
-.claude
+# Claude Code (skills are shared/tracked; hooks and local settings stay machine-local)
+.claude/*
+!.claude/skills/
 
 # Visual Studio
 .vs/
@@ -26,12 +27,12 @@ _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
 
-# Build artifacts
-# NOTE: Assemblies/ contains the compiled DLL that RimWorld loads.
-# Some developers commit this, others prefer to build locally.
-# Uncomment the line below if you prefer not to commit the DLL:
+# Build artifacts (compiled mod DLL is built locally / by CI, never committed)
 */Assemblies/*.dll
 */Assemblies/*.pdb
+
+# Python bytecode (translation tooling)
+__pycache__/
 
 # RimWorld local testing
 *.rws

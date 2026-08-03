@@ -78,30 +78,56 @@
     </PackageReference>
   </ItemGroup>
 
-  <!-- Deploy runtime mod files to RimWorld Mods folder after build -->
+  <!-- Build-time code analysis (warnings only; never ships). Roslynator's analyzers run
+       on every build and surface in the IDE + build log; PrivateAssets="all" keeps them
+       out of the compiled DLL and out of any downstream reference. The global
+       `roslynator` CLI (installed separately) handles bulk fixes and CI gating. -->
+  <ItemGroup>
+    <PackageReference Include="Roslynator.Analyzers" Version="4.*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- ===== Mod packaging / deployment =====
+       The ItemGroup inside StageMod below is the SINGLE source of truth for what
+       files constitute the deployable mod. It feeds BOTH the post-build deploy into
+       the local RimWorld Mods folder AND the CI release (which invokes StageMod with
+       a -p:StageDir pointing at its staging dir). Add/remove shipped files here only. -->
   <PropertyGroup>
+    <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../..'))</RepoRoot>
     <ModDeployPath>$(RimWorldPath)/Mods/TradersStockXenogerms</ModDeployPath>
+    <!-- StageMod writes here. Defaults to the local Mods folder; CI overrides with -p:StageDir=... -->
+    <StageDir Condition="'$(StageDir)' == ''">$(ModDeployPath)</StageDir>
   </PropertyGroup>
-  <!-- Clean deployed mod folder (use: dotnet build -t:CleanModFolder) -->
-  <Target Name="CleanModFolder" Condition="'$(UseLocalRimWorld)' == 'true'">
-    <RemoveDir Directories="$(ModDeployPath)/About;$(ModDeployPath)/1.6" />
-    <Delete Files="$(ModDeployPath)/LoadFolders.xml" />
-    <Message Text="Cleaned deployed mod folder: $(ModDeployPath)" Importance="high" />
-  </Target>
-  <Target Name="DeployToModFolder" AfterTargets="Build" Condition="'$(UseLocalRimWorld)' == 'true'">
+
+  <Target Name="StageMod">
+    <Error Condition="'$(StageDir)' == ''" Text="StageMod requires a non-empty -p:StageDir." />
     <ItemGroup>
-      <AboutFiles Include="$(MSBuildProjectDirectory)/../../About/**/*" />
-      <AssemblyFiles Include="$(MSBuildProjectDirectory)/../../1.6/Assemblies/*.dll" />
-      <DefFiles Include="$(MSBuildProjectDirectory)/../../1.6/Defs/**/*" Exclude="$(MSBuildProjectDirectory)/../../1.6/Defs/**/*.md" />
-      <PatchFiles Include="$(MSBuildProjectDirectory)/../../1.6/Patches/**/*" />
-      <LanguageFiles Include="$(MSBuildProjectDirectory)/../../1.6/Languages/**/*" />
-      <LoadFoldersFile Include="$(MSBuildProjectDirectory)/../../LoadFolders.xml" />
+      <!-- Root-only metadata -->
+      <_ModFiles Include="$(RepoRoot)/LoadFolders.xml" />
+      <_ModFiles Include="$(RepoRoot)/About/**/*.xml;$(RepoRoot)/About/**/*.png;$(RepoRoot)/About/**/*.txt" />
+
+      <!-- Code + content (matched at root and under any version / Common folder) -->
+      <_ModFiles Include="$(RepoRoot)/Assemblies/**/*.dll;$(RepoRoot)/*/Assemblies/**/*.dll" />
+      <_ModFiles Include="$(RepoRoot)/Defs/**/*.xml;$(RepoRoot)/*/Defs/**/*.xml" />
+      <_ModFiles Include="$(RepoRoot)/Patches/**/*.xml;$(RepoRoot)/*/Patches/**/*.xml" />
+      <_ModFiles Include="$(RepoRoot)/Textures/**/*.png;$(RepoRoot)/Textures/**/*.jpg;$(RepoRoot)/Textures/**/*.jpeg;$(RepoRoot)/*/Textures/**/*.png;$(RepoRoot)/*/Textures/**/*.jpg;$(RepoRoot)/*/Textures/**/*.jpeg" />
+      <_ModFiles Include="$(RepoRoot)/Sounds/**/*.wav;$(RepoRoot)/Sounds/**/*.mp3;$(RepoRoot)/Sounds/**/*.ogg;$(RepoRoot)/*/Sounds/**/*.wav;$(RepoRoot)/*/Sounds/**/*.mp3;$(RepoRoot)/*/Sounds/**/*.ogg" />
+      <_ModFiles Include="$(RepoRoot)/Languages/**/*.xml;$(RepoRoot)/Languages/**/*.txt;$(RepoRoot)/*/Languages/**/*.xml;$(RepoRoot)/*/Languages/**/*.txt" />
     </ItemGroup>
-    <Copy SourceFiles="@(AboutFiles)" DestinationFiles="@(AboutFiles->'$(ModDeployPath)/About/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(AssemblyFiles)" DestinationFiles="@(AssemblyFiles->'$(ModDeployPath)/1.6/Assemblies/%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(DefFiles)" DestinationFiles="@(DefFiles->'$(ModDeployPath)/1.6/Defs/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(PatchFiles)" DestinationFiles="@(PatchFiles->'$(ModDeployPath)/1.6/Patches/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(LanguageFiles)" DestinationFiles="@(LanguageFiles->'$(ModDeployPath)/1.6/Languages/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(LoadFoldersFile)" DestinationFolder="$(ModDeployPath)" SkipUnchangedFiles="true" />
+    <ItemGroup>
+      <_ModFiles>
+        <Dest>$(StageDir)/$([MSBuild]::MakeRelative('$(RepoRoot)', '%(FullPath)'))</Dest>
+      </_ModFiles>
+    </ItemGroup>
+    <RemoveDir Directories="$(StageDir)" />
+    <Copy SourceFiles="@(_ModFiles)" DestinationFiles="@(_ModFiles->'%(Dest)')" />
+    <Message Text="Staged @(_ModFiles->Count()) mod files -> $(StageDir)" Importance="high" />
+  </Target>
+
+  <!-- After every local build, atomically redeploy into the RimWorld Mods folder. -->
+  <Target Name="DeployToModFolder" AfterTargets="Build" Condition="'$(UseLocalRimWorld)' == 'true'">
+    <CallTarget Targets="StageMod" />
   </Target>
 </Project>
