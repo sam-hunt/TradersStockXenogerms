@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.6", "1.6", "{789BA4C0-C46
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradersStockXenogerms", "Source\1.6\TradersStockXenogerms.csproj", "{602F10D4-48FB-4217-AFA8-60FCE43AAC36}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradersStockXenogerms.Tests", "Tests\1.6\TradersStockXenogerms.Tests.csproj", "{B45BB306-01E8-403D-89F3-85A28412D1BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,11 +19,16 @@ Global
 		{602F10D4-48FB-4217-AFA8-60FCE43AAC36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{602F10D4-48FB-4217-AFA8-60FCE43AAC36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{602F10D4-48FB-4217-AFA8-60FCE43AAC36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B45BB306-01E8-403D-89F3-85A28412D1BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B45BB306-01E8-403D-89F3-85A28412D1BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B45BB306-01E8-403D-89F3-85A28412D1BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B45BB306-01E8-403D-89F3-85A28412D1BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{602F10D4-48FB-4217-AFA8-60FCE43AAC36} = {789BA4C0-C461-413D-A593-54DBCADDEA88}
+		{B45BB306-01E8-403D-89F3-85A28412D1BF} = {789BA4C0-C461-413D-A593-54DBCADDEA88}
 	EndGlobalSection
 EndGlobal
