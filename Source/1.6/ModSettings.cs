@@ -4,9 +4,9 @@ namespace TradersStockXenogerms
 {
     public class TradersStockXenogermsSettings : ModSettings
     {
-        public bool includeArchiteXenotypes = true;
-        public bool includeInheritableXenotypes = true;
-        public bool includePlayerCreatedXenotypes = false;
+        public bool includeArchiteXenotypes = DefaultIncludeArchiteXenotypes;
+        public bool includeInheritableXenotypes = DefaultIncludeInheritableXenotypes;
+        public bool includePlayerCreatedXenotypes = DefaultIncludePlayerCreatedXenotypes;
 
         // Pricing constants with defaults matching original values
         public float basePresetValue = DefaultBasePresetValue;
@@ -15,6 +15,9 @@ namespace TradersStockXenogerms
         public float valuePerArchite = DefaultValuePerArchite;
 
         // Default values
+        public const bool DefaultIncludeArchiteXenotypes = true;
+        public const bool DefaultIncludeInheritableXenotypes = true;
+        public const bool DefaultIncludePlayerCreatedXenotypes = false;
         public const float DefaultBasePresetValue = 1300f;
         public const float DefaultValuePerMetabolism = 10f;
         public const float DefaultValuePerComplexity = 15f;
@@ -30,11 +33,22 @@ namespace TradersStockXenogerms
         public const float MinValuePerArchite = 0f;
         public const float MaxValuePerArchite = 500f;
 
+        public void ResetToDefaults()
+        {
+            includeArchiteXenotypes = DefaultIncludeArchiteXenotypes;
+            includeInheritableXenotypes = DefaultIncludeInheritableXenotypes;
+            includePlayerCreatedXenotypes = DefaultIncludePlayerCreatedXenotypes;
+            basePresetValue = DefaultBasePresetValue;
+            valuePerMetabolism = DefaultValuePerMetabolism;
+            valuePerComplexity = DefaultValuePerComplexity;
+            valuePerArchite = DefaultValuePerArchite;
+        }
+
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref includeArchiteXenotypes, "includeArchiteXenotypes", true);
-            Scribe_Values.Look(ref includeInheritableXenotypes, "includeInheritableXenotypes", true);
-            Scribe_Values.Look(ref includePlayerCreatedXenotypes, "includePlayerCreatedXenotypes", false);
+            Scribe_Values.Look(ref includeArchiteXenotypes, "includeArchiteXenotypes", DefaultIncludeArchiteXenotypes);
+            Scribe_Values.Look(ref includeInheritableXenotypes, "includeInheritableXenotypes", DefaultIncludeInheritableXenotypes);
+            Scribe_Values.Look(ref includePlayerCreatedXenotypes, "includePlayerCreatedXenotypes", DefaultIncludePlayerCreatedXenotypes);
 
             Scribe_Values.Look(ref basePresetValue, "basePresetValue", DefaultBasePresetValue);
             Scribe_Values.Look(ref valuePerMetabolism, "valuePerMetabolism", DefaultValuePerMetabolism);
