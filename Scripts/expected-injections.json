@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "gameBuild": "1.6.4871 rev591",
+    "activeDlcs": [
+      "Core",
+      "Biotech"
+    ],
+    "modPackageId": "shunter.tradersstockxenogerms",
+    "modName": "Traders Stock Xenogerms"
+  },
+  "defInjections": {}
+}
