@@ -28,8 +28,8 @@ dotnet build Source/1.6/TradersStockXenogerms.csproj
 # Full clean rebuild
 dotnet clean TradersStockXenogerms.sln && dotnet build TradersStockXenogerms.sln -c Release
 
-# Run the test suite (WSL -> Windows PowerShell; net472 runner)
-./Scripts/test-windows.sh
+# Run the test suite (native; vstest hosts the net472 suite via mono)
+dotnet test Tests/1.6/TradersStockXenogerms.Tests.csproj
 ```
 
 The build system auto-detects the RimWorld installation path on Windows/Linux/Mac (including WSL targeting a Windows install). For CI builds without RimWorld installed, it falls back to the `Krafs.Rimworld.Ref` NuGet package.
@@ -78,8 +78,7 @@ Source/1.6/
 Scripts/
 ├── check-translations.py           # Deterministic localization validator (CI release gate)
 ├── refresh-translation-expectations.py  # Regenerates the sidecar via ../L10nProbe game boot
-├── expected-injections.json        # Checked-in DefInjected expectations sidecar
-└── test-windows.sh                 # Runs the net472 xUnit suite via Windows PowerShell
+└── expected-injections.json        # Checked-in DefInjected expectations sidecar
 ```
 
 ### .claude layout
@@ -127,7 +126,7 @@ Default pricing settings:
 
 ## Testing
 
-`Tests/1.6/` holds an xUnit (net472) suite for the pure logic: `XenogermPricing` breakdown/market-value math, settings defaults/`ResetToDefaults`, and the inverse-price spawn-weight formula. Tests are headless — no live game context (`GeneDef`s are built uninitialized via `FormatterServices`); anything needing `DefDatabase`/`Current.Game` is out of scope. Run with `./Scripts/test-windows.sh` (WSL shells out to Windows PowerShell because the net472 runner can't be hosted by WSL's dotnet; it robocopies the test bin to local NTFS first, and treats "0 tests discovered" as failure). CI builds the Tests project but does not run it.
+`Tests/1.6/` holds an xUnit (net472) suite for the pure logic: `XenogermPricing` breakdown/market-value math, settings defaults/`ResetToDefaults`, and the inverse-price spawn-weight formula. Tests are headless — no live game context (`GeneDef`s are built uninitialized via `FormatterServices`); anything needing `DefDatabase`/`Current.Game` is out of scope. Run natively with `dotnet test Tests/1.6/TradersStockXenogerms.Tests.csproj` — vstest hosts the net472 suite via mono. If a run fails with `BadImageFormatException`/`TypeLoadException`, a DLL is missing from the test csproj copy target (see the Assembly-CSharp-firstpass comment there): mono resolves field types eagerly where the Windows CLR is lazy. CI builds the Tests project but does not run it.
 
 ## Localization
 
