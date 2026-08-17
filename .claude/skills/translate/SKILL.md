@@ -50,6 +50,15 @@ the source of truth; every other language derives from it.
   applies unchanged the day that happens.
 - Target layout: `1.6/Languages/<Language>/Keyed/*.xml` and (once non-empty)
   `1.6/Languages/<Language>/DefInjected/<DefTypeFolder>/*.xml`.
+- **No gated compat load roots exist today** (no `MayRequire`-gated defs, no
+  `1.6/Mods/<Name>/` folders) — but the checker and `LoadFolders.xml` idiom
+  already support them, following sister mod `BetterTradersGuild`. If this
+  mod ever ships a def gated on an optional mod or a second DLC, its
+  DefInjected translations must live under that def's own gated root
+  (`1.6/Mods/<Name>/Languages/<Language>/...`), never the main `1.6` tree —
+  MayRequire is ignored on DefInjected entries, so the LoadFolders gate has
+  to be the folder itself. The checker enforces the placement in both
+  directions and names the owning root in its errors.
 - `<DefTypeFolder>` must be the def's resolvable type name: bare for vanilla
   types (`ThingDef`, `StatDef`, `TraderKindDef`, ...). A
   namespace-qualified folder (`TradersStockXenogerms.<DefClass>`) would only
@@ -689,9 +698,15 @@ changes.
 ### Initial generation (`/translate <Language>`)
 
 1. Run the checker; confirm English itself is clean.
-2. Enumerate the English Keyed keys in `TSX_UI.xml` (there is currently no
-   DefInjected surface to enumerate — confirm that against the sidecar
-   rather than assuming it).
+2. Enumerate the target key set: every Keyed key in `TSX_UI.xml`, plus every
+   `required` DefInjected entry in the `Scripts/expected-injections.json`
+   sidecar, taking the English source text from each entry's `english`
+   field — NOT from an English DefInjected tree (there is currently no
+   DefInjected surface at all; confirm that against the sidecar rather than
+   assuming it, since the sidecar is the authority the moment a def with a
+   translatable field ships). Route any gated def's entries to its own
+   compat root per the note above; everything else goes in the main
+   `1.6/Languages/<Language>/` tree.
 3. Extract the vanilla tar for the target language into the scratchpad;
    build a term list for the grounded terms above (Core + Biotech).
 4. Translate via subagent(s) carrying: the glossary, the vanilla term list,
