@@ -34,6 +34,14 @@ the source of truth; every other language derives from it.
   button) and any other player-facing prose this mod owns. Unlike the
   weapon-mod siblings, there is no second Keyed file and no per-trait or
   per-weapon prose to split out.
+- **`TSX_SettingsCategory` is not a plain UI string, it is the localized
+  Workshop title.** Its value is that language's Steam Workshop page title
+  and must stay in sync with the title line (line 1) of
+  `.steamworkshop/Description/<Language>.txt` — translate it per the title
+  convention in `.steamworkshop/README.md` (fully localized, leaning on that
+  language's vanilla Biotech term for xenogerm and its ordinary word for
+  traders, no English brand appended), never leave it as the English string.
+  See the CLAUDE.md localization note for the coupling rule.
 - **This mod ships no Defs of its own.** `1.6/Patches/**` are XML Patches
   (`PatchOperationAdd` / `PatchOperationSequence`) that bolt comps and
   StatParts (`CompXenotypeSource`, `StatPart_XenogermValue`,

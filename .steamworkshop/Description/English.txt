@@ -1,0 +1,50 @@
+Traders Stock Xenogerms
+
+[h1]About[/h1]
+In vanilla RimWorld with Biotech, the only way to get a specific xenotype is to collect individual genes and assemble a xenogerm yourself, a slow and expensive process. Xenogerms exist as items but traders never sell pre-made ones for preset xenotypes. This mod fixes that by adding complete xenogerms to trader inventories, letting you purchase a ready-made xenotype package instead of hunting down each gene individually.
+
+[hr][/hr]
+[h2]Xenogerm Trading[/h2]
+[list]
+[*]Orbital exotic goods traders stock xenogerms for all preset xenotypes (Hussar, Impid, Sanguophage, and more)
+[*]Purchased xenogerms assign the actual xenotype on implantation, enabling ideology recognition and creating "naturalized" members of endogene-only xenotypes
+[*]Cheaper xenogerms appear more frequently, while expensive archite xenotypes like Sanguophage are rarer finds
+[/list]
+
+[h2]Pricing[/h2]
+Xenogerm prices are based on gene complexity, metabolism impact, and archite gene count, e.g:
+[list]
+[*]Pigskin, Dirtmole: ~1,500 silver
+[*]Hussar, Highmate: ~1,600 to 1,850 silver
+[*]Sanguophage: ~3,200 silver
+[/list]
+Sell prices are intentionally low (5%) to prevent buy-sell exploits, with a bonus for archite xenogerms. The full formula is configurable in mod settings.
+
+[h2]Mod Settings[/h2]
+[list]
+[*][b]Include archite xenotypes[/b] - Toggle xenogerms containing archite genes (default: on)
+[*][b]Include inheritable xenotypes[/b] - Toggle germline xenotypes like Impid and Yttakin (default: on)
+[*][b]Include player-created xenotypes[/b] - Toggle xenotypes from the scenario editor (default: off)
+[*][b]Xenogerm Pricing[/b] - Customize the price formula by adjusting the base preset value and multipliers for metabolism, complexity, and archite genes
+[/list]
+
+[hr][/hr]
+[h1]Compatibility[/h1]
+[list]
+[*]Requires the Biotech DLC
+[*]Fully supports the Gene Trader mod: if installed, its orbital gene trader will also stock xenogerms
+[*]Safe to add or remove mid-game
+[*]Automatically includes xenotypes added by other mods
+[/list]
+
+[hr][/hr]
+[h1]FAQ[/h1]
+[b]Q: Do I need the Biotech DLC?[/b]
+A: Yes. This mod adds xenogerms for Biotech's xenotype system.
+
+[b]Q: Will this work with my other xenotype mods?[/b]
+A: Yes, xenotypes from other mods are automatically included.
+
+[hr][/hr]
+[h2]Links[/h2]
+[url=https://github.com/sam-hunt/TradersStockXenogerms]GitHub[/url] - Source code, bug reports, and feature requests
