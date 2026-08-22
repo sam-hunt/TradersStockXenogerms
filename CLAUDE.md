@@ -48,6 +48,8 @@ A machine-local Claude Code Stop hook (`.claude/hooks/sync-mod.sh`, untracked) r
 
 `Source/1.6/TradersStockXenogermsMod.cs` — `TradersStockXenogermsMod` constructor loads settings and patches via `Harmony.PatchAll()` attribute discovery.
 
+**Patch-timing hazard (other mods' methods):** that `PatchAll()` runs from the `Mod` subclass constructor — BEFORE any defs are loaded. Applying a detour JIT-compiles the target and runs its declaring type's static ctor, so a patch targeting ANOTHER MOD's method can permanently break that mod when its cctor resolves defs (the BetterTradersGuild v1.1.0 CWTL incident). The current patch targets vanilla `GeneUtility` (safe); before ever adding a foreign-target patch, defer its application until after defs load — worked example: BetterTradersGuild's `Core/DeferredModPatches.cs`.
+
 **Settings Access:** `TradersStockXenogermsMod.Settings` provides global access to mod configuration.
 
 ### Directory Structure
