@@ -1,8 +1,8 @@
 using Verse;
 
-namespace TradersStockXenogerms
+namespace XenogermTraderStock
 {
-    public class TradersStockXenogermsSettings : ModSettings
+    public class XenogermTraderStockSettings : ModSettings
     {
         public bool includeArchiteXenotypes = DefaultIncludeArchiteXenotypes;
         public bool includeInheritableXenotypes = DefaultIncludeInheritableXenotypes;

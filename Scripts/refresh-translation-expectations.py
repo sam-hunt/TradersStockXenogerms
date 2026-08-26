@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# TradersStockXenogerms's config shim over the shared sidecar-refresh engine
+# XenogermTraderStock's config shim over the shared sidecar-refresh engine
 # (l10n/refresh/refresh_expectations.py — the rimworld-l10n submodule),
 # which drives the L10nProbe dev mod (source at l10n/probe/; build/deploy it
 # only from the canonical ~/dev/rimworld-l10n checkout). The engine holds all
@@ -16,7 +16,7 @@ import refresh_expectations as engine  # noqa: E402  (import after sys.path edit
 
 engine.REPO_ROOT = Path(__file__).resolve().parent.parent
 
-engine.PACKAGE_ID = "shunter.tradersstockxenogerms"
+engine.PACKAGE_ID = "shunter.xenogermtraderstock"
 
 # RATIONALE: Biotech is a hard dependency (About.xml's modDependencies); no
 # other DLC gates any content here. Unlike the UniqueMeleeWeapons family
@@ -31,7 +31,7 @@ engine.CANONICAL_ACTIVE_MODS = [
     "brrainz.harmony",
     "ludeon.rimworld",
     "ludeon.rimworld.biotech",
-    "shunter.tradersstockxenogerms",
+    "shunter.xenogermtraderstock",
     "shunter.l10nprobe",
 ]
 

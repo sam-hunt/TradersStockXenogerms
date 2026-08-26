@@ -1,7 +1,7 @@
 using RimWorld;
 using Verse;
 
-namespace TradersStockXenogerms
+namespace XenogermTraderStock
 {
     public class CompProperties_XenotypeSource : CompProperties
     {

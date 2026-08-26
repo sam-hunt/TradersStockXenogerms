@@ -2,13 +2,13 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: InternalsVisibleTo("TradersStockXenogerms.Tests")]
+[assembly: InternalsVisibleTo("XenogermTraderStock.Tests")]
 
-[assembly: AssemblyTitle("TradersStockXenogerms")]
+[assembly: AssemblyTitle("XenogermTraderStock")]
 [assembly: AssemblyDescription("Purchase xenogerms from traders")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TradersStockXenogerms")]
+[assembly: AssemblyProduct("XenogermTraderStock")]
 [assembly: AssemblyCopyright("Copyright © 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

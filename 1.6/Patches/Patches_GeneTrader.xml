@@ -8,7 +8,7 @@
     <match Class="PatchOperationAdd">
       <xpath>/Defs/TraderKindDef[defName="Orbital_GeneTrader"]/stockGenerators</xpath>
       <value>
-        <li Class="TradersStockXenogerms.StockGenerator_Xenogerms">
+        <li Class="XenogermTraderStock.StockGenerator_Xenogerms">
           <!-- Guaranteed stock since this is a specialized gene trader -->
           <countRange>2~4</countRange>
         </li>

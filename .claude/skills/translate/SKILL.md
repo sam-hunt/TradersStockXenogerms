@@ -6,7 +6,7 @@ argument-hint: "[language, e.g. German | update | check]"
 
 # Translate
 
-Produce or refresh localization files for Traders Stock Xenogerms. English is
+Produce or refresh localization files for Xenogerm Trader Stock. English is
 the source of truth; every other language derives from it.
 
 **The family-wide process lives in the `l10n/` submodule — load these first,
@@ -25,7 +25,7 @@ and only these** (progressive disclosure; if `l10n/` is empty, run
   language, skim otherwise.
 - `l10n/workshop.md` — Steam Workshop description/title conventions;
   `.steamworkshop/README.md` names this mod's anchor term and title-coupling
-  key (`TSX_SettingsCategory`).
+  key (`XTS_SettingsCategory`).
 
 **Where learnings land:** mod-independent findings (engine mechanics, a
 language's grammar rule, corpus style facts) go in the `l10n/` submodule —
@@ -35,11 +35,11 @@ the pin here. Mod-specific findings (coined terms, phrasing decisions) go in
 
 ## This mod's translation surface
 
-- English Keyed source: `1.6/Languages/English/Keyed/TSX_UI.xml` — a single
+- English Keyed source: `1.6/Languages/English/Keyed/XTS_UI.xml` — a single
   file covering the mod settings window (pricing sliders, toggles, reset
   button) and any other player-facing prose this mod owns. Every key is
-  `TSX_`-prefixed. There is no second Keyed file.
-- **`TSX_SettingsCategory` is not a plain UI string, it is the localized
+  `XTS_`-prefixed. There is no second Keyed file.
+- **`XTS_SettingsCategory` is not a plain UI string, it is the localized
   Workshop title.** Its value is that language's Steam Workshop page title
   and must stay in sync with the title line (line 1) of
   `.steamworkshop/Description/<Language>.txt` — translate it per the title

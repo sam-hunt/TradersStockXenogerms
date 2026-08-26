@@ -2,7 +2,7 @@ using System.Text;
 using RimWorld;
 using Verse;
 
-namespace TradersStockXenogerms
+namespace XenogermTraderStock
 {
     // Increases the SellPriceFactor for xenogerms based on archite gene count.
     // This makes archite xenogerms more valuable when sold, compensating for their rarity.

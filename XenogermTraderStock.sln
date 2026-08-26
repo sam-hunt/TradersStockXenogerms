@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.6", "1.6", "{789BA4C0-C461-413D-A593-54DBCADDEA88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradersStockXenogerms", "Source\1.6\TradersStockXenogerms.csproj", "{602F10D4-48FB-4217-AFA8-60FCE43AAC36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenogermTraderStock", "Source\1.6\XenogermTraderStock.csproj", "{602F10D4-48FB-4217-AFA8-60FCE43AAC36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradersStockXenogerms.Tests", "Tests\1.6\TradersStockXenogerms.Tests.csproj", "{B45BB306-01E8-403D-89F3-85A28412D1BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XenogermTraderStock.Tests", "Tests\1.6\XenogermTraderStock.Tests.csproj", "{B45BB306-01E8-403D-89F3-85A28412D1BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

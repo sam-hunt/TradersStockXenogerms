@@ -1,4 +1,4 @@
-# Korean — Traders Stock Xenogerms glossary
+# Korean — Xenogerm Trader Stock glossary
 
 Family-shared mechanics — most notably the josa (particle) marker rules
 (`Verse.LanguageWorker_Korean.ReplaceJosa`), which apply to any Keyed
@@ -8,7 +8,7 @@ vanilla-grounded common vocabulary (Cancel/Reset buttons, quality tiers,
 `l10n/languages/Korean.md`, grounded across the weapon-mod sibling family's
 2026-07 generation and cross-checked against PersonaWeaponsUnbound's
 independent Korean pass the same day. This file holds only what is specific
-to Traders Stock Xenogerms.
+to Xenogerm Trader Stock.
 
 ## Mod-coined terms
 

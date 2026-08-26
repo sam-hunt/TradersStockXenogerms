@@ -1,11 +1,11 @@
 using System.Runtime.Serialization;
 using Verse;
 
-namespace TradersStockXenogerms.Tests
+namespace XenogermTraderStock.Tests
 {
     // Synthetic data builders for pricing tests. XenogermPricing is pure (it
     // only reads GeneDef.biostatMet / biostatCpx / biostatArc plus
-    // TradersStockXenogermsMod.Settings), so this only needs to populate those
+    // XenogermTraderStockMod.Settings), so this only needs to populate those
     // three fields.
     internal static class TestHelpers
     {
@@ -26,12 +26,12 @@ namespace TradersStockXenogerms.Tests
         }
 
         // Installs a fresh, default-valued settings instance. The setter is
-        // internal (TradersStockXenogermsMod.Settings), exposed to this test
+        // internal (XenogermTraderStockMod.Settings), exposed to this test
         // assembly via InternalsVisibleTo on the main project.
-        public static TradersStockXenogermsSettings InstallDefaultSettings()
+        public static XenogermTraderStockSettings InstallDefaultSettings()
         {
-            var settings = new TradersStockXenogermsSettings();
-            TradersStockXenogermsMod.Settings = settings;
+            var settings = new XenogermTraderStockSettings();
+            XenogermTraderStockMod.Settings = settings;
             return settings;
         }
     }

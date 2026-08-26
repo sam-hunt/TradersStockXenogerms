@@ -72,7 +72,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\1.6\TradersStockXenogerms.csproj" />
+    <ProjectReference Include="..\..\Source\1.6\XenogermTraderStock.csproj" />
   </ItemGroup>
 
   <!-- Copy RimWorld runtime assemblies into the test output so the test

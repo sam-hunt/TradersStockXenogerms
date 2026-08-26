@@ -5,13 +5,13 @@
       "Core",
       "Biotech"
     ],
-    "modPackageId": "shunter.tradersstockxenogerms",
-    "modName": "Traders Stock Xenogerms",
+    "modPackageId": "shunter.xenogermtraderstock",
+    "modName": "Xenogerm Trader Stock",
     "activeMods": [
       "brrainz.harmony",
       "ludeon.rimworld",
       "ludeon.rimworld.biotech",
-      "shunter.tradersstockxenogerms",
+      "shunter.xenogermtraderstock",
       "shunter.l10nprobe"
     ]
   },

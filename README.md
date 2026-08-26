@@ -1,8 +1,8 @@
-# Traders Stock Xenogerms
+# Xenogerm Trader Stock
 
 [![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
 [![Biotech DLC](https://img.shields.io/badge/DLC-Biotech-red.svg)](https://store.steampowered.com/app/1826140/RimWorld__Biotech/)
-[![Development Status](https://img.shields.io/badge/Status-In%20Development-yellow.svg)](https://github.com/sam-hunt/TradersStockXenogerms/releases)
+[![Development Status](https://img.shields.io/badge/Status-In%20Development-yellow.svg)](https://github.com/sam-hunt/XenogermTraderStock/releases)
 
 ## About
 
@@ -47,8 +47,8 @@ Subscribe on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedet
 
 ### Manual Installation
 
-1. Download the latest release from the [Releases](https://github.com/sam-hunt/TradersStockXenogerms/releases) page
-2. Extract the `TradersStockXenogerms` folder to your RimWorld `Mods` directory:
+1. Download the latest release from the [Releases](https://github.com/sam-hunt/XenogermTraderStock/releases) page
+2. Extract the `XenogermTraderStock` folder to your RimWorld `Mods` directory:
    - **Windows**: `C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\`
    - **Mac**: `~/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/`
    - **Linux**: `~/.steam/steam/steamapps/common/RimWorld/Mods/`
@@ -63,7 +63,7 @@ Subscribe on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedet
 
 ## Contributing
 
-Bug reports and feature requests welcome on [GitHub Issues](https://github.com/sam-hunt/TradersStockXenogerms/issues).
+Bug reports and feature requests welcome on [GitHub Issues](https://github.com/sam-hunt/XenogermTraderStock/issues).
 Please attach any relevant logs/stack traces/mod lists etc.
 
 For development setup, see [CLAUDE.md](CLAUDE.md).

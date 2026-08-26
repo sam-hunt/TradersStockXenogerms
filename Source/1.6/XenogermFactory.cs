@@ -1,7 +1,7 @@
 using RimWorld;
 using Verse;
 
-namespace TradersStockXenogerms
+namespace XenogermTraderStock
 {
     public static class XenogermFactory
     {

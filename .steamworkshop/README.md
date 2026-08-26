@@ -22,7 +22,7 @@ for traders. Titles are fully localized with no English brand appended:
 Workshop search is language-agnostic (any language's title matches regardless
 of UI language, verified 2026-08-12) and the preview thumbnail already
 carries the English name. Each title must equal that language's
-`TSX_SettingsCategory` Keyed value so the in-game settings header matches the
+`XTS_SettingsCategory` Keyed value so the in-game settings header matches the
 Workshop page (see the CLAUDE.md localization note).
 
 Steam has no API for per-language Workshop text, so updated files are pasted

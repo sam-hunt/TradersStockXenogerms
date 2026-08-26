@@ -1,10 +1,10 @@
-# Glossary — TSX-specific terminology
+# Glossary — XTS-specific terminology
 
 These per-language files (`Russian.md`, `Japanese.md`, `ChineseSimplified.md`,
 `Korean.md`, `German.md`, `Spanish.md`, `French.md`,
 `PortugueseBrazilian.md`) are meant to hold everything about a language's
-translation that is specific to Traders Stock Xenogerms: mod-coined terms,
-the localized Workshop title (`TSX_SettingsCategory`), and worked phrasing
+translation that is specific to Xenogerm Trader Stock: mod-coined terms,
+the localized Workshop title (`XTS_SettingsCategory`), and worked phrasing
 decisions tied to this mod's own `StatDef`/`ThingDef` patches (e.g. any
 restructuring `MarketValue`/`SellPriceFactor`/`Xenogerm` prose needs to fit a
 target language's contraction or case rules).
@@ -32,7 +32,7 @@ generation pass should confirm it is grounding against the right def
 *type*'s official label before reusing a vanilla term (see this skill's
 grounding-domain section).
 
-When a future translation pass coins a new TSX-specific term, record it
+When a future translation pass coins a new XTS-specific term, record it
 here. If a pass instead surfaces a correction to shared mechanics or
 vocabulary, send that fix upstream to the l10n repo rather than duplicating
 it here.

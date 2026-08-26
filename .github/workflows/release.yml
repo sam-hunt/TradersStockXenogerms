@@ -57,20 +57,20 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Build
-        run: dotnet build TradersStockXenogerms.sln -c Release
+        run: dotnet build XenogermTraderStock.sln -c Release
 
       - name: Stage mod files
-        run: dotnet build Source/1.6/TradersStockXenogerms.csproj -c Release -t:StageMod -p:StageDir=${{ github.workspace }}/release/TradersStockXenogerms
+        run: dotnet build Source/1.6/XenogermTraderStock.csproj -c Release -t:StageMod -p:StageDir=${{ github.workspace }}/release/XenogermTraderStock
 
       - name: Package mod
         run: |
           cd release
-          zip -r ../TradersStockXenogerms-${GITHUB_REF_NAME}.zip TradersStockXenogerms
+          zip -r ../XenogermTraderStock-${GITHUB_REF_NAME}.zip XenogermTraderStock
 
       - name: Create Release
         uses: softprops/action-gh-release@v3
         with:
-          files: TradersStockXenogerms-${{ github.ref_name }}.zip
+          files: XenogermTraderStock-${{ github.ref_name }}.zip
           # body_path is pre-pended to the auto-generated notes by the GitHub API,
           # so the curated CHANGELOG prose leads and the compare link (plus any
           # contributor PRs) follows it - not the other way round.

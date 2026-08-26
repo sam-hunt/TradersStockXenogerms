@@ -7,7 +7,7 @@ argument-hint: "[major|minor|patch]"
 
 # Release
 
-Prepare and publish a new release for Traders Stock Xenogerms.
+Prepare and publish a new release for Xenogerm Trader Stock.
 
 The user may pass a bump type as `$ARGUMENTS` (one of `major`, `minor`, or `patch`). If omitted, ask which bump type they want (at step 6, where the version is first needed).
 
@@ -87,8 +87,8 @@ blank line, then the BBCode description; one file per language folder in
 
 Run:
 ```bash
-dotnet clean TradersStockXenogerms.sln
-dotnet build TradersStockXenogerms.sln -c Release
+dotnet clean XenogermTraderStock.sln
+dotnet build XenogermTraderStock.sln -c Release
 ```
 
 Report the build result. If the build fails, stop and help the user fix it.
@@ -129,7 +129,7 @@ final. Do all of the following, then present it as **one** confirmation:
   directly below the Keep a Changelog intro paragraph, using today's date
   (this changelog carries no `[Unreleased]` heading; don't add one), Keep a
   Changelog style (`### Added`, `### Fixed`, ...), plus a
-  `[X.Y.Z]: https://github.com/sam-hunt/TradersStockXenogerms/releases/tag/vX.Y.Z`
+  `[X.Y.Z]: https://github.com/sam-hunt/XenogermTraderStock/releases/tag/vX.Y.Z`
   link reference at the bottom of the file, above any older ones.
 - Bump the version string in both files: `About/About.xml`
   (`<modVersion>`), `Source/1.6/Properties/AssemblyInfo.cs`
@@ -145,7 +145,7 @@ final. Do all of the following, then present it as **one** confirmation:
 
 No further questions unless something is unexpected:
 
-- Rebuild (`dotnet clean TradersStockXenogerms.sln && dotnet build TradersStockXenogerms.sln -c Release`)
+- Rebuild (`dotnet clean XenogermTraderStock.sln && dotnet build XenogermTraderStock.sln -c Release`)
   so the deployed DLL carries the bumped `AssemblyVersion`. Stop on failure.
 - Stage only the release files: `About/About.xml`,
   `Source/1.6/Properties/AssemblyInfo.cs`, `CHANGELOG.md`. If

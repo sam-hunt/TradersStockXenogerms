@@ -1,4 +1,4 @@
-# German — Traders Stock Xenogerms glossary
+# German — Xenogerm Trader Stock glossary
 
 Family-shared mechanics (case declension via `lookup`/`decline`, article
 helpers, `PostProcessed`'s `'s`-rewrite), style/corpus rules, and
@@ -10,7 +10,7 @@ upstream file corrects an earlier family claim that `GrammarResolverSimple`
 implements no `lookup` function — `lookup` IS available in a plain Keyed
 string (see its Pitfalls section).** Read the upstream file itself rather
 than relying on any older, superseded description of this mechanic. This
-file holds only what is specific to Traders Stock Xenogerms.
+file holds only what is specific to Xenogerm Trader Stock.
 
 ## Mod-coined terms
 

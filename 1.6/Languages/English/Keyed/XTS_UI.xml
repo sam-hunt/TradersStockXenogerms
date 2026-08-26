@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <XTS_SettingsCategory>Xenogerm Trader Stock</XTS_SettingsCategory>
+
+  <XTS_IncludeArchite>Include archite xenotypes</XTS_IncludeArchite>
+  <XTS_IncludeArchiteDesc>Allow traders to sell xenogerms for xenotypes containing archite genes (e.g., Sanguophage). These are typically more expensive.</XTS_IncludeArchiteDesc>
+  <XTS_IncludeInheritable>Include inheritable xenotypes</XTS_IncludeInheritable>
+  <XTS_IncludeInheritableDesc>Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology.</XTS_IncludeInheritableDesc>
+  <XTS_IncludePlayerCreated>Include player-created xenotypes</XTS_IncludePlayerCreated>
+  <XTS_IncludePlayerCreatedDesc>Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs.</XTS_IncludePlayerCreatedDesc>
+
+  <XTS_PricingSection>Xenogerm pricing</XTS_PricingSection>
+  <XTS_PricingSectionDesc>Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only.</XTS_PricingSectionDesc>
+  <XTS_BasePresetValue>Base preset value: {0}</XTS_BasePresetValue>
+  <XTS_BasePresetValueDesc>Base silver value added to all preset xenotype xenogerms. Default: {0}</XTS_BasePresetValueDesc>
+  <XTS_ValuePerMetabolism>Value per metabolism: {0}</XTS_ValuePerMetabolism>
+  <XTS_ValuePerMetabolismDesc>Silver value added per point of absolute metabolism. Default: {0}</XTS_ValuePerMetabolismDesc>
+  <XTS_ValuePerComplexity>Value per complexity: {0}</XTS_ValuePerComplexity>
+  <XTS_ValuePerComplexityDesc>Silver value added per point of genetic complexity. Default: {0}</XTS_ValuePerComplexityDesc>
+  <XTS_ValuePerArchite>Value per archite gene: {0}</XTS_ValuePerArchite>
+  <XTS_ValuePerArchiteDesc>Silver value added per archite gene. Default: {0}</XTS_ValuePerArchiteDesc>
+
+  <XTS_DefaultSuffix> (default)</XTS_DefaultSuffix>
+  <XTS_ResetToDefaults>Reset to defaults</XTS_ResetToDefaults>
+
+</LanguageData>

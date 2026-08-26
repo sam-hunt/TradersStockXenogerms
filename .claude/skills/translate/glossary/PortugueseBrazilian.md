@@ -1,4 +1,4 @@
-# Brazilian Portuguese — Traders Stock Xenogerms glossary
+# Brazilian Portuguese — Xenogerm Trader Stock glossary
 
 Family-shared mechanics (mandatory but unsupported contractions,
 `(a)`-hedged gender, `[X_possessive]` unusability), style/corpus rules, and
@@ -6,7 +6,7 @@ vanilla-grounded common vocabulary (Cancel/Reset buttons, quality tiers,
 "Traders will pay more/less for it.") live in the `l10n/` submodule at
 `l10n/languages/PortugueseBrazilian.md`, grounded across the weapon-mod
 sibling family's 2026-07 generation. This file holds only what is specific
-to Traders Stock Xenogerms.
+to Xenogerm Trader Stock.
 
 ## Mod-coined terms
 

@@ -2,28 +2,28 @@ using HarmonyLib;
 using UnityEngine;
 using Verse;
 
-namespace TradersStockXenogerms
+namespace XenogermTraderStock
 {
-    public class TradersStockXenogermsMod : Mod
+    public class XenogermTraderStockMod : Mod
     {
         // Setter is internal so the headless test suite can install a settings instance.
-        public static TradersStockXenogermsSettings Settings { get; internal set; }
+        public static XenogermTraderStockSettings Settings { get; internal set; }
 
         private Vector2 settingsScroll;
         private float settingsHeight;
 
-        public TradersStockXenogermsMod(ModContentPack content) : base(content)
+        public XenogermTraderStockMod(ModContentPack content) : base(content)
         {
-            Settings = GetSettings<TradersStockXenogermsSettings>();
+            Settings = GetSettings<XenogermTraderStockSettings>();
 
-            var harmony = new Harmony("shunter.tradersstockxenogerms");
+            var harmony = new Harmony("shunter.xenogermtraderstock");
             harmony.PatchAll();
-            Log.Message("[TradersStockXenogerms] Mod loaded.");
+            Log.Message("[XenogermTraderStock] Mod loaded.");
         }
 
         public override string SettingsCategory()
         {
-            return "TSX_SettingsCategory".Translate();
+            return "XTS_SettingsCategory".Translate();
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
@@ -43,61 +43,61 @@ namespace TradersStockXenogerms
             listing.Begin(new Rect(0f, 0f, innerWidth - 8f, 99999f));
 
             listing.CheckboxLabeled(
-                "TSX_IncludeArchite".Translate(),
+                "XTS_IncludeArchite".Translate(),
                 ref Settings.includeArchiteXenotypes,
-                "TSX_IncludeArchiteDesc".Translate());
+                "XTS_IncludeArchiteDesc".Translate());
 
             listing.CheckboxLabeled(
-                "TSX_IncludeInheritable".Translate(),
+                "XTS_IncludeInheritable".Translate(),
                 ref Settings.includeInheritableXenotypes,
-                "TSX_IncludeInheritableDesc".Translate());
+                "XTS_IncludeInheritableDesc".Translate());
 
             listing.CheckboxLabeled(
-                "TSX_IncludePlayerCreated".Translate(),
+                "XTS_IncludePlayerCreated".Translate(),
                 ref Settings.includePlayerCreatedXenotypes,
-                "TSX_IncludePlayerCreatedDesc".Translate());
+                "XTS_IncludePlayerCreatedDesc".Translate());
 
             listing.GapLine(16f);
-            listing.Label("TSX_PricingSection".Translate());
+            listing.Label("XTS_PricingSection".Translate());
             GameFont prevFont = Text.Font;
             Text.Font = GameFont.Tiny;
-            listing.Label("TSX_PricingSectionDesc".Translate());
+            listing.Label("XTS_PricingSectionDesc".Translate());
             Text.Font = prevFont;
             listing.Gap(6f);
 
             Settings.basePresetValue = SliderRow(listing,
-                "TSX_BasePresetValue", "TSX_BasePresetValueDesc",
+                "XTS_BasePresetValue", "XTS_BasePresetValueDesc",
                 Settings.basePresetValue,
-                TradersStockXenogermsSettings.DefaultBasePresetValue,
-                TradersStockXenogermsSettings.MinBasePresetValue,
-                TradersStockXenogermsSettings.MaxBasePresetValue);
+                XenogermTraderStockSettings.DefaultBasePresetValue,
+                XenogermTraderStockSettings.MinBasePresetValue,
+                XenogermTraderStockSettings.MaxBasePresetValue);
 
             Settings.valuePerMetabolism = SliderRow(listing,
-                "TSX_ValuePerMetabolism", "TSX_ValuePerMetabolismDesc",
+                "XTS_ValuePerMetabolism", "XTS_ValuePerMetabolismDesc",
                 Settings.valuePerMetabolism,
-                TradersStockXenogermsSettings.DefaultValuePerMetabolism,
-                TradersStockXenogermsSettings.MinValuePerMetabolism,
-                TradersStockXenogermsSettings.MaxValuePerMetabolism);
+                XenogermTraderStockSettings.DefaultValuePerMetabolism,
+                XenogermTraderStockSettings.MinValuePerMetabolism,
+                XenogermTraderStockSettings.MaxValuePerMetabolism);
 
             Settings.valuePerComplexity = SliderRow(listing,
-                "TSX_ValuePerComplexity", "TSX_ValuePerComplexityDesc",
+                "XTS_ValuePerComplexity", "XTS_ValuePerComplexityDesc",
                 Settings.valuePerComplexity,
-                TradersStockXenogermsSettings.DefaultValuePerComplexity,
-                TradersStockXenogermsSettings.MinValuePerComplexity,
-                TradersStockXenogermsSettings.MaxValuePerComplexity);
+                XenogermTraderStockSettings.DefaultValuePerComplexity,
+                XenogermTraderStockSettings.MinValuePerComplexity,
+                XenogermTraderStockSettings.MaxValuePerComplexity);
 
             Settings.valuePerArchite = SliderRow(listing,
-                "TSX_ValuePerArchite", "TSX_ValuePerArchiteDesc",
+                "XTS_ValuePerArchite", "XTS_ValuePerArchiteDesc",
                 Settings.valuePerArchite,
-                TradersStockXenogermsSettings.DefaultValuePerArchite,
-                TradersStockXenogermsSettings.MinValuePerArchite,
-                TradersStockXenogermsSettings.MaxValuePerArchite);
+                XenogermTraderStockSettings.DefaultValuePerArchite,
+                XenogermTraderStockSettings.MinValuePerArchite,
+                XenogermTraderStockSettings.MaxValuePerArchite);
 
             settingsHeight = listing.CurHeight;
             listing.End();
             Widgets.EndScrollView();
 
-            if (Widgets.ButtonText(buttonRect, "TSX_ResetToDefaults".Translate()))
+            if (Widgets.ButtonText(buttonRect, "XTS_ResetToDefaults".Translate()))
             {
                 Settings.ResetToDefaults();
             }
@@ -113,7 +113,7 @@ namespace TradersStockXenogerms
             string label = labelKey.Translate(value.ToString("F0"));
             if (Mathf.Approximately(value, defaultValue))
             {
-                label += "TSX_DefaultSuffix".Translate();
+                label += "XTS_DefaultSuffix".Translate();
             }
             listing.Label(label, tooltip: descKey.Translate(defaultValue.ToString("F0")));
             return Mathf.Round((listing.Slider(value, min, max) - min) / step) * step + min;

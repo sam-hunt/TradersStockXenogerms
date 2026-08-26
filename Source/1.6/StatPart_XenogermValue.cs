@@ -2,14 +2,14 @@ using System.Text;
 using RimWorld;
 using Verse;
 
-namespace TradersStockXenogerms
+namespace XenogermTraderStock
 {
     // Adds market value to xenogerms that have a preset xenotype source (trader-sold xenogerms).
     // Player-crafted xenogerms (no CompXenotypeSource) retain their base 20 silver value.
     // Pricing formula is defined in XenogermPricing and configurable via mod settings.
     public class StatPart_XenogermValue : StatPart
     {
-        private static TradersStockXenogermsSettings Settings => TradersStockXenogermsMod.Settings;
+        private static XenogermTraderStockSettings Settings => XenogermTraderStockMod.Settings;
 
         public override void TransformValue(StatRequest req, ref float val)
         {

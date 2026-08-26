@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Traders Stock Xenogerms** is a RimWorld 1.6 mod that adds xenogerms for preset xenotypes to trader inventories, allowing players to purchase pre-made xenogerms as an alternative to collecting individual genes. Requires the Biotech DLC.
+**Xenogerm Trader Stock** is a RimWorld 1.6 mod that adds xenogerms for preset xenotypes to trader inventories, allowing players to purchase pre-made xenogerms as an alternative to collecting individual genes. Requires the Biotech DLC.
 
 **Key Features:**
 
@@ -20,23 +20,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Build the mod (outputs to 1.6/Assemblies/ and deploys to RimWorld Mods folder)
-dotnet build TradersStockXenogerms.sln -c Release
+dotnet build XenogermTraderStock.sln -c Release
 
 # Build only the main project
-dotnet build Source/1.6/TradersStockXenogerms.csproj
+dotnet build Source/1.6/XenogermTraderStock.csproj
 
 # Full clean rebuild
-dotnet clean TradersStockXenogerms.sln && dotnet build TradersStockXenogerms.sln -c Release
+dotnet clean XenogermTraderStock.sln && dotnet build XenogermTraderStock.sln -c Release
 
 # Run the test suite (native; vstest hosts the net472 suite via mono)
-dotnet test Tests/1.6/TradersStockXenogerms.Tests.csproj
+dotnet test Tests/1.6/XenogermTraderStock.Tests.csproj
 ```
 
 The build system auto-detects the RimWorld installation path on Windows/Linux/Mac (including WSL targeting a Windows install). For CI builds without RimWorld installed, it falls back to the `Krafs.Rimworld.Ref` NuGet package.
 
 ### Deployment
 
-The repo lives in `~/dev/TradersStockXenogerms`, separate from the RimWorld Mods folder. The csproj's `StageMod` target is the **single source of truth** for what files ship: its ItemGroup feeds both the post-build local deploy (`DeployToModFolder` → `StageMod`, an atomic wipe+recopy of `$RIMWORLD_PATH/Mods/TradersStockXenogerms/`, so renamed/deleted files never linger) and the CI release, which invokes the same target with `-p:StageDir=...` so the release zip cannot drift from local deploys. Add/remove shipped files only in that ItemGroup.
+The repo lives in `~/dev/XenogermTraderStock`, separate from the RimWorld Mods folder. The csproj's `StageMod` target is the **single source of truth** for what files ship: its ItemGroup feeds both the post-build local deploy (`DeployToModFolder` → `StageMod`, an atomic wipe+recopy of `$RIMWORLD_PATH/Mods/XenogermTraderStock/`, so renamed/deleted files never linger) and the CI release, which invokes the same target with `-p:StageDir=...` so the release zip cannot drift from local deploys. Add/remove shipped files only in that ItemGroup.
 
 A machine-local Claude Code Stop hook (`.claude/hooks/sync-mod.sh`, untracked) rebuilds and redeploys after any turn that touched mod files, so the deployed copy stays fresh without manual builds.
 
@@ -46,18 +46,18 @@ A machine-local Claude Code Stop hook (`.claude/hooks/sync-mod.sh`, untracked) r
 
 ### Entry Point
 
-`Source/1.6/TradersStockXenogermsMod.cs` — `TradersStockXenogermsMod` constructor loads settings and patches via `Harmony.PatchAll()` attribute discovery.
+`Source/1.6/XenogermTraderStockMod.cs` — `XenogermTraderStockMod` constructor loads settings and patches via `Harmony.PatchAll()` attribute discovery.
 
 **Patch-timing hazard (other mods' methods):** that `PatchAll()` runs from the `Mod` subclass constructor — BEFORE any defs are loaded. Applying a detour JIT-compiles the target and runs its declaring type's static ctor, so a patch targeting ANOTHER MOD's method can permanently break that mod when its cctor resolves defs (the BetterTradersGuild v1.1.0 CWTL incident). The current patch targets vanilla `GeneUtility` (safe); before ever adding a foreign-target patch, defer its application until after defs load — worked example: BetterTradersGuild's `Core/DeferredModPatches.cs`.
 
-**Settings Access:** `TradersStockXenogermsMod.Settings` provides global access to mod configuration.
+**Settings Access:** `XenogermTraderStockMod.Settings` provides global access to mod configuration.
 
 ### Directory Structure
 
 ```
 Source/1.6/
-├── TradersStockXenogermsMod.cs         # Mod entry point, settings UI
-├── ModSettings.cs                  # TradersStockXenogermsSettings (persisted config)
+├── XenogermTraderStockMod.cs         # Mod entry point, settings UI
+├── ModSettings.cs                  # XenogermTraderStockSettings (persisted config)
 ├── CompXenotypeSource.cs           # ThingComp storing source XenotypeDef
 ├── Patch_ImplantXenogerm.cs        # Harmony postfix for xenotype assignment
 ├── StockGenerator_Xenogerms.cs     # Trader stock generation with weighted rates
@@ -75,7 +75,7 @@ Source/1.6/
 └── Patches_GeneTrader.xml          # Gene Trader mod compatibility patch
 
 1.6/Languages/English/Keyed/
-└── TSX_UI.xml                      # All player-facing strings (TSX_ key prefix)
+└── XTS_UI.xml                      # All player-facing strings (XTS_ key prefix)
 
 Scripts/
 ├── check-translations.py           # Deterministic localization validator (CI release gate)
@@ -95,8 +95,8 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 
 | Class | Purpose |
 |-------|---------|
-| `TradersStockXenogermsMod` | Mod entry point, Harmony init, settings UI |
-| `TradersStockXenogermsSettings` | Persisted mod settings (pricing, toggles) |
+| `XenogermTraderStockMod` | Mod entry point, Harmony init, settings UI |
+| `XenogermTraderStockSettings` | Persisted mod settings (pricing, toggles) |
 | `CompXenotypeSource` | ThingComp storing source XenotypeDef on xenogerms |
 | `Patch_ImplantXenogermItem` | Harmony postfix assigning xenotype after implantation |
 | `StockGenerator_Xenogerms` | Generates xenogerms for traders with weighted spawn rates |
@@ -128,20 +128,20 @@ Default pricing settings:
 
 ## Testing
 
-`Tests/1.6/` holds an xUnit (net472) suite for the pure logic: `XenogermPricing` breakdown/market-value math, settings defaults/`ResetToDefaults`, and the inverse-price spawn-weight formula. Tests are headless — no live game context (`GeneDef`s are built uninitialized via `FormatterServices`); anything needing `DefDatabase`/`Current.Game` is out of scope. Run natively with `dotnet test Tests/1.6/TradersStockXenogerms.Tests.csproj` — vstest hosts the net472 suite via mono. If a run fails with `BadImageFormatException`/`TypeLoadException`, a DLL is missing from the test csproj copy target (see the Assembly-CSharp-firstpass comment there): mono resolves field types eagerly where the Windows CLR is lazy. CI builds the Tests project but does not run it.
+`Tests/1.6/` holds an xUnit (net472) suite for the pure logic: `XenogermPricing` breakdown/market-value math, settings defaults/`ResetToDefaults`, and the inverse-price spawn-weight formula. Tests are headless — no live game context (`GeneDef`s are built uninitialized via `FormatterServices`); anything needing `DefDatabase`/`Current.Game` is out of scope. Run natively with `dotnet test Tests/1.6/XenogermTraderStock.Tests.csproj` — vstest hosts the net472 suite via mono. If a run fails with `BadImageFormatException`/`TypeLoadException`, a DLL is missing from the test csproj copy target (see the Assembly-CSharp-firstpass comment there): mono resolves field types eagerly where the Windows CLR is lazy. CI builds the Tests project but does not run it.
 
 **Startup smoke test (pre-release):** `python3 Scripts/integration-smoke-test.py` (game closed) boots the mod on its pinned minimal list, then classifies Player.log errors by origin and fails on anything attributed to this mod. Run before every release (wired into the release skill); thin shim over the shared engine in `l10n/smoke/` (born from the BetterTradersGuild v1.1.0 CWTL incident).
 
 ## Localization
 
-English (`1.6/Languages/English/Keyed/TSX_UI.xml`, `TSX_` prefix) is the source of truth. The pipeline is shared with the sibling mod repos (`../UniqueMeleeWeapons`, `../UniqueWeaponsUnbound`, `../PersonaWeaponsUnbound`, `../BetterTradersGuild`):
+English (`1.6/Languages/English/Keyed/XTS_UI.xml`, `XTS_` prefix) is the source of truth. The pipeline is shared with the sibling mod repos (`../UniqueMeleeWeapons`, `../UniqueWeaponsUnbound`, `../PersonaWeaponsUnbound`, `../BetterTradersGuild`):
 
 - **Shared l10n toolkit (`l10n/` submodule):** the family-wide translation process, per-language mechanics references, cross-language lessons, Workshop conventions, and the checker/refresh script engines live in the `rimworld-l10n` repo, consumed here as the `l10n/` git submodule (canonical working checkout: `~/dev/rimworld-l10n`). `Scripts/check-translations.py` and `Scripts/refresh-translation-expectations.py` are thin per-repo config shims over its engines. If `l10n/` is empty, run `git submodule update --init`. Never edit `l10n/` in place here: mod-independent learnings go upstream in the canonical checkout, then the pin is bumped in each consuming repo; mod-specific learnings go in this repo's skill/glossary.
 - `python3 Scripts/check-translations.py [--strict]` — deterministic validator (key/placeholder parity, `<!-- EN: ... -->` staleness comments, DefInjected paths, file hygiene). Run by the `translate` and `release` skills and as a CI release gate.
 - `Scripts/expected-injections.json` — checked-in sidecar of every DefInjected key the live game expects for this mod; regenerated by `python3 Scripts/refresh-translation-expectations.py` (boots RimWorld with a pinned mod list via the L10nProbe dev mod — source now lives at `l10n/probe/`; build/deploy it only from the canonical `~/dev/rimworld-l10n` checkout — then restores `ModsConfig.xml`; refuses while the game is open). Currently empty: this mod ships no Defs of its own, only patches.
 - **Probe DLC set:** the probe boots with Biotech active (`CANONICAL_ACTIVE_MODS` in the refresh script); the checker's `REQUIRED_DLCS` rejects a sidecar generated without it, since gated defs would drop out of the dump and their shipped translations would turn illegal.
 - The `translate` skill's `.claude/skills/translate/glossary/` holds this mod's own coined-term files; per-language grammar/mechanics knowledge now lives upstream in `l10n/languages/<Language>.md`. CONTRIBUTING.md carries the public roster (English only so far) and must move in the same commit as any language change.
-- **Workshop title coupling:** each language's `TSX_SettingsCategory` Keyed value is the localized Steam Workshop title and must equal the title line (line 1) of `.steamworkshop/Description/<Language>.txt` — always change the two together (English keeps `Traders Stock Xenogerms` in both).
+- **Workshop title coupling:** each language's `XTS_SettingsCategory` Keyed value is the localized Steam Workshop title and must equal the title line (line 1) of `.steamworkshop/Description/<Language>.txt` — always change the two together (English keeps `Xenogerm Trader Stock` in both).
 - **Policy:** translation generation passes run only on explicit request (they are token-expensive). Infra/tooling changes are always fine.
 
 ## Linting
@@ -156,7 +156,7 @@ Roslynator.Analyzers runs on every build (warnings only, never fails the build; 
 
 ## Debugging
 
-Use the `rimworld-logs` skill — it covers Player.log locations (Windows/WSL/Linux), the `[TradersStockXenogerms]` log prefix, and API disassembly (`monodis`/`ilspycmd` against the live install's `Assembly-CSharp.dll`, preferred over the `Krafs.Rimworld.Ref` CI fallback).
+Use the `rimworld-logs` skill — it covers Player.log locations (Windows/WSL/Linux), the `[XenogermTraderStock]` log prefix, and API disassembly (`monodis`/`ilspycmd` against the live install's `Assembly-CSharp.dll`, preferred over the `Krafs.Rimworld.Ref` CI fallback).
 
 ## Harmony Patch Examples
 

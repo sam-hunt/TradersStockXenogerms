@@ -21,7 +21,7 @@
       <li Class="PatchOperationAdd">
         <xpath>/Defs/StatDef[defName="MarketValue"]/parts</xpath>
         <value>
-          <li Class="TradersStockXenogerms.StatPart_XenogermValue" />
+          <li Class="XenogermTraderStock.StatPart_XenogermValue" />
         </value>
       </li>
     </operations>
@@ -75,7 +75,7 @@
       <li Class="PatchOperationAdd">
         <xpath>/Defs/StatDef[defName="SellPriceFactor"]/parts</xpath>
         <value>
-          <li Class="TradersStockXenogerms.StatPart_XenogermSellFactor" />
+          <li Class="XenogermTraderStock.StatPart_XenogermSellFactor" />
         </value>
       </li>
     </operations>

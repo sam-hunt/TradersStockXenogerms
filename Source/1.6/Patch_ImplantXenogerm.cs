@@ -2,7 +2,7 @@ using HarmonyLib;
 using RimWorld;
 using Verse;
 
-namespace TradersStockXenogerms
+namespace XenogermTraderStock
 {
     // After xenogerm implantation, assigns the preset xenotype reference to the pawn.
     //

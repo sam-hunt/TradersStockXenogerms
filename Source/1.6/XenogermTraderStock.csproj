@@ -103,7 +103,7 @@
        a -p:StageDir pointing at its staging dir). Add/remove shipped files here only. -->
   <PropertyGroup>
     <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../..'))</RepoRoot>
-    <ModDeployPath>$(RimWorldPath)/Mods/TradersStockXenogerms</ModDeployPath>
+    <ModDeployPath>$(RimWorldPath)/Mods/XenogermTraderStock</ModDeployPath>
     <!-- StageMod writes here. Defaults to the local Mods folder; CI overrides with -p:StageDir=... -->
     <StageDir Condition="'$(StageDir)' == ''">$(ModDeployPath)</StageDir>
   </PropertyGroup>

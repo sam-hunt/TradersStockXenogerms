@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>Traders Stock Xenogerms</name>
+  <name>Xenogerm Trader Stock</name>
   <author>Sam Hunt</author>
-  <packageId>shunter.tradersstockxenogerms</packageId>
+  <packageId>shunter.xenogermtraderstock</packageId>
   <modVersion>1.0.0</modVersion>
   <description>Purchase xenogerms from traders.</description>
   <supportedVersions>

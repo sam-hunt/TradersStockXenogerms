@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Verse;
 using Xunit;
 
-namespace TradersStockXenogerms.Tests
+namespace XenogermTraderStock.Tests
 {
     // StockGenerator_Xenogerms.GenerateThings weights spawn selection by
     // `1f / XenogermPricing.EstimateMarketValue(genes)` — cheaper xenogerms

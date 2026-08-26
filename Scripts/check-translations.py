@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# TradersStockXenogerms's config shim over the shared translation checker
+# XenogermTraderStock's config shim over the shared translation checker
 # (l10n/checker/check_translations.py — the rimworld-l10n submodule). The
 # engine holds all logic; this file holds only this repo's config and the
 # rationale behind it. Usage is unchanged:
@@ -26,13 +26,13 @@ engine.REQUIRED_DLCS = {"Biotech"}
 # entry (VREA's AndroidGeneDef -> GeneDef).
 engine.DEF_TYPE_ALIASES = {}
 
-# This mod ships a real Keyed surface (1.6/Languages/English/Keyed/TSX_UI.xml),
+# This mod ships a real Keyed surface (1.6/Languages/English/Keyed/XTS_UI.xml),
 # so a missing Languages/ tree is a hard config error, not a legal state.
 engine.ALLOW_NO_KEYED_SURFACE = False
 
 # The localized Steam Workshop title lives in this Keyed key (the
 # settings-window header); the checker enforces the title-coupling rule
 # against each .steamworkshop/Description/<Language>.txt title line.
-engine.WORKSHOP_TITLE_KEY = "TSX_SettingsCategory"
+engine.WORKSHOP_TITLE_KEY = "XTS_SettingsCategory"
 
 raise SystemExit(engine.main())

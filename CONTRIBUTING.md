@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in improving Traders Stock Xenogerms! Bug reports,
+Thanks for your interest in improving Xenogerm Trader Stock! Bug reports,
 suggestions and pull requests are welcome.
 
 ## Localization
@@ -38,7 +38,7 @@ native speaker), **Planned** (not started — contributions welcome).
 - Placeholders (`{0}`, `{1}`, ...) must match the English exactly.
 - This mod ships no Defs of its own — only XML Patches — so there is no
   DefInjected content to translate yet. All strings currently live in
-  `1.6/Languages/English/Keyed/TSX_UI.xml`, keyed with the `TSX_` prefix.
+  `1.6/Languages/English/Keyed/XTS_UI.xml`, keyed with the `XTS_` prefix.
 - Formatting: UTF-8 without BOM, LF line endings, 2-space indent.
 - Validate before opening a PR:
 

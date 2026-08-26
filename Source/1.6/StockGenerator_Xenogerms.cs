@@ -4,7 +4,7 @@ using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
-namespace TradersStockXenogerms
+namespace XenogermTraderStock
 {
     public class StockGenerator_Xenogerms : StockGenerator
     {
@@ -53,7 +53,7 @@ namespace TradersStockXenogerms
 
         private IEnumerable<XenotypeDef> GetValidXenotypes()
         {
-            var settings = TradersStockXenogermsMod.Settings;
+            var settings = XenogermTraderStockMod.Settings;
 
             foreach (var xenotype in DefDatabase<XenotypeDef>.AllDefsListForReading)
             {
@@ -79,7 +79,7 @@ namespace TradersStockXenogerms
 
         private IEnumerable<CustomXenotype> GetValidCustomXenotypes()
         {
-            var settings = TradersStockXenogermsMod.Settings;
+            var settings = XenogermTraderStockMod.Settings;
 
             // Only include custom xenotypes if the setting is enabled
             if (!settings.includePlayerCreatedXenotypes)

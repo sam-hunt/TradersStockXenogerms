@@ -1,4 +1,4 @@
-Traders Stock Xenogerms
+Xenogerm Trader Stock
 
 [h1]About[/h1]
 In vanilla RimWorld with Biotech, the only way to get a specific xenotype is to collect individual genes and assemble a xenogerm yourself, a slow and expensive process. Xenogerms exist as items but traders never sell pre-made ones for preset xenotypes. This mod fixes that by adding complete xenogerms to trader inventories, letting you purchase a ready-made xenotype package instead of hunting down each gene individually.
@@ -47,4 +47,4 @@ A: Yes, xenotypes from other mods are automatically included.
 
 [hr][/hr]
 [h2]Links[/h2]
-[url=https://github.com/sam-hunt/TradersStockXenogerms]GitHub[/url] - Source code, bug reports, and feature requests
+[url=https://github.com/sam-hunt/XenogermTraderStock]GitHub[/url] - Source code, bug reports, and feature requests

@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using Verse;
 using Xunit;
 
-namespace TradersStockXenogerms.Tests
+namespace XenogermTraderStock.Tests
 {
     // All pricing test classes share this collection so xunit serializes them:
-    // TradersStockXenogermsMod.Settings is a process-global static that
+    // XenogermTraderStockMod.Settings is a process-global static that
     // XenogermPricing reads through, and tests install/mutate their own
     // instance of it.
     [CollectionDefinition("XenogermPricing")]
@@ -35,7 +35,7 @@ namespace TradersStockXenogerms.Tests
             Assert.Equal(0, breakdown.AbsoluteMetabolism);
             Assert.Equal(0, breakdown.Complexity);
             Assert.Equal(0, breakdown.Archites);
-            Assert.Equal(TradersStockXenogermsSettings.DefaultBasePresetValue, breakdown.Premium);
+            Assert.Equal(XenogermTraderStockSettings.DefaultBasePresetValue, breakdown.Premium);
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace TradersStockXenogerms.Tests
             Assert.Equal(0, breakdown.AbsoluteMetabolism);
             Assert.Equal(0, breakdown.Complexity);
             Assert.Equal(0, breakdown.Archites);
-            Assert.Equal(TradersStockXenogermsSettings.DefaultBasePresetValue, breakdown.Premium);
+            Assert.Equal(XenogermTraderStockSettings.DefaultBasePresetValue, breakdown.Premium);
         }
 
         [Fact]

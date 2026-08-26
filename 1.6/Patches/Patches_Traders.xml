@@ -4,7 +4,7 @@
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/TraderKindDef[defName="Orbital_ExoticGoods"]/stockGenerators</xpath>
     <value>
-      <li Class="TradersStockXenogerms.StockGenerator_Xenogerms">
+      <li Class="XenogermTraderStock.StockGenerator_Xenogerms">
         <countRange>0~2</countRange>
       </li>
     </value>

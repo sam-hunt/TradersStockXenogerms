@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
-namespace TradersStockXenogerms
+namespace XenogermTraderStock
 {
     // Centralized pricing calculations for xenogerms.
     // Used by both StockGenerator (for spawn weighting) and StatPart (for market value display).
@@ -21,7 +21,7 @@ namespace TradersStockXenogerms
             public float Premium;
         }
 
-        private static TradersStockXenogermsSettings Settings => TradersStockXenogermsMod.Settings;
+        private static XenogermTraderStockSettings Settings => XenogermTraderStockMod.Settings;
 
         // Calculates the pricing breakdown for a set of genes.
         // Returns the raw stats and the calculated premium (excluding base xenogerm value).
