@@ -1,0 +1,50 @@
+Xenogérmenes para comerciantes
+
+[h1]Acerca de[/h1]
+En RimWorld vanilla con Biotech, la única forma de conseguir un xenotipo específico es reunir genes individuales y ensamblar un xenogermen tú mismo, un proceso lento y caro. Los xenogérmenes existen como objetos, pero los comerciantes nunca venden versiones ya hechas de los xenotipos preestablecidos. Este mod soluciona eso añadiendo xenogérmenes completos al inventario de los comerciantes, permitiéndote comprar un paquete de xenotipo ya preparado en lugar de buscar cada gen por separado.
+
+[hr][/hr]
+[h2]Comercio de xenogérmenes[/h2]
+[list]
+[*]Los comerciantes orbitales de productos exóticos tienen xenogérmenes de todos los xenotipos preestablecidos (húsar, diablillo, sanguífago y más)
+[*]Los xenogérmenes comprados asignan el xenotipo real al implantarse, lo que permite el reconocimiento por parte de la ideoligión y crea miembros "naturalizados" en xenotipos de solo genes de línea germinal
+[*]Los xenogérmenes más baratos aparecen con más frecuencia, mientras que los xenotipos arquita caros como el sanguífago son hallazgos más raros
+[/list]
+
+[h2]Precios[/h2]
+Los precios de los xenogérmenes se basan en la complejidad genética, el impacto en la eficiencia metabólica y la cantidad de genes arquita, por ejemplo:
+[list]
+[*]Pielcerdo, terra-topo: ~1.500 de plata
+[*]Húsar, súcubo: ~1.600 a 1.850 de plata
+[*]Sanguífago: ~3.200 de plata
+[/list]
+Los precios de venta son intencionadamente bajos (5%) para evitar abusos de compraventa, con una bonificación para los xenogérmenes arquita. La fórmula completa se puede configurar en los ajustes del mod.
+
+[h2]Ajustes del mod[/h2]
+[list]
+[*][b]Incluir xenotipos arquita[/b]: activa los xenogérmenes que contienen genes arquita (por defecto: activado)
+[*][b]Incluir xenotipos hereditarios[/b]: activa los xenotipos de línea germinal como diablillo o yttakin (por defecto: activado)
+[*][b]Incluir xenotipos creados por el jugador[/b]: activa los xenotipos del editor de escenarios (por defecto: desactivado)
+[*][b]Precios de los xenogérmenes[/b]: personaliza la fórmula de precios ajustando el valor base preestablecido y los multiplicadores de eficiencia metabólica, complejidad y genes arquita
+[/list]
+
+[hr][/hr]
+[h1]Compatibilidad[/h1]
+[list]
+[*]Requiere el DLC Biotech
+[*]Es totalmente compatible con el mod Gene Trader: si está instalado, su comerciante orbital de genes también tendrá xenogérmenes
+[*]Se puede añadir o quitar en mitad de la partida sin problemas
+[*]Incluye automáticamente los xenotipos añadidos por otros mods
+[/list]
+
+[hr][/hr]
+[h1]Preguntas frecuentes[/h1]
+[b]P: ¿Necesito el DLC Biotech?[/b]
+R: Sí. Este mod añade xenogérmenes para el sistema de xenotipos de Biotech.
+
+[b]P: ¿Funcionará con mis otros mods de xenotipos?[/b]
+R: Sí, los xenotipos de otros mods se incluyen automáticamente.
+
+[hr][/hr]
+[h2]Enlaces[/h2]
+[url=https://github.com/sam-hunt/XenogermTraderStock]GitHub[/url]: código fuente, informes de errores y solicitudes de funciones

@@ -12,9 +12,55 @@ string (see its Pitfalls section).** Read the upstream file itself rather
 than relying on any older, superseded description of this mechanic. This
 file holds only what is specific to Xenogerm Trader Stock.
 
-## Mod-coined terms
+## Grounded terms
 
-None yet. **This repo has not yet run a German generation pass** — add
-xenogerm/xenotype rows here once one lands, grounded against the Biotech tar
-per this skill's grounding-domain section rather than assumed from an
-adjacent weapon-mod sibling's term.
+| English | German | Source |
+|---|---|---|
+| Xenogerm | Xenokeim | Biotech Keyed `Xenogerm`; DefInjected `ThingDef` `Xenogerm.label` |
+| Xenotype | Xenotyp | Biotech Keyed `Xenotype` |
+| Gene / Genes | Gen / Gene | Biotech Keyed `Gene`, `Genes` |
+| Complexity | Komplexität | Biotech Keyed `Complexity` |
+| Metabolism (metabolic efficiency) | metabolische Effizienz | Biotech Keyed `Metabolism` |
+| Endogenes (germline genes) | Keimbahngene | Biotech Keyed `Endogenes` |
+| Xenogenes | Xenogene | Biotech Keyed `Xenogenes` |
+| archite gene(s) | Architgen / Architgene | Biotech Keyed `XenotypeBreaksLimits_Archites`; DefInjected `GeneDef` `ArchiteMetabolism.label` = "architischer Stoffwechsel" (confirms `architisch` as the attested adjective) |
+| archite capsules | Architkapseln | Biotech Keyed `ArchitesRequired`, `NotEnoughArchites` |
+| Default | Standard | Core Keyed `Default` |
+| Reset to defaults | Auf Standard zurücksetzen | Core Keyed `ResetButton` = "Zurücksetzen"; l10n family table already has this exact phrase for "reset to defaults" |
+| Sanguophage / Impid / Yttakin / Hussar / Pigskin / Dirtmole / Highmate | Sanguophage / Impid / Yttakin / Husar / Schweinehaut / Dreckwühler / Überpartner | Biotech DefInjected `XenotypeDef` labels |
+| MarketValue | Marktwert | Core DefInjected `StatDef` `MarketValue.label` |
+| SellPriceFactor | Verkaufspreis-Faktor | Core DefInjected `StatDef` `SellPriceFactor.label` |
+| Silver | Silber | Core DefInjected `ThingDef` `Silver.label` |
+| exotic goods trader | Händler exotischer Güter | Core DefInjected `TraderKindDef` `Orbital_Exotic.label` |
+| scenario editor | Szenario-Editor | Core Keyed `ScenarioEditor` |
+| player-created / custom xenotype | benutzerdefinierter Xenotyp | Biotech Keyed `MessageTooManyCustomXenotypes` ("benutzerdef. Xenotypen") |
+| ideoligion / ideology | Ideologie | l10n family table (`l10n/languages/German.md`), not present in the extracted Core/Biotech data for this repo — Ideology DLC data wasn't pulled |
+
+## Workshop title
+
+**Xenokeime im Händlerbestand** — built from the grounded `Xenokeim`
+(Biotech) and `Bestand`/`Händler` (a natural, gaming-idiomatic rendering of
+"trader stock/inventory"; vanilla itself doesn't have a single-word
+"trader stock" Keyed string to reuse verbatim). Short, searchable, and
+mirrors the sense of the English title ("xenogerms in traders' stock")
+without appending the English brand name.
+
+## Phrasing decisions
+
+- **"naturalized" (member) — needs native review.** No Ideology-DLC data
+  was extracted for this pass (only Core + Biotech tars were pulled), so
+  this term is ungrounded. Rendered as `'naturalisiert'` (ASCII-quoted,
+  matching the English source's own quoting and this language's
+  citation-quote style) as the most natural literal rendering; a native or
+  an Ideology-tar grounding pass should confirm whether RimWorld's German
+  Ideology data uses a different established term for this concept.
+- "preset xenotype" is rendered as "vordefinierter Xenotyp" rather than a
+  loanword "Preset-Xenotyp" — no vanilla precedent for "preset" as a
+  loanword in this domain, and "vordefiniert" is standard German UI
+  vocabulary.
+- "germline xenotype" is expanded to "Xenotyp mit Keimbahngenen" (using
+  the grounded `Endogenes` = `Keimbahngene`) rather than compounding into
+  an unattested "Keimbahn-Xenotyp", to keep the noun phrase transparent.
+- Percent in the description body is kept tight (`5%`), matching both the
+  English source's own formatting and the upstream style file's note that
+  vanilla de writes percentages tight (`{0}%`).

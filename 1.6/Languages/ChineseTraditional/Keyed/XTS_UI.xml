@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: Xenogerm Trader Stock -->
+  <XTS_SettingsCategory>商人異種細胞庫存</XTS_SettingsCategory>
+
+  <!-- EN: Include archite xenotypes -->
+  <XTS_IncludeArchite>包含遠古分子異種人</XTS_IncludeArchite>
+  <!-- EN: Allow traders to sell xenogerms for xenotypes containing archite genes (e.g., Sanguophage). These are typically more expensive. -->
+  <XTS_IncludeArchiteDesc>允許商人販售含有遠古分子基因的異種人所對應的異種細胞（例如噬血者）。這類異種細胞通常較為昂貴。</XTS_IncludeArchiteDesc>
+  <!-- EN: Include inheritable xenotypes -->
+  <XTS_IncludeInheritable>包含可遺傳異種人</XTS_IncludeInheritable>
+  <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
+  <XTS_IncludeInheritableDesc>允許商人販售種系異種人所對應的異種細胞（例如魔人、依達人）。植入後會產生受理念認可的「歸化」成員。</XTS_IncludeInheritableDesc>
+  <!-- EN: Include player-created xenotypes -->
+  <XTS_IncludePlayerCreated>包含玩家自訂異種人</XTS_IncludePlayerCreated>
+  <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
+  <XTS_IncludePlayerCreatedDesc>允許商人販售你在腳本編輯器中創造的異種人所對應的異種細胞。預設為關閉，因為商人邏輯上不應該取得你的自訂設計。</XTS_IncludePlayerCreatedDesc>
+
+  <!-- EN: Xenogerm pricing -->
+  <XTS_PricingSection>異種細胞定價</XTS_PricingSection>
+  <!-- EN: Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only. -->
+  <XTS_PricingSectionDesc>調整商人販售異種細胞的市場價值公式。變更僅影響新產生的異種細胞。</XTS_PricingSectionDesc>
+  <!-- EN: Base preset value: {0} -->
+  <XTS_BasePresetValue>基礎預設價值：{0}</XTS_BasePresetValue>
+  <!-- EN: Base silver value added to all preset xenotype xenogerms. Default: {0} -->
+  <XTS_BasePresetValueDesc>所有預設異種人異種細胞額外增加的基礎白銀價值。預設值：{0}</XTS_BasePresetValueDesc>
+  <!-- EN: Value per metabolism: {0} -->
+  <XTS_ValuePerMetabolism>每點代謝效率價值：{0}</XTS_ValuePerMetabolism>
+  <!-- EN: Silver value added per point of absolute metabolism. Default: {0} -->
+  <XTS_ValuePerMetabolismDesc>每點絕對代謝效率增加的白銀價值。預設值：{0}</XTS_ValuePerMetabolismDesc>
+  <!-- EN: Value per complexity: {0} -->
+  <XTS_ValuePerComplexity>每點複雜度價值：{0}</XTS_ValuePerComplexity>
+  <!-- EN: Silver value added per point of genetic complexity. Default: {0} -->
+  <XTS_ValuePerComplexityDesc>每點基因複雜度增加的白銀價值。預設值：{0}</XTS_ValuePerComplexityDesc>
+  <!-- EN: Value per archite gene: {0} -->
+  <XTS_ValuePerArchite>每個遠古分子基因價值：{0}</XTS_ValuePerArchite>
+  <!-- EN: Silver value added per archite gene. Default: {0} -->
+  <XTS_ValuePerArchiteDesc>每個遠古分子基因增加的白銀價值。預設值：{0}</XTS_ValuePerArchiteDesc>
+
+  <!-- EN:  (default) -->
+  <XTS_DefaultSuffix> (預設)</XTS_DefaultSuffix>
+  <!-- EN: Reset to defaults -->
+  <XTS_ResetToDefaults>恢復為預設值</XTS_ResetToDefaults>
+
+</LanguageData>

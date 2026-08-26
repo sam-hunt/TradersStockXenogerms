@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: Xenogerm Trader Stock -->
+  <XTS_SettingsCategory>贸易商异种胚芽库存</XTS_SettingsCategory>
+
+  <!-- EN: Include archite xenotypes -->
+  <XTS_IncludeArchite>包含超凡异种人</XTS_IncludeArchite>
+  <!-- EN: Allow traders to sell xenogerms for xenotypes containing archite genes (e.g., Sanguophage). These are typically more expensive. -->
+  <XTS_IncludeArchiteDesc>允许贸易商出售含有超凡基因的异种人对应的异种胚芽（例如赫血种）。这类异种胚芽通常价格更高。</XTS_IncludeArchiteDesc>
+  <!-- EN: Include inheritable xenotypes -->
+  <XTS_IncludeInheritable>包含可遗传异种人</XTS_IncludeInheritable>
+  <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
+  <XTS_IncludeInheritableDesc>允许贸易商出售系谱异种人对应的异种胚芽（例如炎魔种、毛绒种）。植入这些异种胚芽会创建被文化认可的"归化"成员。</XTS_IncludeInheritableDesc>
+  <!-- EN: Include player-created xenotypes -->
+  <XTS_IncludePlayerCreated>包含玩家自建异种人</XTS_IncludePlayerCreated>
+  <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
+  <XTS_IncludePlayerCreatedDesc>允许贸易商出售你在场景编辑器中创建的异种人对应的异种胚芽。默认关闭，因为贸易商理论上不会获得你的自定义设计。</XTS_IncludePlayerCreatedDesc>
+
+  <!-- EN: Xenogerm pricing -->
+  <XTS_PricingSection>异种胚芽定价</XTS_PricingSection>
+  <!-- EN: Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only. -->
+  <XTS_PricingSectionDesc>调整贸易商出售异种胚芽的市场价值公式。更改仅影响新生成的异种胚芽。</XTS_PricingSectionDesc>
+  <!-- EN: Base preset value: {0} -->
+  <XTS_BasePresetValue>预设基础价值: {0}</XTS_BasePresetValue>
+  <!-- EN: Base silver value added to all preset xenotype xenogerms. Default: {0} -->
+  <XTS_BasePresetValueDesc>为所有预设异种人异种胚芽增加的基础白银价值。默认: {0}</XTS_BasePresetValueDesc>
+  <!-- EN: Value per metabolism: {0} -->
+  <XTS_ValuePerMetabolism>每点代谢率价值: {0}</XTS_ValuePerMetabolism>
+  <!-- EN: Silver value added per point of absolute metabolism. Default: {0} -->
+  <XTS_ValuePerMetabolismDesc>每点绝对代谢率增加的白银价值。默认: {0}</XTS_ValuePerMetabolismDesc>
+  <!-- EN: Value per complexity: {0} -->
+  <XTS_ValuePerComplexity>每点复杂度价值: {0}</XTS_ValuePerComplexity>
+  <!-- EN: Silver value added per point of genetic complexity. Default: {0} -->
+  <XTS_ValuePerComplexityDesc>每点基因复杂度增加的白银价值。默认: {0}</XTS_ValuePerComplexityDesc>
+  <!-- EN: Value per archite gene: {0} -->
+  <XTS_ValuePerArchite>每个超凡基因价值: {0}</XTS_ValuePerArchite>
+  <!-- EN: Silver value added per archite gene. Default: {0} -->
+  <XTS_ValuePerArchiteDesc>每个超凡基因增加的白银价值。默认: {0}</XTS_ValuePerArchiteDesc>
+
+  <!-- EN:  (default) -->
+  <XTS_DefaultSuffix>（默认）</XTS_DefaultSuffix>
+  <!-- EN: Reset to defaults -->
+  <XTS_ResetToDefaults>还原默认设置</XTS_ResetToDefaults>
+
+</LanguageData>

@@ -86,12 +86,13 @@ metabolism (the gene stat, not the pawn need), inheritable vs.
 non-inheritable genes, custom xenotype, and orbital-trader/market-value
 vocabulary ("Traders will pay more/less for it." and similar phrasing,
 market value, silver) — the vanilla-grounded answers live in
-`l10n/languages/<Language>.md`; this mod's own coined terms (none yet — see
-each glossary file's status note) live in `glossary/<Language>.md`. **No
-language pass in this repo has yet run a Biotech-grounded generation**;
-treat every glossary file as a style/mechanics status note only until an
-actual generation pass grounds xenogerm/xenotype vocabulary against the
-Biotech tar and records it there.
+`l10n/languages/<Language>.md`; this mod's own grounded xenogerm/xenotype
+term tables, Workshop titles and phrasing decisions live in
+`glossary/<Language>.md`. The initial Biotech-grounded generation pass ran
+for all nine roster languages on 2026-08-26 (machine-assisted, pending
+native review); later passes should extend those tables, not re-derive
+them, and flagged terms (notably "naturalized", which has no vanilla
+rendering in any language) stay open until a native speaker confirms them.
 
 This mod patches both a `StatDef` (`MarketValue`, `SellPriceFactor`) and a
 `ThingDef` (`Xenogerm`) — if either ever grows a translatable field, confirm

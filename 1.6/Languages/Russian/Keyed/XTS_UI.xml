@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: Xenogerm Trader Stock -->
+  <XTS_SettingsCategory>Ксеносемена у торговцев</XTS_SettingsCategory>
+
+  <!-- EN: Include archite xenotypes -->
+  <XTS_IncludeArchite>Включить архитные ксенотипы</XTS_IncludeArchite>
+  <!-- EN: Allow traders to sell xenogerms for xenotypes containing archite genes (e.g., Sanguophage). These are typically more expensive. -->
+  <XTS_IncludeArchiteDesc>Разрешить торговцам продавать ксеносемена для ксенотипов, содержащих архитные гены (например, гемофаг). Обычно они дороже.</XTS_IncludeArchiteDesc>
+  <!-- EN: Include inheritable xenotypes -->
+  <XTS_IncludeInheritable>Включить наследуемые ксенотипы</XTS_IncludeInheritable>
+  <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
+  <XTS_IncludeInheritableDesc>Разрешить торговцам продавать ксеносемена для ксенотипов с наследуемыми генами (например, импид, иттакин). Вживление создаёт «натурализованных» персонажей, признаваемых идеологией.</XTS_IncludeInheritableDesc>
+  <!-- EN: Include player-created xenotypes -->
+  <XTS_IncludePlayerCreated>Включить ксенотипы, созданные игроком</XTS_IncludePlayerCreated>
+  <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
+  <XTS_IncludePlayerCreatedDesc>Разрешить торговцам продавать ксеносемена для ксенотипов, созданных вами в редакторе сценариев. По умолчанию выключено, поскольку у торговцев логически не может быть доступа к вашим уникальным разработкам.</XTS_IncludePlayerCreatedDesc>
+
+  <!-- EN: Xenogerm pricing -->
+  <XTS_PricingSection>Ценообразование ксеносемян</XTS_PricingSection>
+  <!-- EN: Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only. -->
+  <XTS_PricingSectionDesc>Настройте формулу рыночной стоимости ксеносемян, продаваемых торговцами. Изменения затрагивают только новые ксеносемена.</XTS_PricingSectionDesc>
+  <!-- EN: Base preset value: {0} -->
+  <XTS_BasePresetValue>Базовая стоимость стандартного ксенотипа: {0}</XTS_BasePresetValue>
+  <!-- EN: Base silver value added to all preset xenotype xenogerms. Default: {0} -->
+  <XTS_BasePresetValueDesc>Базовая стоимость в серебре, добавляемая ко всем ксеносеменам стандартных ксенотипов. По умолчанию: {0}</XTS_BasePresetValueDesc>
+  <!-- EN: Value per metabolism: {0} -->
+  <XTS_ValuePerMetabolism>Стоимость за метаболизм: {0}</XTS_ValuePerMetabolism>
+  <!-- EN: Silver value added per point of absolute metabolism. Default: {0} -->
+  <XTS_ValuePerMetabolismDesc>Стоимость в серебре за каждую единицу абсолютной эффективности метаболизма. По умолчанию: {0}</XTS_ValuePerMetabolismDesc>
+  <!-- EN: Value per complexity: {0} -->
+  <XTS_ValuePerComplexity>Стоимость за сложность: {0}</XTS_ValuePerComplexity>
+  <!-- EN: Silver value added per point of genetic complexity. Default: {0} -->
+  <XTS_ValuePerComplexityDesc>Стоимость в серебре за каждую единицу генетической сложности. По умолчанию: {0}</XTS_ValuePerComplexityDesc>
+  <!-- EN: Value per archite gene: {0} -->
+  <XTS_ValuePerArchite>Стоимость за архитный ген: {0}</XTS_ValuePerArchite>
+  <!-- EN: Silver value added per archite gene. Default: {0} -->
+  <XTS_ValuePerArchiteDesc>Стоимость в серебре за каждый архитный ген. По умолчанию: {0}</XTS_ValuePerArchiteDesc>
+
+  <!-- EN:  (default) -->
+  <XTS_DefaultSuffix> (по умолчанию)</XTS_DefaultSuffix>
+  <!-- EN: Reset to defaults -->
+  <XTS_ResetToDefaults>Восстановить по умолчанию</XTS_ResetToDefaults>
+
+</LanguageData>

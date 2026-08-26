@@ -1,0 +1,50 @@
+Estoque de Xenogerminadores de Comerciantes
+
+[h1]Sobre[/h1]
+No RimWorld padrão com Biotech, a única forma de obter um xenótipo específico é coletar genes individuais e montar um xenogerminador você mesmo, um processo lento e caro. Xenogerminadores existem como itens, mas os comerciantes nunca vendem versões prontas para xenótipos predefinidos. Este mod corrige isso adicionando xenogerminadores completos aos inventários dos comerciantes, permitindo que você compre um pacote de xenótipo pronto em vez de caçar cada gene individualmente.
+
+[hr][/hr]
+[h2]Comércio de Xenogerminadores[/h2]
+[list]
+[*]Comerciantes orbitais de produtos exóticos estocam xenogerminadores para todos os xenótipos predefinidos (Hussardo, Diabrete, Sanguófago e outros)
+[*]Xenogerminadores comprados atribuem o xenótipo real na implantação, permitindo o reconhecimento pela ideologia e criando membros "naturalizados" de xenótipos apenas com genes de linha germinativa
+[*]Xenogerminadores mais baratos aparecem com mais frequência, enquanto xenótipos arquita caros como o Sanguófago são achados mais raros
+[/list]
+
+[h2]Preços[/h2]
+Os preços dos xenogerminadores são baseados na complexidade genética, no impacto no metabolismo e na quantidade de genes arquita, por exemplo:
+[list]
+[*]Pele de Porco, Cavaterra: ~1.500 de prata
+[*]Hussardo, Alto Companheiro: ~1.600 a 1.850 de prata
+[*]Sanguófago: ~3.200 de prata
+[/list]
+Os preços de venda são propositalmente baixos (5%) para evitar exploits de compra e venda, com um bônus para xenogerminadores arquita. A fórmula completa é configurável nas opções do mod.
+
+[h2]Opções do mod[/h2]
+[list]
+[*][b]Incluir xenótipos arquita[/b] - Ativa ou desativa xenogerminadores que contêm genes arquita (padrão: ativado)
+[*][b]Incluir xenótipos hereditários[/b] - Ativa ou desativa xenótipos de linha germinativa como Diabrete e Yttakin (padrão: ativado)
+[*][b]Incluir xenótipos criados pelo jogador[/b] - Ativa ou desativa xenótipos do editor de cenário (padrão: desativado)
+[*][b]Preço dos xenogerminadores[/b] - Personalize a fórmula de preço ajustando o valor base predefinido e os multiplicadores de metabolismo, complexidade e genes arquita
+[/list]
+
+[hr][/hr]
+[h1]Compatibilidade[/h1]
+[list]
+[*]Requer o DLC Biotech
+[*]Compatível com o mod Gene Trader: se instalado, o comerciante orbital de genes dele também estocará xenogerminadores
+[*]Seguro para adicionar ou remover no meio do jogo
+[*]Inclui automaticamente xenótipos adicionados por outros mods
+[/list]
+
+[hr][/hr]
+[h1]FAQ[/h1]
+[b]P: Preciso do DLC Biotech?[/b]
+R: Sim. Este mod adiciona xenogerminadores para o sistema de xenótipos do Biotech.
+
+[b]P: Isso vai funcionar com meus outros mods de xenótipo?[/b]
+R: Sim, xenótipos de outros mods são incluídos automaticamente.
+
+[hr][/hr]
+[h2]Links[/h2]
+[url=https://github.com/sam-hunt/XenogermTraderStock]GitHub[/url] - Código-fonte, relatórios de bugs e pedidos de recursos

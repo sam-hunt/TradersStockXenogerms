@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: Xenogerm Trader Stock -->
+  <XTS_SettingsCategory>상인 변형이식체 재고</XTS_SettingsCategory>
+
+  <!-- EN: Include archite xenotypes -->
+  <XTS_IncludeArchite>초월입자 인종형 포함</XTS_IncludeArchite>
+  <!-- EN: Allow traders to sell xenogerms for xenotypes containing archite genes (e.g., Sanguophage). These are typically more expensive. -->
+  <XTS_IncludeArchiteDesc>초월입자 유전자가 포함된 인종형(예: 생귀오파지)의 변형이식체를 상인이 판매하도록 허용합니다. 이런 변형이식체는 대체로 더 비쌉니다.</XTS_IncludeArchiteDesc>
+  <!-- EN: Include inheritable xenotypes -->
+  <XTS_IncludeInheritable>유전 가능한 인종형 포함</XTS_IncludeInheritable>
+  <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
+  <XTS_IncludeInheritableDesc>생식유전자 인종형(예: 임피드, 이타킨)의 변형이식체를 상인이 판매하도록 허용합니다. 이를 이식하면 이념에서 인정하는 '귀화' 구성원이 됩니다.</XTS_IncludeInheritableDesc>
+  <!-- EN: Include player-created xenotypes -->
+  <XTS_IncludePlayerCreated>직접 생성한 인종형 포함</XTS_IncludePlayerCreated>
+  <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
+  <XTS_IncludePlayerCreatedDesc>시나리오 편집에서 직접 생성한 인종형의 변형이식체를 상인이 판매하도록 허용합니다. 상인이 당신이 만든 인종형에 접근할 논리적 이유가 없으므로 기본값은 비활성화입니다.</XTS_IncludePlayerCreatedDesc>
+
+  <!-- EN: Xenogerm pricing -->
+  <XTS_PricingSection>변형이식체 가격</XTS_PricingSection>
+  <!-- EN: Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only. -->
+  <XTS_PricingSectionDesc>상인이 판매하는 변형이식체의 시장 가치 계산식을 조정합니다. 변경 사항은 새로 생성되는 변형이식체에만 적용됩니다.</XTS_PricingSectionDesc>
+  <!-- EN: Base preset value: {0} -->
+  <XTS_BasePresetValue>기본 프리셋 가치: {0}</XTS_BasePresetValue>
+  <!-- EN: Base silver value added to all preset xenotype xenogerms. Default: {0} -->
+  <XTS_BasePresetValueDesc>모든 프리셋 인종형 변형이식체에 추가되는 기본 은 가치입니다. 기본값: {0}</XTS_BasePresetValueDesc>
+  <!-- EN: Value per metabolism: {0} -->
+  <XTS_ValuePerMetabolism>대사 효율당 가치: {0}</XTS_ValuePerMetabolism>
+  <!-- EN: Silver value added per point of absolute metabolism. Default: {0} -->
+  <XTS_ValuePerMetabolismDesc>절대 대사 효율 1당 추가되는 은 가치입니다. 기본값: {0}</XTS_ValuePerMetabolismDesc>
+  <!-- EN: Value per complexity: {0} -->
+  <XTS_ValuePerComplexity>복잡도당 가치: {0}</XTS_ValuePerComplexity>
+  <!-- EN: Silver value added per point of genetic complexity. Default: {0} -->
+  <XTS_ValuePerComplexityDesc>유전적 복잡도 1당 추가되는 은 가치입니다. 기본값: {0}</XTS_ValuePerComplexityDesc>
+  <!-- EN: Value per archite gene: {0} -->
+  <XTS_ValuePerArchite>초월입자 유전자당 가치: {0}</XTS_ValuePerArchite>
+  <!-- EN: Silver value added per archite gene. Default: {0} -->
+  <XTS_ValuePerArchiteDesc>초월입자 유전자 1개당 추가되는 은 가치입니다. 기본값: {0}</XTS_ValuePerArchiteDesc>
+
+  <!-- EN:  (default) -->
+  <XTS_DefaultSuffix> (기본값)</XTS_DefaultSuffix>
+  <!-- EN: Reset to defaults -->
+  <XTS_ResetToDefaults>기본값 복원</XTS_ResetToDefaults>
+
+</LanguageData>

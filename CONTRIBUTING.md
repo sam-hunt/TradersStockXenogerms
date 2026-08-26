@@ -10,18 +10,18 @@ audience size. Contributions for any other language RimWorld supports are
 welcome too. See "Contributing a translation" below for the conventions to
 follow.
 
-| Language             | Status  | Credit |
-| -------------------- | ------- | ------ |
-| English              | Source  | —      |
-| Simplified Chinese   | Planned | —      |
-| Russian              | Planned | —      |
-| Korean               | Planned | —      |
-| German               | Planned | —      |
-| Spanish              | Planned | —      |
-| French               | Planned | —      |
-| Brazilian Portuguese | Planned | —      |
-| Japanese             | Planned | —      |
-| Traditional Chinese  | Planned | —      |
+| Language             | Status           | Credit |
+| -------------------- | ---------------- | ------ |
+| English              | Source           | —      |
+| Simplified Chinese   | Machine-assisted | —      |
+| Russian              | Machine-assisted | —      |
+| Korean               | Machine-assisted | —      |
+| German               | Machine-assisted | —      |
+| Spanish              | Machine-assisted | —      |
+| French               | Machine-assisted | —      |
+| Brazilian Portuguese | Machine-assisted | —      |
+| Japanese             | Machine-assisted | —      |
+| Traditional Chinese  | Machine-assisted | —      |
 
 Statuses: **Source** (the authoritative English strings), **Machine-assisted**
 (generated with terminology grounded against the official RimWorld

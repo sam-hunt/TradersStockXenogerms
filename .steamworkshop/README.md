@@ -31,6 +31,6 @@ differ: schinese, koreana, brazilian, latam, ...). The `release` skill diffs
 `English.txt` against the last release tag and refreshes the translations
 whenever it changed.
 
-English is currently the only language; per-language description files
-arrive together with the initial translation pass for the sibling language
-set (tracked in TODOs.md).
+All nine roster languages (see CONTRIBUTING.md) have a description file as of
+the 2026-08-26 machine-assisted pass; every non-English file is a first pass
+pending native review.

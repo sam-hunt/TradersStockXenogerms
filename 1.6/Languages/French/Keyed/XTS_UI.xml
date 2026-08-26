@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: Xenogerm Trader Stock -->
+  <XTS_SettingsCategory>Xénogermes des commerçants</XTS_SettingsCategory>
+
+  <!-- EN: Include archite xenotypes -->
+  <XTS_IncludeArchite>Inclure les xénotypes archites</XTS_IncludeArchite>
+  <!-- EN: Allow traders to sell xenogerms for xenotypes containing archite genes (e.g., Sanguophage). These are typically more expensive. -->
+  <XTS_IncludeArchiteDesc>Permettre aux commerçants de vendre des xénogermes pour les xénotypes contenant des gènes archites (par exemple, sanguophage). Ceux-ci sont généralement plus coûteux.</XTS_IncludeArchiteDesc>
+  <!-- EN: Include inheritable xenotypes -->
+  <XTS_IncludeInheritable>Inclure les xénotypes héréditaires</XTS_IncludeInheritable>
+  <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
+  <XTS_IncludeInheritableDesc>Permettre aux commerçants de vendre des xénogermes pour les xénotypes à gènes germinaux (par exemple, diabloïde, yttakin). Implanter ceux-ci crée des membres "naturalisés" reconnus par l'idéologie.</XTS_IncludeInheritableDesc>
+  <!-- EN: Include player-created xenotypes -->
+  <XTS_IncludePlayerCreated>Inclure les xénotypes créés par le joueur</XTS_IncludePlayerCreated>
+  <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
+  <XTS_IncludePlayerCreatedDesc>Permettre aux commerçants de vendre des xénogermes pour les xénotypes que vous avez créés dans l'éditeur de scénario. Désactivé par défaut, car les commerçants n'auraient logiquement pas accès à vos créations personnalisées.</XTS_IncludePlayerCreatedDesc>
+
+  <!-- EN: Xenogerm pricing -->
+  <XTS_PricingSection>Prix des xénogermes</XTS_PricingSection>
+  <!-- EN: Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only. -->
+  <XTS_PricingSectionDesc>Ajustez la formule de valeur marchande des xénogermes vendus par les commerçants. Les changements n'affectent que les nouveaux xénogermes.</XTS_PricingSectionDesc>
+  <!-- EN: Base preset value: {0} -->
+  <XTS_BasePresetValue>Valeur de base prédéfinie : {0}</XTS_BasePresetValue>
+  <!-- EN: Base silver value added to all preset xenotype xenogerms. Default: {0} -->
+  <XTS_BasePresetValueDesc>Valeur en argent de base ajoutée à tous les xénogermes de xénotypes prédéfinis. Par défaut : {0}</XTS_BasePresetValueDesc>
+  <!-- EN: Value per metabolism: {0} -->
+  <XTS_ValuePerMetabolism>Valeur par efficacité métabolique : {0}</XTS_ValuePerMetabolism>
+  <!-- EN: Silver value added per point of absolute metabolism. Default: {0} -->
+  <XTS_ValuePerMetabolismDesc>Valeur en argent ajoutée par point d'efficacité métabolique absolue. Par défaut : {0}</XTS_ValuePerMetabolismDesc>
+  <!-- EN: Value per complexity: {0} -->
+  <XTS_ValuePerComplexity>Valeur par complexité : {0}</XTS_ValuePerComplexity>
+  <!-- EN: Silver value added per point of genetic complexity. Default: {0} -->
+  <XTS_ValuePerComplexityDesc>Valeur en argent ajoutée par point de complexité génétique. Par défaut : {0}</XTS_ValuePerComplexityDesc>
+  <!-- EN: Value per archite gene: {0} -->
+  <XTS_ValuePerArchite>Valeur par gène archite : {0}</XTS_ValuePerArchite>
+  <!-- EN: Silver value added per archite gene. Default: {0} -->
+  <XTS_ValuePerArchiteDesc>Valeur en argent ajoutée par gène archite. Par défaut : {0}</XTS_ValuePerArchiteDesc>
+
+  <!-- EN:  (default) -->
+  <XTS_DefaultSuffix> (par défaut)</XTS_DefaultSuffix>
+  <!-- EN: Reset to defaults -->
+  <XTS_ResetToDefaults>Réinitialiser les valeurs par défaut</XTS_ResetToDefaults>
+
+</LanguageData>

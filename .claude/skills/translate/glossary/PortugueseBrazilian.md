@@ -8,9 +8,53 @@ vanilla-grounded common vocabulary (Cancel/Reset buttons, quality tiers,
 sibling family's 2026-07 generation. This file holds only what is specific
 to Xenogerm Trader Stock.
 
-## Mod-coined terms
+## Grounded terms
 
-None yet. **This repo has not yet run a Brazilian Portuguese generation
-pass** — add xenogerm/xenotype rows here once one lands, grounded against
-the Biotech tar per this skill's grounding-domain section rather than
-assumed from an adjacent weapon-mod sibling's term.
+| English | vanilla pt-BR | Source key/def |
+|---|---|---|
+| Xenogerm | xenogerminador | Biotech `Keyed/Misc_Gameplay.xml` `<Xenogerm>`; `ThingDef` `Xenogerm.label` |
+| Xenotype | Xenótipo | Biotech `Keyed/Misc_Gameplay.xml` `<Xenotype>` |
+| Gene / Genes | gene / genes | Biotech `Keyed/Misc_Gameplay.xml` `<Gene>`/`<Genes>` |
+| Complexity | Complexidade | Biotech `Keyed/Misc_Gameplay.xml` `<Complexity>` |
+| Metabolism (metabolic efficiency) | eficiência metabólica | Biotech `Keyed/Misc_Gameplay.xml` `<Metabolism>` |
+| Endogenes (germline genes) | genes de linha germinativa | Biotech `Keyed/Dialogs_Various.xml` `<Endogenes>` |
+| Xenogenes | xenogenes | Biotech `Keyed/Dialogs_Various.xml` `<Xenogenes>` |
+| Archite (adj/noun) | arquita | Biotech `GeneCategoryDef` `Archite.label`; `GeneDef` `ArchiteMetabolism.label` = "metabolismo arquita" |
+| Inheritable | hereditário | Biotech `Keyed/Dialogs_Various.xml` `<GenesAreInheritable>` = "Os genes são hereditários" |
+| Sanguophage / Impid / Yttakin / Hussar / Pigskin / Dirtmole / Highmate | sanguófago / diabrete / yttakin / hussardo / pele de porco / cavaterra / alto companheiro | Biotech `XenotypeDef/XenotypeDefs.xml` |
+| MarketValue (StatDef sense) | valor de mercado | Core `StatDef/Stats_Basics_General.xml` `MarketValue.label` |
+| MarketValue (Keyed sense) | Preço base | Core `Keyed/Dialogs_Various.xml` `<MarketValue>` — not used here; the mod's own text is about the StatDef/formula sense, so "valor de mercado" was used throughout |
+| SellPriceFactor | multiplicador do preço de venda | Core `StatDef/Stats_Basics_General.xml` `SellPriceFactor.label` |
+| Silver | prata | Core `ThingDef/Items_Resource_Stuff.xml` `Silver.label` |
+| Orbital exotic goods trader(s) | comerciantes de produtos exóticos | Core `TraderKindDef/TraderKinds_Orbital_Misc.xml` `Orbital_Exotic.label` |
+| Default | Padrão | Core `Keyed/Misc.xml` `<Default>` |
+| Scenario editor | editor de cenário | Core `Keyed/Menus_Main.xml` `<ScenarioEditor>` = "Editor de Cenário" (Title Case as a menu name; lowercased here as an ordinary noun phrase inside prose, per pt-BR's per-def-type casing convention) |
+| Ideology | ideologia | Core `Keyed/Dialog_StatsReports.xml` `<StatsReport_Ideoligion>` |
+
+## Workshop title
+
+`XTS_SettingsCategory` = **Estoque de Xenogerminadores de Comerciantes**
+("stock of traders' xenogerms"). Built directly from the grounded Biotech
+noun `xenogerminador` and the ordinary word for traders, `comerciantes`
+(itself grounded via the Core `Orbital_Exotic` trader-kind label), mirroring
+the English title's sense of "xenogerms in traders' stock" without
+appending any English brand text.
+
+## Phrasing decisions
+
+- **"naturalized" (member) is ungrounded** — no `naturaliz*` string exists
+  anywhere in the extracted Biotech Keyed/DefInjected data. Rendered as the
+  literal cognate `"naturalizados"` (quoted, matching the English's quoted
+  `'naturalized'`, per the family's ASCII-straight-quote rule). **Needs
+  native review.**
+- `<Default>`=`Padrão` (Core) is a singular noun; `XTS_ResetToDefaults` uses
+  the natural plural `Restaurar padrões` since English "defaults" is plural
+  and Core's own `ResetButton`=`Restaurar` supplied the verb.
+- No dashes were needed anywhere in this pass — reflowed with commas/colons
+  per the family's zero-dash pt-BR rule; the description's `[b]label[/b] - `
+  slots mirror the English's own ASCII ` - ` exactly, per the brief's
+  allowance.
+- FAQ answers use `R:` (Resposta) consistently for both questions, matching
+  question labels `P:` (Pergunta) — no vanilla precedent for this Q&A shape
+  exists in the mod-domain data, so this is an editorial choice, not a
+  grounded term.

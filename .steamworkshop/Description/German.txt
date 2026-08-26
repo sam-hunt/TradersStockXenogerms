@@ -1,0 +1,50 @@
+Xenokeime im Händlerbestand
+
+[h1]Über den Mod[/h1]
+In Vanilla-RimWorld mit Biotech ist der einzige Weg zu einem bestimmten Xenotyp, einzelne Gene zu sammeln und selbst einen Xenokeim zusammenzustellen, ein langsamer und teurer Prozess. Xenokeime existieren als Gegenstände, aber Händler verkaufen nie fertige Exemplare für vordefinierte Xenotypen. Dieser Mod ändert das: Er fügt vollständige Xenokeime zum Bestand der Händler hinzu, sodass du ein fertiges Xenotyp-Paket kaufen kannst, statt jedes Gen einzeln aufzuspüren.
+
+[hr][/hr]
+[h2]Xenokeim-Handel[/h2]
+[list]
+[*]Händler exotischer Güter führen Xenokeime für alle vordefinierten Xenotypen (Husar, Impid, Sanguophage und mehr)
+[*]Gekaufte Xenokeime weisen bei der Implantation den tatsächlichen Xenotyp zu, wodurch die Ideologie ihn anerkennt und 'naturalisierte' Mitglieder von Xenotypen mit reinen Keimbahngenen entstehen
+[*]Günstigere Xenokeime tauchen häufiger auf, während teure Xenotypen mit Architgenen wie Sanguophage seltener zu finden sind
+[/list]
+
+[h2]Preisgestaltung[/h2]
+Die Preise der Xenokeime richten sich nach genetischer Komplexität, dem Einfluss auf die metabolische Effizienz und der Anzahl der Architgene, z. B.:
+[list]
+[*]Schweinehaut, Dreckwühler: ~1.500 Silber
+[*]Husar, Überpartner: ~1.600 bis 1.850 Silber
+[*]Sanguophage: ~3.200 Silber
+[/list]
+Verkaufspreise sind bewusst niedrig (5%), um Kauf-Verkauf-Exploits zu verhindern, mit einem Bonus für Xenokeime mit Architgenen. Die vollständige Formel lässt sich in den Mod-Einstellungen anpassen.
+
+[h2]Mod-Einstellungen[/h2]
+[list]
+[*][b]Architische Xenotypen einschließen[/b] - Xenokeime mit Architgenen umschalten (Standard: an)
+[*][b]Vererbbare Xenotypen einschließen[/b] - Xenotypen mit Keimbahngenen wie Impid und Yttakin umschalten (Standard: an)
+[*][b]Benutzerdefinierte Xenotypen einschließen[/b] - Xenotypen aus dem Szenario-Editor umschalten (Standard: aus)
+[*][b]Xenokeim-Preise[/b] - Die Preisformel anpassen, indem du den Basiswert und die Multiplikatoren für metabolische Effizienz, Komplexität und Architgene änderst
+[/list]
+
+[hr][/hr]
+[h1]Kompatibilität[/h1]
+[list]
+[*]Erfordert die Biotech-DLC
+[*]Unterstützt den Mod Gene Trader vollständig: Ist er installiert, führt dessen orbitaler Genhändler ebenfalls Xenokeime
+[*]Kann während eines laufenden Spiels sicher hinzugefügt oder entfernt werden
+[*]Bezieht automatisch Xenotypen ein, die von anderen Mods hinzugefügt werden
+[/list]
+
+[hr][/hr]
+[h1]Häufige Fragen[/h1]
+[b]F: Brauche ich die Biotech-DLC?[/b]
+A: Ja. Dieser Mod fügt Xenokeime für Biotechs Xenotyp-System hinzu.
+
+[b]F: Funktioniert das mit meinen anderen Xenotyp-Mods?[/b]
+A: Ja, Xenotypen aus anderen Mods werden automatisch einbezogen.
+
+[hr][/hr]
+[h2]Links[/h2]
+[url=https://github.com/sam-hunt/XenogermTraderStock]GitHub[/url] - Quellcode, Fehlerberichte und Funktionswünsche

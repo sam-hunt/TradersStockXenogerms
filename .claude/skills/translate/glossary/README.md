@@ -2,22 +2,20 @@
 
 These per-language files (`Russian.md`, `Japanese.md`, `ChineseSimplified.md`,
 `Korean.md`, `German.md`, `Spanish.md`, `French.md`,
-`PortugueseBrazilian.md`) are meant to hold everything about a language's
+`PortugueseBrazilian.md`, `ChineseTraditional.md`) are meant to hold everything about a language's
 translation that is specific to Xenogerm Trader Stock: mod-coined terms,
 the localized Workshop title (`XTS_SettingsCategory`), and worked phrasing
 decisions tied to this mod's own `StatDef`/`ThingDef` patches (e.g. any
 restructuring `MarketValue`/`SellPriceFactor`/`Xenogerm` prose needs to fit a
 target language's contraction or case rules).
 
-**None of that exists yet.** This mod has run no Biotech-grounded generation
-pass in any language — every file below is a placeholder carrying only the
-mechanics/style status inherited from the weapon-mod sibling family's
-2026-07 generation passes (none of which touched Biotech or xenogerm/
-xenotype vocabulary) plus a "no pass has run" note. The first real pass for
-a language should ground xenogerm, xenotype, gene, archite gene, gene
-complexity, metabolism, and the other terms named in this skill's grounding
-section against the Biotech tar, and record the results in that language's
-file here.
+**Status (2026-08-26):** the initial machine-assisted generation pass has run
+for all nine roster languages, grounding xenogerm, xenotype, gene, archite
+gene, gene complexity, metabolism and the trader/market-value vocabulary
+against the Core + Biotech tars. Each language file records its grounded
+term table, the localized Workshop title (`XTS_SettingsCategory`), and any
+phrasing decisions or terms flagged for native review. Later passes should
+extend those tables rather than re-derive them.
 
 Family-shared, mod-independent findings — LanguageWorker mechanics, style
 and corpus rules, and vanilla-grounded common vocabulary (quality tiers,

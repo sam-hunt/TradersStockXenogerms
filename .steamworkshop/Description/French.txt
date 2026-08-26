@@ -1,0 +1,50 @@
+Xénogermes des commerçants
+
+[h1]À propos[/h1]
+Dans RimWorld vanilla avec Biotech, la seule façon d'obtenir un xénotype précis est de collecter des gènes un par un et d'assembler soi-même un xénogerme, un processus lent et coûteux. Les xénogermes existent en tant qu'objets, mais les commerçants n'en vendent jamais de tout prêts pour les xénotypes prédéfinis. Ce mod corrige cela en ajoutant des xénogermes complets aux stocks des commerçants, vous permettant d'acheter un xénotype prêt à l'emploi plutôt que de traquer chaque gène individuellement.
+
+[hr][/hr]
+[h2]Commerce de xénogermes[/h2]
+[list]
+[*]Les vendeurs de produits exotiques en orbite proposent des xénogermes pour tous les xénotypes prédéfinis (hussard, diabloïde, sanguophage, et bien d'autres)
+[*]Les xénogermes achetés attribuent le vrai xénotype lors de l'implantation, permettant la reconnaissance par l'idéologie et créant des membres "naturalisés" pour les xénotypes à gènes germinaux
+[*]Les xénogermes bon marché apparaissent plus souvent, tandis que les xénotypes archites coûteux comme le sanguophage sont des trouvailles plus rares
+[/list]
+
+[h2]Prix[/h2]
+Le prix des xénogermes dépend de la complexité génétique, de l'impact métabolique et du nombre de gènes archites, par exemple :
+[list]
+[*]Homme-cochon, homme-taupe : environ 1 500 pièces d'argent
+[*]Hussard, psycharmeur : environ 1 600 à 1 850 pièces d'argent
+[*]Sanguophage : environ 3 200 pièces d'argent
+[/list]
+Les prix de vente sont volontairement bas (5 %) pour éviter les abus d'achat-revente, avec un bonus pour les xénogermes archites. La formule complète est configurable dans les paramètres du mod.
+
+[h2]Paramètres du mod[/h2]
+[list]
+[*][b]Inclure les xénotypes archites[/b] - Active ou non les xénogermes contenant des gènes archites (activé par défaut)
+[*][b]Inclure les xénotypes héréditaires[/b] - Active ou non les xénotypes à gènes germinaux comme le diabloïde et le yttakin (activé par défaut)
+[*][b]Inclure les xénotypes créés par le joueur[/b] - Active ou non les xénotypes issus de l'éditeur de scénario (désactivé par défaut)
+[*][b]Prix des xénogermes[/b] - Personnalisez la formule de prix en ajustant la valeur de base prédéfinie et les multiplicateurs pour le métabolisme, la complexité et les gènes archites
+[/list]
+
+[hr][/hr]
+[h1]Compatibilité[/h1]
+[list]
+[*]Nécessite le DLC Biotech
+[*]Prend entièrement en charge le mod Gene Trader : s'il est installé, son commerçant orbital de gènes proposera aussi des xénogermes
+[*]Peut être ajouté ou retiré sans risque en cours de partie
+[*]Inclut automatiquement les xénotypes ajoutés par d'autres mods
+[/list]
+
+[hr][/hr]
+[h1]FAQ[/h1]
+[b]Q : Ai-je besoin du DLC Biotech ?[/b]
+R : Oui. Ce mod ajoute des xénogermes pour le système de xénotypes de Biotech.
+
+[b]Q : Est-ce compatible avec mes autres mods de xénotypes ?[/b]
+R : Oui, les xénotypes des autres mods sont automatiquement inclus.
+
+[hr][/hr]
+[h2]Liens[/h2]
+[url=https://github.com/sam-hunt/XenogermTraderStock]GitHub[/url] - Code source, rapports de bugs et demandes de fonctionnalités
