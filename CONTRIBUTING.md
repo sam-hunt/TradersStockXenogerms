@@ -10,18 +10,18 @@ audience size. Contributions for any other language RimWorld supports are
 welcome too. See "Contributing a translation" below for the conventions to
 follow.
 
-| Language             | Status           | Credit |
-| -------------------- | ---------------- | ------ |
-| English              | Source           | —      |
-| Simplified Chinese   | Machine-assisted | —      |
-| Russian              | Machine-assisted | —      |
-| Korean               | Machine-assisted | —      |
-| German               | Machine-assisted | —      |
-| Spanish              | Machine-assisted | —      |
-| French               | Machine-assisted | —      |
-| Brazilian Portuguese | Machine-assisted | —      |
-| Japanese             | Machine-assisted | —      |
-| Traditional Chinese  | Machine-assisted | —      |
+| Language             | Status           | Credit  |
+| -------------------- | ---------------- | ------- |
+| English              | Source           | —       |
+| Simplified Chinese   | Machine-assisted | Fable 5 |
+| Russian              | Machine-assisted | Fable 5 |
+| Korean               | Machine-assisted | Fable 5 |
+| German               | Machine-assisted | Fable 5 |
+| Spanish              | Machine-assisted | Fable 5 |
+| French               | Machine-assisted | Fable 5 |
+| Brazilian Portuguese | Machine-assisted | Fable 5 |
+| Japanese             | Machine-assisted | Fable 5 |
+| Traditional Chinese  | Machine-assisted | Fable 5 |
 
 Statuses: **Source** (the authoritative English strings), **Machine-assisted**
 (generated with terminology grounded against the official RimWorld
