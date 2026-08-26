@@ -1,9 +1,8 @@
 # Traders Stock Xenogerms
 
 [![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
-[![Biotech DLC](https://img.shields.io/badge/DLC-Biotech%20Required-orange.svg)](https://store.steampowered.com/app/1826140/RimWorld__Biotech/)
-[![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)](https://github.com/sam-hunt/TradersStockXenogerms/releases)
-[![Development Status](https://img.shields.io/badge/Status-Stable-brightgreen.svg)](https://github.com/sam-hunt/TradersStockXenogerms/releases)
+[![Biotech DLC](https://img.shields.io/badge/DLC-Biotech-red.svg)](https://store.steampowered.com/app/1826140/RimWorld__Biotech/)
+[![Development Status](https://img.shields.io/badge/Status-In%20Development-yellow.svg)](https://github.com/sam-hunt/TradersStockXenogerms/releases)
 
 ## About
 
