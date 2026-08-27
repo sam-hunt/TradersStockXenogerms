@@ -156,7 +156,7 @@ Roslynator.Analyzers runs on every build (warnings only, never fails the build; 
 
 ## Debugging
 
-Use the `rimworld-logs` skill — it covers Player.log locations (Windows/WSL/Linux), the `[XenogermTraderStock]` log prefix, and API disassembly (`monodis`/`ilspycmd` against the live install's `Assembly-CSharp.dll`, preferred over the `Krafs.Rimworld.Ref` CI fallback).
+Use the `rimworld-logs` skill — it covers Player.log locations (Windows/WSL/Linux), the `[Xenogerm Trader Stock]` log prefix (the mod display name, as vanilla uses for patch/def errors about the mod), and API disassembly (`monodis`/`ilspycmd` against the live install's `Assembly-CSharp.dll`, preferred over the `Krafs.Rimworld.Ref` CI fallback).
 
 ## Harmony Patch Examples
 

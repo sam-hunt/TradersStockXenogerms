@@ -39,7 +39,7 @@ engine.SMOKE_ACTIVE_MODS = [
     "shunter.l10nprobe",
 ]
 
-engine.OWN_PATTERNS = ["XenogermTraderStock", "[XenogermTraderStock]", "XTS_"]
+engine.OWN_PATTERNS = ["XenogermTraderStock", "[Xenogerm Trader Stock]", "XTS_"]
 
 # No optional-mod integrations exist for this repo.
 engine.INTEGRATION_PATTERNS = {}

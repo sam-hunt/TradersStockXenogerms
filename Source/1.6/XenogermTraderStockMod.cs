@@ -18,7 +18,7 @@ namespace XenogermTraderStock
 
             var harmony = new Harmony("shunter.xenogermtraderstock");
             harmony.PatchAll();
-            Log.Message("[XenogermTraderStock] Mod loaded.");
+            Log.Message("[Xenogerm Trader Stock] Mod loaded.");
         }
 
         public override string SettingsCategory()
