@@ -2,7 +2,7 @@
 <Patch>
   <!-- Add xenogerm stock generator to Exotic Goods orbital trader -->
   <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/TraderKindDef[defName="Orbital_ExoticGoods"]/stockGenerators</xpath>
+    <xpath>/Defs/TraderKindDef[defName="Orbital_Exotic"]/stockGenerators</xpath>
     <value>
       <li Class="XenogermTraderStock.StockGenerator_Xenogerms">
         <countRange>0~2</countRange>
