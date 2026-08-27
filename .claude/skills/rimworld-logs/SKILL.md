@@ -14,7 +14,11 @@ description: Find and read RimWorld's Player.log, or disassemble the RimWorld AP
    - **Linux (Steam):** `~/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Player.log`
 
 Our own messages are prefixed `[XenogermTraderStock]`, so grep for that to isolate them from
-vanilla and other mods' output.
+vanilla and other mods' output. Errors RimWorld raises *about* the mod (XML patch failures,
+def load errors) use the About.xml display name instead — `[Xenogerm Trader Stock] Patch
+operation ... failed` — so grep case-insensitively for `xenogerm` to catch both. Note the 1.6
+Player.log carries no stack frames or `(Filename:` locators: a `Log.Error` is just its
+message line(s), so don't wait for a trace that will never appear.
 
 ## Inspecting the RimWorld API
 
