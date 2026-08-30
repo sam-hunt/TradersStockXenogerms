@@ -26,10 +26,12 @@ namespace XenogermTraderStock
 
         // Tooltip descriptor colours. Archite: the tip-title yellow nudged toward
         // ColorLibrary.Lime, so it reads as "special" without repeating the title.
-        // Germline: the palette's very light brown. Player-scenario: the player
-        // faction's own colour, straight from its def so it tracks any retint.
+        // Endogenes: the palette's very light brown, warm like the germline it
+        // joins. Xenogenes: a pale cyan to contrast it. Player-scenario: the
+        // player faction's own colour, straight from its def so it tracks any retint.
         private static readonly Color ArchiteColor = new Color(0.8f, 0.95f, 0.35f);
         private static readonly Color GermlineColor = ColorLibrary.Beige;
+        private static readonly Color XenogeneColor = new Color(0.55f, 0.85f, 0.95f);
         private static Color PlayerScenarioColor => FactionDefOf.PlayerColony.DefaultColor;
 
         private static XenogermTraderStockSettings Settings => XenogermTraderStockMod.Settings;
@@ -130,7 +132,9 @@ namespace XenogermTraderStock
             float price = XenogermPricing.BaseXenogermValue + breakdown.Premium;
             var settings = Settings;
 
-            string text = cell.LabelCap.Colorize(ColoredText.TipSectionTitleColor)
+            // Title carries the parenthesized price, same shape as the cell text.
+            string text = (cell.LabelCap + " (" + price.ToStringMoney() + ")")
+                .Colorize(ColoredText.TipSectionTitleColor)
                 + "\n\n" + cell.Description;
 
             // One coloured line per category the xenotype falls into, so a
@@ -151,13 +155,22 @@ namespace XenogermTraderStock
                     .Colorize(ColorLibrary.RedReadable);
             }
 
-            text += "\n\n" + "XTS_XenotypePriceBreakdown".Translate(
-                    price.ToStringMoney(),
-                    XenogermPricing.BaseXenogermValue.ToString("F0"),
-                    settings.basePresetValue.ToString("F0"),
+            // Formula transparency: one line per pricing component, each ending
+            // with its parenthesized subtotal, the final price closing the list.
+            // Components stay the default white; only the total line drops to
+            // footnote grey.
+            text += "\n\n" + "XTS_PriceBase".Translate(XenogermPricing.BaseXenogermValue.ToStringMoney())
+                + "\n" + "XTS_PricePreset".Translate(settings.basePresetValue.ToStringMoney())
+                + "\n" + "XTS_PriceMetabolism".Translate(
                     breakdown.AbsoluteMetabolism, settings.valuePerMetabolism.ToString("F0"),
+                    (breakdown.AbsoluteMetabolism * settings.valuePerMetabolism).ToStringMoney())
+                + "\n" + "XTS_PriceComplexity".Translate(
                     breakdown.Complexity, settings.valuePerComplexity.ToString("F0"),
-                    breakdown.Archites, settings.valuePerArchite.ToString("F0"))
+                    (breakdown.Complexity * settings.valuePerComplexity).ToStringMoney())
+                + "\n" + "XTS_PriceArchite".Translate(
+                    breakdown.Archites, settings.valuePerArchite.ToString("F0"),
+                    (breakdown.Archites * settings.valuePerArchite).ToStringMoney())
+                + "\n" + "XTS_PriceTotal".Translate(price.ToStringMoney())
                     .Colorize(ColoredText.SubtleGrayColor);
 
             // Last line: where the xenotype comes from, as the info card's Source
@@ -180,12 +193,11 @@ namespace XenogermTraderStock
             {
                 lines.Add("XTS_XenotypeArchite".Translate().Colorize(ArchiteColor));
             }
-            if (cell.Inheritable)
-            {
-                // Vanilla's own line from the xenotype info card (Biotech Keyed),
-                // so it is already localized everywhere.
-                lines.Add("GenesAreInheritable".Translate().Colorize(GermlineColor));
-            }
+            // Every xenotype's genes land on exactly one side of the germline:
+            // an inheritable xenotype implants endogenes, any other xenogenes.
+            lines.Add(cell.Inheritable
+                ? "XTS_XenotypeEndogenes".Translate().Colorize(GermlineColor)
+                : "XTS_XenotypeXenogenes".Translate().Colorize(XenogeneColor));
             if (cell.IsPlayerScenario)
             {
                 lines.Add("XTS_XenotypePlayerScenario".Translate().Colorize(PlayerScenarioColor));
