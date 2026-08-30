@@ -13,9 +13,9 @@
   <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
   <XTS_IncludeInheritableDesc>Erlaubt Händlern den Verkauf von Xenokeimen für Xenotypen mit Keimbahngenen (z. B. Impid, Yttakin). Das Implantieren erzeugt 'naturalisierte' Mitglieder, die von der Ideologie anerkannt werden.</XTS_IncludeInheritableDesc>
   <!-- EN: Include player-created xenotypes -->
-  <XTS_IncludePlayerCreated>Benutzerdefinierte Xenotypen einschließen</XTS_IncludePlayerCreated>
+  <XTS_IncludePlayerScenario>Benutzerdefinierte Xenotypen einschließen</XTS_IncludePlayerScenario>
   <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
-  <XTS_IncludePlayerCreatedDesc>Erlaubt Händlern den Verkauf von Xenokeimen für Xenotypen, die du im Szenario-Editor erstellt hast. Standardmäßig deaktiviert, da Händler logischerweise keinen Zugriff auf deine eigenen Entwürfe hätten.</XTS_IncludePlayerCreatedDesc>
+  <XTS_IncludePlayerScenarioDesc>Erlaubt Händlern den Verkauf von Xenokeimen für Xenotypen, die du im Szenario-Editor erstellt hast. Standardmäßig deaktiviert, da Händler logischerweise keinen Zugriff auf deine eigenen Entwürfe hätten.</XTS_IncludePlayerScenarioDesc>
 
   <!-- EN: Xenogerm pricing -->
   <XTS_PricingSection>Xenokeim-Preise</XTS_PricingSection>

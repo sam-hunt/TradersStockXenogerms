@@ -3,7 +3,7 @@ using Verse;
 namespace XenogermTraderStock
 {
     // Opt-out marker for genes that must never travel in a trader-sold
-    // xenogerm. Any xenotype containing such a gene — preset or player-created
+    // xenogerm. Any xenotype containing such a gene — preset or player-scenario
     // — is dropped at the candidate stage (XenotypeEligibility.IsCandidate):
     // hidden from the settings grid and never generated as stock.
     //

@@ -150,12 +150,12 @@ namespace XenogermTraderStock
             {
                 case XenotypeEligibility.CategoryBlock.Archite: return "XTS_IncludeArchite";
                 case XenotypeEligibility.CategoryBlock.Inheritable: return "XTS_IncludeInheritable";
-                case XenotypeEligibility.CategoryBlock.PlayerCreated: return "XTS_IncludePlayerCreated";
+                case XenotypeEligibility.CategoryBlock.PlayerScenario: return "XTS_IncludePlayerScenario";
                 default: return null;
             }
         }
 
-        // Preset and player-created xenotypes flattened to what a cell draws, so
+        // Preset and player-scenario xenotypes flattened to what a cell draws, so
         // the grid loop doesn't branch on the source type.
         private readonly struct Cell
         {

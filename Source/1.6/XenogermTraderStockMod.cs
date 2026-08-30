@@ -53,9 +53,9 @@ namespace XenogermTraderStock
                 "XTS_IncludeInheritableDesc".Translate());
 
             listing.CheckboxLabeled(
-                "XTS_IncludePlayerCreated".Translate(),
-                ref Settings.includePlayerCreatedXenotypes,
-                "XTS_IncludePlayerCreatedDesc".Translate());
+                "XTS_IncludePlayerScenario".Translate(),
+                ref Settings.includePlayerScenarioXenotypes,
+                "XTS_IncludePlayerScenarioDesc".Translate());
 
             listing.GapLine(16f);
             listing.Label("XTS_PricingSection".Translate());

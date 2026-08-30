@@ -13,9 +13,9 @@
   <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
   <XTS_IncludeInheritableDesc>생식유전자 인종형(예: 임피드, 이타킨)의 변형이식체를 상인이 판매하도록 허용합니다. 이를 이식하면 이념에서 인정하는 '귀화' 구성원이 됩니다.</XTS_IncludeInheritableDesc>
   <!-- EN: Include player-created xenotypes -->
-  <XTS_IncludePlayerCreated>직접 생성한 인종형 포함</XTS_IncludePlayerCreated>
+  <XTS_IncludePlayerScenario>직접 생성한 인종형 포함</XTS_IncludePlayerScenario>
   <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
-  <XTS_IncludePlayerCreatedDesc>시나리오 편집에서 직접 생성한 인종형의 변형이식체를 상인이 판매하도록 허용합니다. 상인이 당신이 만든 인종형에 접근할 논리적 이유가 없으므로 기본값은 비활성화입니다.</XTS_IncludePlayerCreatedDesc>
+  <XTS_IncludePlayerScenarioDesc>시나리오 편집에서 직접 생성한 인종형의 변형이식체를 상인이 판매하도록 허용합니다. 상인이 당신이 만든 인종형에 접근할 논리적 이유가 없으므로 기본값은 비활성화입니다.</XTS_IncludePlayerScenarioDesc>
 
   <!-- EN: Xenogerm pricing -->
   <XTS_PricingSection>변형이식체 가격</XTS_PricingSection>

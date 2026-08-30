@@ -23,8 +23,8 @@ Sell prices are intentionally low (5%) to prevent buy-sell exploits, with a bonu
 [h2]Mod Settings[/h2]
 [list]
 [*][b]Include archite xenotypes[/b] - Toggle xenogerms containing archite genes (default: on)
-[*][b]Include inheritable xenotypes[/b] - Toggle germline xenotypes like Impid and Yttakin (default: on)
-[*][b]Include player-created xenotypes[/b] - Toggle xenotypes from the scenario editor (default: off)
+[*][b]Include inheritable xenotypes[/b] - Toggle germline xenotypes like Impid and Yttakin (default: off)
+[*][b]Include player-scenario xenotypes[/b] - Toggle the custom xenotypes your starting colonists were created with (default: on)
 [*][b]Xenogerm Pricing[/b] - Customize the price formula by adjusting the base preset value and multipliers for metabolism, complexity, and archite genes
 [/list]
 

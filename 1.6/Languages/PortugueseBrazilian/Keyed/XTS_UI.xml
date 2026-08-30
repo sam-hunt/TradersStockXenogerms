@@ -13,9 +13,9 @@
   <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
   <XTS_IncludeInheritableDesc>Permite que os comerciantes vendam xenogerminadores para xenótipos de linha germinativa (por exemplo, Diabrete, Yttakin). Implantá-los cria membros "naturalizados" reconhecidos pela ideologia.</XTS_IncludeInheritableDesc>
   <!-- EN: Include player-created xenotypes -->
-  <XTS_IncludePlayerCreated>Incluir xenótipos criados pelo jogador</XTS_IncludePlayerCreated>
+  <XTS_IncludePlayerScenario>Incluir xenótipos criados pelo jogador</XTS_IncludePlayerScenario>
   <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
-  <XTS_IncludePlayerCreatedDesc>Permite que os comerciantes vendam xenogerminadores para xenótipos que você criou no editor de cenário. Desativado por padrão, já que os comerciantes não teriam acesso lógico aos seus designs personalizados.</XTS_IncludePlayerCreatedDesc>
+  <XTS_IncludePlayerScenarioDesc>Permite que os comerciantes vendam xenogerminadores para xenótipos que você criou no editor de cenário. Desativado por padrão, já que os comerciantes não teriam acesso lógico aos seus designs personalizados.</XTS_IncludePlayerScenarioDesc>
 
   <!-- EN: Xenogerm pricing -->
   <XTS_PricingSection>Preço dos xenogerminadores</XTS_PricingSection>

@@ -13,9 +13,9 @@
   <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
   <XTS_IncludeInheritableDesc>允許商人販售種系異種人所對應的異種細胞（例如魔人、依達人）。植入後會產生受理念認可的「歸化」成員。</XTS_IncludeInheritableDesc>
   <!-- EN: Include player-created xenotypes -->
-  <XTS_IncludePlayerCreated>包含玩家自訂異種人</XTS_IncludePlayerCreated>
+  <XTS_IncludePlayerScenario>包含玩家自訂異種人</XTS_IncludePlayerScenario>
   <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
-  <XTS_IncludePlayerCreatedDesc>允許商人販售你在腳本編輯器中創造的異種人所對應的異種細胞。預設為關閉，因為商人邏輯上不應該取得你的自訂設計。</XTS_IncludePlayerCreatedDesc>
+  <XTS_IncludePlayerScenarioDesc>允許商人販售你在腳本編輯器中創造的異種人所對應的異種細胞。預設為關閉，因為商人邏輯上不應該取得你的自訂設計。</XTS_IncludePlayerScenarioDesc>
 
   <!-- EN: Xenogerm pricing -->
   <XTS_PricingSection>異種細胞定價</XTS_PricingSection>

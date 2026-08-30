@@ -13,9 +13,9 @@
   <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
   <XTS_IncludeInheritableDesc>Разрешить торговцам продавать ксеносемена для ксенотипов с наследуемыми генами (например, импид, иттакин). Вживление создаёт «натурализованных» персонажей, признаваемых идеологией.</XTS_IncludeInheritableDesc>
   <!-- EN: Include player-created xenotypes -->
-  <XTS_IncludePlayerCreated>Включить ксенотипы, созданные игроком</XTS_IncludePlayerCreated>
+  <XTS_IncludePlayerScenario>Включить ксенотипы, созданные игроком</XTS_IncludePlayerScenario>
   <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
-  <XTS_IncludePlayerCreatedDesc>Разрешить торговцам продавать ксеносемена для ксенотипов, созданных вами в редакторе сценариев. По умолчанию выключено, поскольку у торговцев логически не может быть доступа к вашим уникальным разработкам.</XTS_IncludePlayerCreatedDesc>
+  <XTS_IncludePlayerScenarioDesc>Разрешить торговцам продавать ксеносемена для ксенотипов, созданных вами в редакторе сценариев. По умолчанию выключено, поскольку у торговцев логически не может быть доступа к вашим уникальным разработкам.</XTS_IncludePlayerScenarioDesc>
 
   <!-- EN: Xenogerm pricing -->
   <XTS_PricingSection>Ценообразование ксеносемян</XTS_PricingSection>

@@ -16,7 +16,7 @@ namespace XenogermTraderStock.Tests
 
             Assert.Equal(XenogermTraderStockSettings.DefaultIncludeArchiteXenotypes, settings.includeArchiteXenotypes);
             Assert.Equal(XenogermTraderStockSettings.DefaultIncludeInheritableXenotypes, settings.includeInheritableXenotypes);
-            Assert.Equal(XenogermTraderStockSettings.DefaultIncludePlayerCreatedXenotypes, settings.includePlayerCreatedXenotypes);
+            Assert.Equal(XenogermTraderStockSettings.DefaultIncludePlayerScenarioXenotypes, settings.includePlayerScenarioXenotypes);
             Assert.Equal(XenogermTraderStockSettings.DefaultBasePresetValue, settings.basePresetValue);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerMetabolism, settings.valuePerMetabolism);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerComplexity, settings.valuePerComplexity);
@@ -30,7 +30,7 @@ namespace XenogermTraderStock.Tests
             {
                 includeArchiteXenotypes = !XenogermTraderStockSettings.DefaultIncludeArchiteXenotypes,
                 includeInheritableXenotypes = !XenogermTraderStockSettings.DefaultIncludeInheritableXenotypes,
-                includePlayerCreatedXenotypes = !XenogermTraderStockSettings.DefaultIncludePlayerCreatedXenotypes,
+                includePlayerScenarioXenotypes = !XenogermTraderStockSettings.DefaultIncludePlayerScenarioXenotypes,
                 basePresetValue = XenogermTraderStockSettings.DefaultBasePresetValue + 500f,
                 valuePerMetabolism = XenogermTraderStockSettings.DefaultValuePerMetabolism + 5f,
                 valuePerComplexity = XenogermTraderStockSettings.DefaultValuePerComplexity + 5f,
@@ -41,7 +41,7 @@ namespace XenogermTraderStock.Tests
 
             Assert.Equal(XenogermTraderStockSettings.DefaultIncludeArchiteXenotypes, settings.includeArchiteXenotypes);
             Assert.Equal(XenogermTraderStockSettings.DefaultIncludeInheritableXenotypes, settings.includeInheritableXenotypes);
-            Assert.Equal(XenogermTraderStockSettings.DefaultIncludePlayerCreatedXenotypes, settings.includePlayerCreatedXenotypes);
+            Assert.Equal(XenogermTraderStockSettings.DefaultIncludePlayerScenarioXenotypes, settings.includePlayerScenarioXenotypes);
             Assert.Equal(XenogermTraderStockSettings.DefaultBasePresetValue, settings.basePresetValue);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerMetabolism, settings.valuePerMetabolism);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerComplexity, settings.valuePerComplexity);

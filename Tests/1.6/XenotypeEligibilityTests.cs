@@ -20,7 +20,7 @@ namespace XenogermTraderStock.Tests
             var settings = TestHelpers.InstallDefaultSettings();
 
             var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: false, inheritable: false, playerCreated: false);
+                archite: false, inheritable: false, playerScenario: false);
 
             Assert.Equal(XenotypeEligibility.CategoryBlock.None, block);
         }
@@ -31,7 +31,7 @@ namespace XenogermTraderStock.Tests
             var settings = TestHelpers.InstallDefaultSettings();
 
             bool sellable = XenotypeEligibility.IsSellable(settings,
-                archite: false, inheritable: false, playerCreated: false, excluded: false);
+                archite: false, inheritable: false, playerScenario: false, excluded: false);
 
             Assert.True(sellable);
         }
@@ -43,7 +43,7 @@ namespace XenogermTraderStock.Tests
             settings.includeArchiteXenotypes = false;
 
             var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: true, inheritable: false, playerCreated: false);
+                archite: true, inheritable: false, playerScenario: false);
 
             Assert.Equal(XenotypeEligibility.CategoryBlock.Archite, block);
         }
@@ -56,35 +56,35 @@ namespace XenogermTraderStock.Tests
             var settings = TestHelpers.InstallDefaultSettings();
 
             var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: false, inheritable: true, playerCreated: false);
+                archite: false, inheritable: true, playerScenario: false);
 
             Assert.Equal(XenotypeEligibility.CategoryBlock.Inheritable, block);
         }
 
         [Fact]
-        public void GetCategoryBlock_PlayerCreatedExcludedByToggle_ReturnsPlayerCreated()
+        public void GetCategoryBlock_PlayerScenarioExcludedByToggle_ReturnsPlayerScenario()
         {
             var settings = TestHelpers.InstallDefaultSettings();
-            settings.includePlayerCreatedXenotypes = false;
+            settings.includePlayerScenarioXenotypes = false;
 
             var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: false, inheritable: false, playerCreated: true);
+                archite: false, inheritable: false, playerScenario: true);
 
-            Assert.Equal(XenotypeEligibility.CategoryBlock.PlayerCreated, block);
+            Assert.Equal(XenotypeEligibility.CategoryBlock.PlayerScenario, block);
         }
 
         [Fact]
-        public void GetCategoryBlock_AllThreeTraitsAndTogglesOff_PlayerCreatedWinsPrecedence()
+        public void GetCategoryBlock_AllThreeTraitsAndTogglesOff_PlayerScenarioWinsPrecedence()
         {
             var settings = TestHelpers.InstallDefaultSettings();
             settings.includeArchiteXenotypes = false;
             settings.includeInheritableXenotypes = false;
-            settings.includePlayerCreatedXenotypes = false;
+            settings.includePlayerScenarioXenotypes = false;
 
             var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: true, inheritable: true, playerCreated: true);
+                archite: true, inheritable: true, playerScenario: true);
 
-            Assert.Equal(XenotypeEligibility.CategoryBlock.PlayerCreated, block);
+            Assert.Equal(XenotypeEligibility.CategoryBlock.PlayerScenario, block);
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace XenogermTraderStock.Tests
             settings.includeInheritableXenotypes = false;
 
             var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: true, inheritable: true, playerCreated: false);
+                archite: true, inheritable: true, playerScenario: false);
 
             Assert.Equal(XenotypeEligibility.CategoryBlock.Archite, block);
         }
@@ -106,7 +106,7 @@ namespace XenogermTraderStock.Tests
             var settings = TestHelpers.InstallDefaultSettings();
 
             bool sellable = XenotypeEligibility.IsSellable(settings,
-                archite: false, inheritable: false, playerCreated: false, excluded: true);
+                archite: false, inheritable: false, playerScenario: false, excluded: true);
 
             Assert.False(sellable);
         }
@@ -118,7 +118,7 @@ namespace XenogermTraderStock.Tests
             settings.includeArchiteXenotypes = false;
 
             bool sellable = XenotypeEligibility.IsSellable(settings,
-                archite: true, inheritable: false, playerCreated: false, excluded: false);
+                archite: true, inheritable: false, playerScenario: false, excluded: false);
 
             Assert.False(sellable);
         }
@@ -131,10 +131,10 @@ namespace XenogermTraderStock.Tests
             var settings = TestHelpers.InstallDefaultSettings();
             settings.includeArchiteXenotypes = true;
             settings.includeInheritableXenotypes = true;
-            settings.includePlayerCreatedXenotypes = true;
+            settings.includePlayerScenarioXenotypes = true;
 
             bool sellable = XenotypeEligibility.IsSellable(settings,
-                archite: true, inheritable: true, playerCreated: true, excluded: false);
+                archite: true, inheritable: true, playerScenario: true, excluded: false);
 
             Assert.True(sellable);
         }
@@ -154,7 +154,7 @@ namespace XenogermTraderStock.Tests
             settings.includeArchiteXenotypes = includeArchiteXenotypes;
 
             bool sellable = XenotypeEligibility.IsSellable(settings,
-                archite: true, inheritable: false, playerCreated: false, excluded: excluded);
+                archite: true, inheritable: false, playerScenario: false, excluded: excluded);
 
             Assert.Equal(expectedSellable, sellable);
         }

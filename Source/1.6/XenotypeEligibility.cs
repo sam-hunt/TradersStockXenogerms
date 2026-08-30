@@ -7,7 +7,7 @@ namespace XenogermTraderStock
 {
     // Single source of truth for "may traders sell this xenotype?". Both the
     // stock generator and the settings grid read the *derived* state here, so
-    // a category toggle (archite / inheritable / player-created) really does
+    // a category toggle (archite / inheritable / player-scenario) really does
     // override a per-xenotype opt-in rather than merely greying it out, and the
     // per-xenotype blacklist entry survives untouched underneath for when the
     // category is re-enabled.
@@ -22,18 +22,18 @@ namespace XenogermTraderStock
             None,
             Archite,
             Inheritable,
-            PlayerCreated,
+            PlayerScenario,
         }
 
         // Pure, settings-driven category check shared by presets and custom
         // xenotypes. Archite wins over inheritable when both apply, matching the
         // order the toggles appear in the settings window.
         public static CategoryBlock GetCategoryBlock(XenogermTraderStockSettings settings,
-            bool archite, bool inheritable, bool playerCreated)
+            bool archite, bool inheritable, bool playerScenario)
         {
-            if (playerCreated && !settings.includePlayerCreatedXenotypes)
+            if (playerScenario && !settings.includePlayerScenarioXenotypes)
             {
-                return CategoryBlock.PlayerCreated;
+                return CategoryBlock.PlayerScenario;
             }
             if (archite && !settings.includeArchiteXenotypes)
             {
@@ -50,10 +50,10 @@ namespace XenogermTraderStock
         // overloads below are thin adapters over this so the logic is testable
         // headless (XenotypeDef.Archite needs live GeneCategoryDefOf).
         public static bool IsSellable(XenogermTraderStockSettings settings,
-            bool archite, bool inheritable, bool playerCreated, bool excluded)
+            bool archite, bool inheritable, bool playerScenario, bool excluded)
         {
             return !excluded
-                && GetCategoryBlock(settings, archite, inheritable, playerCreated) == CategoryBlock.None;
+                && GetCategoryBlock(settings, archite, inheritable, playerScenario) == CategoryBlock.None;
         }
 
         // Xenotypes that can never appear in stock regardless of settings: the
@@ -82,25 +82,25 @@ namespace XenogermTraderStock
 
         public static CategoryBlock GetCategoryBlock(XenotypeDef xenotype)
         {
-            return GetCategoryBlock(Settings, xenotype.Archite, xenotype.inheritable, playerCreated: false);
+            return GetCategoryBlock(Settings, xenotype.Archite, xenotype.inheritable, playerScenario: false);
         }
 
         public static CategoryBlock GetCategoryBlock(CustomXenotype xenotype)
         {
-            return GetCategoryBlock(Settings, IsArchite(xenotype), xenotype.inheritable, playerCreated: true);
+            return GetCategoryBlock(Settings, IsArchite(xenotype), xenotype.inheritable, playerScenario: true);
         }
 
         public static bool IsSellable(XenotypeDef xenotype)
         {
             return IsCandidate(xenotype)
-                && IsSellable(Settings, xenotype.Archite, xenotype.inheritable, playerCreated: false,
+                && IsSellable(Settings, xenotype.Archite, xenotype.inheritable, playerScenario: false,
                     excluded: Settings.IsXenotypeExcluded(xenotype.defName));
         }
 
         public static bool IsSellable(CustomXenotype xenotype)
         {
             return IsCandidate(xenotype)
-                && IsSellable(Settings, IsArchite(xenotype), xenotype.inheritable, playerCreated: true,
+                && IsSellable(Settings, IsArchite(xenotype), xenotype.inheritable, playerScenario: true,
                     excluded: Settings.IsCustomXenotypeExcluded(xenotype.name));
         }
 

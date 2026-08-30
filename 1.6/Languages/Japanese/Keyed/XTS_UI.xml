@@ -13,9 +13,9 @@
   <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
   <XTS_IncludeInheritableDesc>トレーダーが生殖系ゼノタイプ(インピッド,イータキンなど)の異種胚を販売できるようにします.これらを移植すると,Ideologyに認識される「帰化」メンバーが生まれます.</XTS_IncludeInheritableDesc>
   <!-- EN: Include player-created xenotypes -->
-  <XTS_IncludePlayerCreated>プレイヤーが作成したゼノタイプを含める</XTS_IncludePlayerCreated>
+  <XTS_IncludePlayerScenario>プレイヤーが作成したゼノタイプを含める</XTS_IncludePlayerScenario>
   <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
-  <XTS_IncludePlayerCreatedDesc>トレーダーが,あなたがシナリオエディターで作成したゼノタイプの異種胚を販売できるようにします.トレーダーが独自デザインを入手できるとは考えにくいため,デフォルトでは無効になっています.</XTS_IncludePlayerCreatedDesc>
+  <XTS_IncludePlayerScenarioDesc>トレーダーが,あなたがシナリオエディターで作成したゼノタイプの異種胚を販売できるようにします.トレーダーが独自デザインを入手できるとは考えにくいため,デフォルトでは無効になっています.</XTS_IncludePlayerScenarioDesc>
 
   <!-- EN: Xenogerm pricing -->
   <XTS_PricingSection>異種胚の価格</XTS_PricingSection>

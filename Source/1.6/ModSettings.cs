@@ -7,13 +7,13 @@ namespace XenogermTraderStock
     {
         public bool includeArchiteXenotypes = DefaultIncludeArchiteXenotypes;
         public bool includeInheritableXenotypes = DefaultIncludeInheritableXenotypes;
-        public bool includePlayerCreatedXenotypes = DefaultIncludePlayerCreatedXenotypes;
+        public bool includePlayerScenarioXenotypes = DefaultIncludePlayerScenarioXenotypes;
 
         // Per-xenotype opt-outs. The settings UI presents these as a whitelist
         // (checked = sold), but they are stored as a blacklist so the default is
         // "everything on" and a xenotype added or removed by another mod needs no
         // migration: unknown names are simply never matched. Preset xenotypes are
-        // keyed by defName, player-created ones by CustomXenotype.name (they have
+        // keyed by defName, player-scenario ones by CustomXenotype.name (they have
         // no def). Read through XenotypeEligibility rather than directly - these
         // are only one input to the derived sellable state.
         public HashSet<string> excludedXenotypes = new HashSet<string>();
@@ -28,7 +28,7 @@ namespace XenogermTraderStock
         // Default values
         public const bool DefaultIncludeArchiteXenotypes = true;
         public const bool DefaultIncludeInheritableXenotypes = false;
-        public const bool DefaultIncludePlayerCreatedXenotypes = true;
+        public const bool DefaultIncludePlayerScenarioXenotypes = true;
         public const float DefaultBasePresetValue = 1300f;
         public const float DefaultValuePerMetabolism = 10f;
         public const float DefaultValuePerComplexity = 15f;
@@ -48,7 +48,7 @@ namespace XenogermTraderStock
         {
             includeArchiteXenotypes = DefaultIncludeArchiteXenotypes;
             includeInheritableXenotypes = DefaultIncludeInheritableXenotypes;
-            includePlayerCreatedXenotypes = DefaultIncludePlayerCreatedXenotypes;
+            includePlayerScenarioXenotypes = DefaultIncludePlayerScenarioXenotypes;
             basePresetValue = DefaultBasePresetValue;
             valuePerMetabolism = DefaultValuePerMetabolism;
             valuePerComplexity = DefaultValuePerComplexity;
@@ -97,7 +97,7 @@ namespace XenogermTraderStock
         {
             Scribe_Values.Look(ref includeArchiteXenotypes, "includeArchiteXenotypes", DefaultIncludeArchiteXenotypes);
             Scribe_Values.Look(ref includeInheritableXenotypes, "includeInheritableXenotypes", DefaultIncludeInheritableXenotypes);
-            Scribe_Values.Look(ref includePlayerCreatedXenotypes, "includePlayerCreatedXenotypes", DefaultIncludePlayerCreatedXenotypes);
+            Scribe_Values.Look(ref includePlayerScenarioXenotypes, "includePlayerScenarioXenotypes", DefaultIncludePlayerScenarioXenotypes);
 
             Scribe_Values.Look(ref basePresetValue, "basePresetValue", DefaultBasePresetValue);
             Scribe_Values.Look(ref valuePerMetabolism, "valuePerMetabolism", DefaultValuePerMetabolism);
