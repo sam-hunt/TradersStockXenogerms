@@ -1,6 +1,5 @@
 # TODOs
 
-- Source line is skipped for player-scenario xenotypes (no content pack) in the mod setting xenotype grid item tooltip; add a "Source: scenario" line for symmetry.
 - review pass of all player facing english strings
 - review pass of steam workshop description
 - confirm readme's claim of removal save-safety now we've added more features

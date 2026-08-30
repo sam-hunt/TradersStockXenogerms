@@ -162,8 +162,8 @@ namespace XenogermTraderStock
 
             // Last line: where the xenotype comes from, as the info card's Source
             // row shows it (vanilla's Stat_Source_Label + the content pack name).
-            // Player-scenario xenotypes have no pack; their cyan descriptor above
-            // already says where they come from.
+            // Player-scenario xenotypes have no pack, so they get a keyed
+            // "Scenario" word instead, keeping the line on every cell.
             string source = cell.SourceName;
             if (!source.NullOrEmpty())
             {
@@ -224,7 +224,9 @@ namespace XenogermTraderStock
             public bool Archite => def != null ? def.Archite : XenotypeEligibility.IsArchite(custom);
             public bool Inheritable => def != null ? def.inheritable : custom.inheritable;
             public bool IsPlayerScenario => def == null;
-            public string SourceName => def?.modContentPack?.Name;
+            public string SourceName => def != null
+                ? def.modContentPack?.Name
+                : "XTS_XenotypeSourceScenario".Translate().ToString();
             public Texture2D Icon => def != null ? def.Icon : custom.IconDef.Icon;
             public string LabelCap => def != null ? def.LabelCap : custom.name.CapitalizeFirst();
             public int TooltipId => def != null ? def.GetHashCode() : custom.name.GetHashCode();

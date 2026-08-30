@@ -34,6 +34,7 @@
   <XTS_XenotypeArchite>Contains archite genes</XTS_XenotypeArchite>
   <XTS_XenotypePlayerScenario>Defined in your scenario, not by a mod or DLC</XTS_XenotypePlayerScenario>
   <XTS_CustomXenotypeDesc>A custom xenotype your scenario's starting colonists were created with.</XTS_CustomXenotypeDesc>
+  <XTS_XenotypeSourceScenario>Scenario</XTS_XenotypeSourceScenario>
 
   <XTS_DefaultSuffix> (default)</XTS_DefaultSuffix>
   <XTS_ResetToDefaults>Reset to defaults</XTS_ResetToDefaults>
