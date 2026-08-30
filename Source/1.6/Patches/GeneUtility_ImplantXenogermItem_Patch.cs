@@ -34,11 +34,11 @@ namespace XenogermTraderStock.Patches
     // - Proper xenotype display in social/info panels (label, icon, info-card link)
     // - "Naturalized" members of germline xenotypes (e.g., Impid) for social purposes
     //
-    // Optionally (settings.ImplantsGermlineAsEndogenes), a germline xenotype's genes are
-    // then moved from xenogenes into the pawn's endogenes - what PawnGenerator does for a
-    // born member of an inheritable xenotype (SetXenotype adds them as endogenes) - so
-    // children inherit them and a later xenogerm implant stacks on top rather than wiping
-    // them. Vanilla's own implant keeps everything as xenogenes, hence opt-in.
+    // Optionally (settings.ImplantsGermlineAsEndogenes), a germline xenotype's genes
+    // replace the pawn's endogenes - what PawnGenerator produces for a born member of an
+    // inheritable xenotype (SetXenotype adds them as endogenes) - so children inherit them
+    // and a later xenogerm implant stacks on top rather than wiping them. Vanilla's own
+    // implant keeps everything as xenogenes, hence opt-in.
     [HarmonyPatch(typeof(GeneUtility), nameof(GeneUtility.ImplantXenogermItem))]
     public static class GeneUtility_ImplantXenogermItem_Patch
     {
@@ -61,37 +61,52 @@ namespace XenogermTraderStock.Patches
             }
         }
 
-        // Re-adds the implant's genes as endogenes. Vanilla has just SetXenotype(Baseliner)'d
-        // the pawn (every prior xenogene gone) and added exactly the xenogerm's genes as
-        // xenogenes, so clearing the xenogene list removes the implant and nothing else.
+        // Rebuilds the pawn's germline as the implant's genes. Vanilla has just
+        // SetXenotype(Baseliner)'d the pawn (every prior xenogene gone) and added exactly
+        // the xenogerm's genes as xenogenes, so clearing the xenogene list removes the
+        // implant and nothing else. The previous endogenes are then replaced wholesale,
+        // not merged: the pawn becomes a born member of the xenotype, not a hybrid of it
+        // and whatever germline it had before - and a merge would also let old genes win
+        // conflicts, because two endogenes resolve by display order (GeneUtility.Overrides
+        // -> GenesInOrder), not arrival order.
         //
-        // A conflicting germline gene the pawn already had (its own skin or hair colour,
-        // say) is removed first. Two endogenes in conflict are not resolved by arrival
-        // order but by display order (GeneUtility.Overrides -> GenesInOrder), so leaving
-        // the pawn's own gene in place could let it win over the implant's and the pawn
-        // would keep, e.g., a fair skin under an Impid germline. Xenogenes never had this
-        // problem because a xenogene always overrides an endogene.
+        // Skin and hair colour are the exception PawnGenerator itself makes: after
+        // SetXenotype it backfills a random melanin / hair-colour gene whenever the
+        // xenotype supplies none (GetMelaninGene / GetHairColorGene == null). Here the
+        // pawn's own genes are re-added instead of random ones - an Impid germline still
+        // turns the pawn red, but a xenotype with no skin gene leaves the pawn's natural
+        // colouring alone, exactly the born-member look.
         //
         // Consequences that follow from having no xenogenes, exactly as for a born member:
         // no xenogerm can be extracted from the pawn (GeneUtility.CanAbsorbXenogerm), and
         // the pawn no longer counts as having an implanted part for that purpose.
         private static void RetargetToEndogenes(Pawn pawn, Xenogerm xenogerm)
         {
-            pawn.genes.ClearXenogenes();
-            List<Gene> endogenes = pawn.genes.Endogenes;
+            Pawn_GeneTracker genes = pawn.genes;
+            genes.ClearXenogenes();
+
+            GeneDef melanin = genes.GetMelaninGene();
+            GeneDef hairColor = genes.GetHairColorGene();
+
+            List<Gene> endogenes = genes.Endogenes;
+            for (int i = endogenes.Count - 1; i >= 0; i--)
+            {
+                genes.RemoveGene(endogenes[i]);
+            }
+
             foreach (GeneDef gene in xenogerm.GeneSet.GenesListForReading)
             {
-                for (int i = endogenes.Count - 1; i >= 0; i--)
-                {
-                    Gene existing = endogenes[i];
-                    // An identical gene already in the germline stays put; AddGene
-                    // below is a no-op for it (Pawn_GeneTracker.HasEndogene).
-                    if (existing.def != gene && existing.def.ConflictsWith(gene))
-                    {
-                        pawn.genes.RemoveGene(existing);
-                    }
-                }
-                pawn.genes.AddGene(gene, xenogene: false);
+                genes.AddGene(gene, xenogene: false);
+            }
+
+            if (genes.GetMelaninGene() == null && melanin != null)
+            {
+                genes.AddGene(melanin, xenogene: false);
+            }
+
+            if (genes.GetHairColorGene() == null && hairColor != null)
+            {
+                genes.AddGene(hairColor, xenogene: false);
             }
         }
     }
