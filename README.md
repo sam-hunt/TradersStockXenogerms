@@ -4,6 +4,8 @@
 [![Biotech DLC](https://img.shields.io/badge/DLC-Biotech-red.svg)](https://store.steampowered.com/app/1826140/RimWorld__Biotech/)
 [![Development Status](https://img.shields.io/badge/Status-In%20Development-yellow.svg)](https://github.com/sam-hunt/XenogermTraderStock/releases)
 
+![Preview](About/Preview.png)
+
 ## About
 
 In vanilla RimWorld with Biotech, the only way to get a specific xenotype is to collect individual genes and assemble a xenogerm yourself — a slow and expensive process. Xenogerms exist as items but traders never sell pre-made ones for preset xenotypes.
@@ -21,6 +23,7 @@ This mod adds complete xenogerms to trader inventories, letting you purchase a r
 ### Pricing
 
 Xenogerm prices are based on gene complexity, metabolism impact, and archite gene count, e.g:
+
 - Pigskin, Dirtmole: ~1,500 silver
 - Hussar, Highmate: ~1,600-1,850 silver
 - Sanguophage: ~3,200 silver
@@ -75,10 +78,8 @@ For development setup, see [CLAUDE.md](CLAUDE.md).
 **Built With**:
 
 - [Harmony](https://github.com/pardeike/Harmony) by Andreas Pardeike — Runtime patching library
-- RimWorld modding API, community examples
 
 **Special Thanks**:
 
 - [Ludeon Studios](https://ludeon.com) for RimWorld and modding API
 - [The RimWorld modding community](https://steamcommunity.com/app/294100/workshop/) for inspiration and working examples
-- [Claude Code](https://claude.com/claude-code) for wading through `monodis` output and breathing C#
