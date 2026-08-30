@@ -34,15 +34,23 @@ namespace XenogermTraderStock
         public const float DefaultValuePerComplexity = 15f;
         public const float DefaultValuePerArchite = 100f;
 
-        // Slider ranges
+        // Slider ranges and snap steps. Steps are sized to the silver a single
+        // notch moves on a typical xenogerm (a few dozen silver against a
+        // ~1,500 price), not to the raw unit: a 1-silver notch on a 0-3000 range
+        // is unlandable by mouse and meaningless in play. Every default must sit
+        // on its step grid so the "(default)" suffix is reachable by dragging.
         public const float MinBasePresetValue = 0f;
         public const float MaxBasePresetValue = 3000f;
+        public const float StepBasePresetValue = 50f;
         public const float MinValuePerMetabolism = 0f;
         public const float MaxValuePerMetabolism = 50f;
+        public const float StepValuePerMetabolism = 5f;
         public const float MinValuePerComplexity = 0f;
         public const float MaxValuePerComplexity = 75f;
+        public const float StepValuePerComplexity = 5f;
         public const float MinValuePerArchite = 0f;
         public const float MaxValuePerArchite = 500f;
+        public const float StepValuePerArchite = 25f;
 
         public void ResetToDefaults()
         {

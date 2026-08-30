@@ -70,28 +70,32 @@ namespace XenogermTraderStock
                 Settings.basePresetValue,
                 XenogermTraderStockSettings.DefaultBasePresetValue,
                 XenogermTraderStockSettings.MinBasePresetValue,
-                XenogermTraderStockSettings.MaxBasePresetValue);
+                XenogermTraderStockSettings.MaxBasePresetValue,
+                XenogermTraderStockSettings.StepBasePresetValue);
 
             Settings.valuePerMetabolism = SliderRow(listing,
                 "XTS_ValuePerMetabolism", "XTS_ValuePerMetabolismDesc",
                 Settings.valuePerMetabolism,
                 XenogermTraderStockSettings.DefaultValuePerMetabolism,
                 XenogermTraderStockSettings.MinValuePerMetabolism,
-                XenogermTraderStockSettings.MaxValuePerMetabolism);
+                XenogermTraderStockSettings.MaxValuePerMetabolism,
+                XenogermTraderStockSettings.StepValuePerMetabolism);
 
             Settings.valuePerComplexity = SliderRow(listing,
                 "XTS_ValuePerComplexity", "XTS_ValuePerComplexityDesc",
                 Settings.valuePerComplexity,
                 XenogermTraderStockSettings.DefaultValuePerComplexity,
                 XenogermTraderStockSettings.MinValuePerComplexity,
-                XenogermTraderStockSettings.MaxValuePerComplexity);
+                XenogermTraderStockSettings.MaxValuePerComplexity,
+                XenogermTraderStockSettings.StepValuePerComplexity);
 
             Settings.valuePerArchite = SliderRow(listing,
                 "XTS_ValuePerArchite", "XTS_ValuePerArchiteDesc",
                 Settings.valuePerArchite,
                 XenogermTraderStockSettings.DefaultValuePerArchite,
                 XenogermTraderStockSettings.MinValuePerArchite,
-                XenogermTraderStockSettings.MaxValuePerArchite);
+                XenogermTraderStockSettings.MaxValuePerArchite,
+                XenogermTraderStockSettings.StepValuePerArchite);
 
             listing.GapLine(16f);
             listing.Label("XTS_XenotypesSection".Translate());
@@ -114,9 +118,10 @@ namespace XenogermTraderStock
         // House-style slider row: label carries the current value plus a "(default)"
         // suffix while at the shipped default (Mathf.Approximately, not ==, because
         // step-snapping doesn't always reproduce the exact default float), description
-        // as hover tooltip. Returns the slider value snapped to step, measured from min.
+        // as hover tooltip. Returns the slider value snapped to step, measured from min;
+        // the Step* constants beside each range on the settings class size the notch.
         private static float SliderRow(Listing_Standard listing, string labelKey, string descKey,
-            float value, float defaultValue, float min, float max, float step = 1f)
+            float value, float defaultValue, float min, float max, float step)
         {
             string label = labelKey.Translate(value.ToString("F0"));
             if (Mathf.Approximately(value, defaultValue))

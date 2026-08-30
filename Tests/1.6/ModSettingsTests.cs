@@ -135,6 +135,20 @@ namespace XenogermTraderStock.Tests
             Assert.Empty(settings.excludedCustomXenotypes);
         }
 
+        [Theory]
+        [InlineData(XenogermTraderStockSettings.DefaultBasePresetValue, XenogermTraderStockSettings.MinBasePresetValue, XenogermTraderStockSettings.StepBasePresetValue)]
+        [InlineData(XenogermTraderStockSettings.DefaultValuePerMetabolism, XenogermTraderStockSettings.MinValuePerMetabolism, XenogermTraderStockSettings.StepValuePerMetabolism)]
+        [InlineData(XenogermTraderStockSettings.DefaultValuePerComplexity, XenogermTraderStockSettings.MinValuePerComplexity, XenogermTraderStockSettings.StepValuePerComplexity)]
+        [InlineData(XenogermTraderStockSettings.DefaultValuePerArchite, XenogermTraderStockSettings.MinValuePerArchite, XenogermTraderStockSettings.StepValuePerArchite)]
+        public void DefaultValues_SitOnTheirSliderStepGrid(float defaultValue, float min, float step)
+        {
+            // The slider snaps to `step` measured from `min`, so a default off the
+            // grid could never be re-landed by dragging and its "(default)" suffix
+            // would only ever show on a fresh install.
+            Assert.True(step > 0f);
+            Assert.Equal(0f, (defaultValue - min) % step);
+        }
+
         [Fact]
         public void DefaultValues_FallWithinTheirSliderRanges()
         {
