@@ -141,6 +141,16 @@ namespace XenogermTraderStock
                 text += "\n\n" + descriptors;
             }
 
+            // The reason a cell is greyed out is the one line a blocked cell's
+            // hover exists for, so it goes in red rather than footnote grey, and
+            // above the price breakdown rather than buried under it.
+            string blockKey = BlockSettingKey(cell.Block);
+            if (blockKey != null)
+            {
+                text += "\n\n" + "XTS_XenotypeBlockedBy".Translate(blockKey.Translate())
+                    .Colorize(ColorLibrary.RedReadable);
+            }
+
             text += "\n\n" + "XTS_XenotypePriceBreakdown".Translate(
                     price.ToStringMoney(),
                     XenogermPricing.BaseXenogermValue.ToString("F0"),
@@ -149,15 +159,6 @@ namespace XenogermTraderStock
                     breakdown.Complexity, settings.valuePerComplexity.ToString("F0"),
                     breakdown.Archites, settings.valuePerArchite.ToString("F0"))
                     .Colorize(ColoredText.SubtleGrayColor);
-
-            // The reason a cell is greyed out is the one line a blocked cell's
-            // hover exists for, so it goes in red rather than footnote grey.
-            string blockKey = BlockSettingKey(cell.Block);
-            if (blockKey != null)
-            {
-                text += "\n\n" + "XTS_XenotypeBlockedBy".Translate(blockKey.Translate())
-                    .Colorize(ColorLibrary.RedReadable);
-            }
 
             // Last line: where the xenotype comes from, as the info card's Source
             // row shows it (vanilla's Stat_Source_Label + the content pack name).
