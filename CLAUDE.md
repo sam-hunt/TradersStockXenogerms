@@ -46,7 +46,7 @@ A machine-local Claude Code Stop hook (`.claude/hooks/sync-mod.sh`, untracked) r
 
 ### Entry Point
 
-`Source/1.6/XenogermTraderStockMod.cs` — `XenogermTraderStockMod` constructor loads settings and patches via `Harmony.PatchAll()` attribute discovery.
+`Source/1.6/Core/XenogermTraderStockMod.cs` — `XenogermTraderStockMod` constructor loads settings and patches via `Harmony.PatchAll()` attribute discovery.
 
 **Patch-timing hazard (other mods' methods):** that `PatchAll()` runs from the `Mod` subclass constructor — BEFORE any defs are loaded. Applying a detour JIT-compiles the target and runs its declaring type's static ctor, so a patch targeting ANOTHER MOD's method can permanently break that mod when its cctor resolves defs (the BetterTradersGuild v1.1.0 CWTL incident). The current patch targets vanilla `GeneUtility` (safe); before ever adding a foreign-target patch, defer its application until after defs load — worked example: BetterTradersGuild's `Core/DeferredModPatches.cs`.
 
@@ -55,21 +55,29 @@ A machine-local Claude Code Stop hook (`.claude/hooks/sync-mod.sh`, untracked) r
 ### Directory Structure
 
 ```
-Source/1.6/
-├── XenogermTraderStockMod.cs         # Mod entry point, settings UI
-├── ModSettings.cs                  # XenogermTraderStockSettings (persisted config)
-├── CompXenotypeSource.cs           # ThingComp storing source XenotypeDef
-├── Patch_ImplantXenogerm.cs        # Harmony postfix for xenotype assignment
-├── StockGenerator_Xenogerms.cs     # Trader stock generation with weighted rates
-├── XenotypeEligibility.cs          # Derived "may traders sell this xenotype?" state
-├── GeneExtension.cs                # DefModExtension opt-out: genes that bar a xenotype from stock
-├── XenotypeGridUI.cs               # Settings-window per-xenotype toggle grid
-├── XenogermFactory.cs              # Creates xenogerm Things from definitions
-├── XenogermPricing.cs              # Centralized pricing calculations
-├── StatPart_XenogermValue.cs       # MarketValue stat calculation
-├── StatPart_XenogermSellFactor.cs  # SellPriceFactor stat for archite bonus
+Source/1.6/                         # Family layout: one folder per concern, root namespace
+│                                   # XenogermTraderStock everywhere except Patches/ (.Patches)
+├── Core/
+│   ├── XenogermTraderStockMod.cs       # Mod entry point, Harmony init, settings window
+│   └── XenogermTraderStockSettings.cs  # Persisted config (fields, defaults, ranges, scribe)
+├── Comps/
+│   └── CompXenotypeSource.cs           # ThingComp storing source XenotypeDef
+├── Patches/                            # Harmony patches, named <Type>_<Method>_Patch
+│   └── GeneUtility_ImplantXenogermItem_Patch.cs  # Postfix: xenotype assignment (+ endogene retarget)
+├── Stats/
+│   ├── XenogermPricing.cs              # Centralized pricing calculations
+│   ├── StatPart_XenogermValue.cs       # MarketValue stat calculation
+│   └── StatPart_XenogermSellFactor.cs  # SellPriceFactor stat for archite bonus
+├── Traders/
+│   ├── StockGenerator_Xenogerms.cs     # Trader stock generation with weighted rates
+│   └── XenogermFactory.cs              # Creates xenogerm Things from definitions
+├── Xenotypes/
+│   ├── XenotypeEligibility.cs          # Derived "may traders sell this xenotype?" state
+│   └── GeneExtension.cs                # DefModExtension opt-out: genes that bar a xenotype from stock
+├── UI/
+│   └── XenotypeGridUI.cs               # Settings-window per-xenotype toggle grid
 ├── Properties/
-│   └── AssemblyInfo.cs             # Assembly version metadata
+│   └── AssemblyInfo.cs                 # Assembly version metadata
 
 1.6/Patches/                        # XML patches
 ├── Patches_Traders.xml             # Adds StockGenerator_Xenogerms to trader defs
@@ -104,7 +112,7 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 | `XenogermTraderStockMod` | Mod entry point, Harmony init, settings UI |
 | `XenogermTraderStockSettings` | Persisted mod settings (pricing, toggles) |
 | `CompXenotypeSource` | ThingComp storing source XenotypeDef on xenogerms |
-| `Patch_ImplantXenogermItem` | Harmony postfix assigning xenotype after implantation |
+| `GeneUtility_ImplantXenogermItem_Patch` | Harmony postfix assigning xenotype after implantation |
 | `StockGenerator_Xenogerms` | Generates xenogerms for traders with weighted spawn rates |
 | `XenotypeEligibility` | Single source of truth for sellable state: category toggles + per-xenotype blacklist |
 | `GeneExtension` | `DefModExtension` for GeneDefs; `excludeFromXenogermStock` bars any xenotype containing the gene |

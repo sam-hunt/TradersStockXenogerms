@@ -3,7 +3,7 @@ using HarmonyLib;
 using RimWorld;
 using Verse;
 
-namespace XenogermTraderStock
+namespace XenogermTraderStock.Patches
 {
     // After xenogerm implantation, assigns the preset xenotype reference to the pawn.
     //
@@ -40,7 +40,7 @@ namespace XenogermTraderStock
     // children inherit them and a later xenogerm implant stacks on top rather than wiping
     // them. Vanilla's own implant keeps everything as xenogenes, hence opt-in.
     [HarmonyPatch(typeof(GeneUtility), nameof(GeneUtility.ImplantXenogermItem))]
-    public static class Patch_ImplantXenogermItem
+    public static class GeneUtility_ImplantXenogermItem_Patch
     {
         public static void Postfix(Pawn pawn, Xenogerm xenogerm)
         {

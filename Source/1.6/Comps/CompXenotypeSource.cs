@@ -13,7 +13,7 @@ namespace XenogermTraderStock
 
     // Stores a reference to the XenotypeDef that a xenogerm was created from.
     // Added to xenogerms sold by traders so that implantation can assign the
-    // preset xenotype to the pawn (via Patch_ImplantXenogermItem).
+    // preset xenotype to the pawn (via GeneUtility_ImplantXenogermItem_Patch).
     //
     // Player-crafted xenogerms don't have this comp set, so they behave normally
     // (pawn gets genes as a custom xenotype).
