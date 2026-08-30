@@ -158,18 +158,22 @@ namespace XenogermTraderStock
             // Formula transparency: one line per pricing component, each ending
             // with its parenthesized subtotal, the final price closing the list.
             // Components stay the default white; only the total line drops to
-            // footnote grey.
-            text += "\n\n" + "XTS_PriceBase".Translate(XenogermPricing.BaseXenogermValue.ToStringMoney())
-                + "\n" + "XTS_PricePreset".Translate(settings.basePresetValue.ToStringMoney())
+            // footnote grey. Every Translate here is Resolve()d immediately:
+            // a bare TaggedString riding a + chain turns the whole chain into a
+            // TaggedString, and its implicit string conversion is
+            // RawText.StripTags() - one leak decolorizes the entire tooltip.
+            // (Resolve also gold-tints $ amounts, as the old grey line did.)
+            text += "\n\n" + "XTS_PriceBase".Translate(XenogermPricing.BaseXenogermValue.ToStringMoney()).Resolve()
+                + "\n" + "XTS_PricePreset".Translate(settings.basePresetValue.ToStringMoney()).Resolve()
                 + "\n" + "XTS_PriceMetabolism".Translate(
                     breakdown.AbsoluteMetabolism, settings.valuePerMetabolism.ToString("F0"),
-                    (breakdown.AbsoluteMetabolism * settings.valuePerMetabolism).ToStringMoney())
+                    (breakdown.AbsoluteMetabolism * settings.valuePerMetabolism).ToStringMoney()).Resolve()
                 + "\n" + "XTS_PriceComplexity".Translate(
                     breakdown.Complexity, settings.valuePerComplexity.ToString("F0"),
-                    (breakdown.Complexity * settings.valuePerComplexity).ToStringMoney())
+                    (breakdown.Complexity * settings.valuePerComplexity).ToStringMoney()).Resolve()
                 + "\n" + "XTS_PriceArchite".Translate(
                     breakdown.Archites, settings.valuePerArchite.ToString("F0"),
-                    (breakdown.Archites * settings.valuePerArchite).ToStringMoney())
+                    (breakdown.Archites * settings.valuePerArchite).ToStringMoney()).Resolve()
                 + "\n" + "XTS_PriceTotal".Translate(price.ToStringMoney())
                     .Colorize(ColoredText.SubtleGrayColor);
 
