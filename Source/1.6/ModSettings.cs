@@ -9,6 +9,13 @@ namespace XenogermTraderStock
         public bool includeInheritableXenotypes = DefaultIncludeInheritableXenotypes;
         public bool includePlayerScenarioXenotypes = DefaultIncludePlayerScenarioXenotypes;
 
+        // Write a trader-sold germline (inheritable) xenogerm's genes into the
+        // pawn's endogenes rather than as xenogenes, making a true member of the
+        // xenotype (children inherit, later implants stack instead of replacing).
+        // Only meaningful while germline xenogerms can be sold at all, so read it
+        // through ImplantsGermlineAsEndogenes, never directly.
+        public bool implantGermlineAsEndogenes = DefaultImplantGermlineAsEndogenes;
+
         // Per-xenotype opt-outs. The settings UI presents these as a whitelist
         // (checked = sold), but they are stored as a blacklist so the default is
         // "everything on" and a xenotype added or removed by another mod needs no
@@ -29,6 +36,7 @@ namespace XenogermTraderStock
         public const bool DefaultIncludeArchiteXenotypes = true;
         public const bool DefaultIncludeInheritableXenotypes = false;
         public const bool DefaultIncludePlayerScenarioXenotypes = true;
+        public const bool DefaultImplantGermlineAsEndogenes = false;
         public const float DefaultBasePresetValue = 1300f;
         public const float DefaultValuePerMetabolism = 10f;
         public const float DefaultValuePerComplexity = 15f;
@@ -52,11 +60,18 @@ namespace XenogermTraderStock
         public const float MaxValuePerArchite = 500f;
         public const float StepValuePerArchite = 25f;
 
+        // Derived state: the toggle is gated on inheritable xenotypes being sold
+        // (the settings window greys it out and shows it unchecked otherwise), so
+        // the implant patch must see the same effective value the player does.
+        // The stored flag survives underneath for when the gate reopens.
+        public bool ImplantsGermlineAsEndogenes => includeInheritableXenotypes && implantGermlineAsEndogenes;
+
         public void ResetToDefaults()
         {
             includeArchiteXenotypes = DefaultIncludeArchiteXenotypes;
             includeInheritableXenotypes = DefaultIncludeInheritableXenotypes;
             includePlayerScenarioXenotypes = DefaultIncludePlayerScenarioXenotypes;
+            implantGermlineAsEndogenes = DefaultImplantGermlineAsEndogenes;
             basePresetValue = DefaultBasePresetValue;
             valuePerMetabolism = DefaultValuePerMetabolism;
             valuePerComplexity = DefaultValuePerComplexity;
@@ -106,6 +121,7 @@ namespace XenogermTraderStock
             Scribe_Values.Look(ref includeArchiteXenotypes, "includeArchiteXenotypes", DefaultIncludeArchiteXenotypes);
             Scribe_Values.Look(ref includeInheritableXenotypes, "includeInheritableXenotypes", DefaultIncludeInheritableXenotypes);
             Scribe_Values.Look(ref includePlayerScenarioXenotypes, "includePlayerScenarioXenotypes", DefaultIncludePlayerScenarioXenotypes);
+            Scribe_Values.Look(ref implantGermlineAsEndogenes, "implantGermlineAsEndogenes", DefaultImplantGermlineAsEndogenes);
 
             Scribe_Values.Look(ref basePresetValue, "basePresetValue", DefaultBasePresetValue);
             Scribe_Values.Look(ref valuePerMetabolism, "valuePerMetabolism", DefaultValuePerMetabolism);

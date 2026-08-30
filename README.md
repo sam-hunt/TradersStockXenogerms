@@ -34,6 +34,7 @@ Sell prices are intentionally low (5%) to prevent buy-sell exploits, with a bonu
 
 - **Include archite xenotypes** — Toggle xenogerms containing archite genes (default: on)
 - **Include inheritable xenotypes** — Toggle germline xenotypes like Impid and Yttakin (default: off)
+- **Implant germline xenotypes as endogenes** — Write a germline xenogerm's genes into the pawn's germline, so children inherit them and later implants stack instead of overwriting (default: off; requires the setting above)
 - **Include player-scenario xenotypes** — Toggle the custom xenotypes your starting colonists were created with (default: on)
 - **Xenogerm Pricing** — Customize the price formula by adjusting base preset value and multipliers for metabolism, complexity, and archite genes
 

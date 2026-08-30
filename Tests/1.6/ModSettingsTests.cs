@@ -17,6 +17,7 @@ namespace XenogermTraderStock.Tests
             Assert.Equal(XenogermTraderStockSettings.DefaultIncludeArchiteXenotypes, settings.includeArchiteXenotypes);
             Assert.Equal(XenogermTraderStockSettings.DefaultIncludeInheritableXenotypes, settings.includeInheritableXenotypes);
             Assert.Equal(XenogermTraderStockSettings.DefaultIncludePlayerScenarioXenotypes, settings.includePlayerScenarioXenotypes);
+            Assert.Equal(XenogermTraderStockSettings.DefaultImplantGermlineAsEndogenes, settings.implantGermlineAsEndogenes);
             Assert.Equal(XenogermTraderStockSettings.DefaultBasePresetValue, settings.basePresetValue);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerMetabolism, settings.valuePerMetabolism);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerComplexity, settings.valuePerComplexity);
@@ -31,6 +32,7 @@ namespace XenogermTraderStock.Tests
                 includeArchiteXenotypes = !XenogermTraderStockSettings.DefaultIncludeArchiteXenotypes,
                 includeInheritableXenotypes = !XenogermTraderStockSettings.DefaultIncludeInheritableXenotypes,
                 includePlayerScenarioXenotypes = !XenogermTraderStockSettings.DefaultIncludePlayerScenarioXenotypes,
+                implantGermlineAsEndogenes = !XenogermTraderStockSettings.DefaultImplantGermlineAsEndogenes,
                 basePresetValue = XenogermTraderStockSettings.DefaultBasePresetValue + 500f,
                 valuePerMetabolism = XenogermTraderStockSettings.DefaultValuePerMetabolism + 5f,
                 valuePerComplexity = XenogermTraderStockSettings.DefaultValuePerComplexity + 5f,
@@ -42,10 +44,30 @@ namespace XenogermTraderStock.Tests
             Assert.Equal(XenogermTraderStockSettings.DefaultIncludeArchiteXenotypes, settings.includeArchiteXenotypes);
             Assert.Equal(XenogermTraderStockSettings.DefaultIncludeInheritableXenotypes, settings.includeInheritableXenotypes);
             Assert.Equal(XenogermTraderStockSettings.DefaultIncludePlayerScenarioXenotypes, settings.includePlayerScenarioXenotypes);
+            Assert.Equal(XenogermTraderStockSettings.DefaultImplantGermlineAsEndogenes, settings.implantGermlineAsEndogenes);
             Assert.Equal(XenogermTraderStockSettings.DefaultBasePresetValue, settings.basePresetValue);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerMetabolism, settings.valuePerMetabolism);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerComplexity, settings.valuePerComplexity);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerArchite, settings.valuePerArchite);
+        }
+
+        [Theory]
+        [InlineData(false, false, false)]
+        [InlineData(false, true, false)]
+        [InlineData(true, false, false)]
+        [InlineData(true, true, true)]
+        public void ImplantsGermlineAsEndogenes_RequiresBothInheritableAndTheToggle(
+            bool includeInheritable, bool implantAsEndogenes, bool expected)
+        {
+            // The window greys the toggle out (shown unchecked) while inheritable
+            // xenotypes are off; the implant patch must agree with what is shown.
+            var settings = new XenogermTraderStockSettings
+            {
+                includeInheritableXenotypes = includeInheritable,
+                implantGermlineAsEndogenes = implantAsEndogenes,
+            };
+
+            Assert.Equal(expected, settings.ImplantsGermlineAsEndogenes);
         }
 
         [Fact]

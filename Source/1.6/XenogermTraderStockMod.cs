@@ -52,6 +52,14 @@ namespace XenogermTraderStock
                 ref Settings.includeInheritableXenotypes,
                 "XTS_IncludeInheritableDesc".Translate());
 
+            // Gated on the row above: without germline xenogerms in stock there is
+            // nothing for it to act on, so it greys out and shows unchecked.
+            CheckboxLabeledGated(listing,
+                "XTS_ImplantGermlineAsEndogenes".Translate(),
+                ref Settings.implantGermlineAsEndogenes,
+                "XTS_ImplantGermlineAsEndogenesDesc".Translate("XTS_IncludeInheritable".Translate()),
+                enabled: Settings.includeInheritableXenotypes);
+
             listing.CheckboxLabeled(
                 "XTS_IncludePlayerScenario".Translate(),
                 ref Settings.includePlayerScenarioXenotypes,
@@ -113,6 +121,41 @@ namespace XenogermTraderStock
             {
                 Settings.ResetToDefaults();
             }
+        }
+
+        // Checkbox whose prerequisite may be off. GUI.enabled alone is not enough
+        // for that state: it only fades the visuals, while RimWorld's invisible-
+        // button hit test ignores it, so a "greyed" checkbox would still toggle on
+        // click. When gated off this draws a genuinely non-interactive checkbox,
+        // shown UNCHECKED (the effective state, since the feature can't run) while
+        // the stored value stays untouched and reappears once re-enabled.
+        private static void CheckboxLabeledGated(Listing_Standard listing, string label, ref bool value,
+            string tooltip, bool enabled)
+        {
+            if (enabled)
+            {
+                listing.CheckboxLabeled(label, ref value, tooltip);
+                return;
+            }
+
+            // Mirror Listing_Standard.CheckboxLabeled's rect/tooltip handling, but
+            // draw through Widgets' disabled path with a throwaway unchecked state.
+            bool prevGuiEnabled = GUI.enabled;
+            GUI.enabled = false;
+            float height = Text.CalcHeight(label, listing.ColumnWidth);
+            Rect rect = listing.GetRect(height);
+            if (!tooltip.NullOrEmpty())
+            {
+                if (Mouse.IsOver(rect))
+                {
+                    Widgets.DrawHighlight(rect);
+                }
+                TooltipHandler.TipRegion(rect, tooltip);
+            }
+            bool shownUnchecked = false;
+            Widgets.CheckboxLabeled(rect, label, ref shownUnchecked, disabled: true);
+            listing.Gap(listing.verticalSpacing);
+            GUI.enabled = prevGuiEnabled;
         }
 
         // House-style slider row: label carries the current value plus a "(default)"

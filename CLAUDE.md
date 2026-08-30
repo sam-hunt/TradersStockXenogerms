@@ -95,6 +95,8 @@ Scripts/
 
 The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenotypeSource`. When implanted, a Harmony postfix patch on `GeneUtility.ImplantXenogermItem` calls `SetXenotypeDirect()` and nulls `iconDef`, leaving the gene tracker's identity fields (`xenotype`, `xenotypeName`, `iconDef`) exactly as `PawnGenerator` leaves them for a generated pawn of that xenotype (vanilla only copies genes, display name, and the item's icon — which `Xenogerm.ExposeData` backfills to the custom-xenotype `Basic` icon on load). `hybrid` is deliberately untouched: it describes the germline, which an implant does not change.
 
+**Germline retarget (opt-in):** with `Settings.ImplantsGermlineAsEndogenes` (derived: `includeInheritableXenotypes && implantGermlineAsEndogenes`; the window greys the toggle out and shows it unchecked when the gate is off, so read the derived property, never the raw flag) a trader-sold xenogerm for an *inheritable* xenotype has its genes moved from xenogenes into endogenes after the identity fields are set — what `PawnGenerator` produces for a born member. The pawn's own conflicting endogenes (skin/hair colour) are removed first because two endogenes resolve a conflict by display order (`GeneUtility.Overrides` → `GenesInOrder`), not arrival order, unlike xenogene-over-endogene. Side effects match a born member: no xenogenes, so no xenogerm extraction.
+
 ### Key Classes
 
 | Class | Purpose |

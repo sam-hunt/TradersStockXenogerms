@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HarmonyLib;
 using RimWorld;
 using Verse;
@@ -32,6 +33,12 @@ namespace XenogermTraderStock
     // - Ideology recognition (preferred xenotypes)
     // - Proper xenotype display in social/info panels (label, icon, info-card link)
     // - "Naturalized" members of germline xenotypes (e.g., Impid) for social purposes
+    //
+    // Optionally (settings.ImplantsGermlineAsEndogenes), a germline xenotype's genes are
+    // then moved from xenogenes into the pawn's endogenes - what PawnGenerator does for a
+    // born member of an inheritable xenotype (SetXenotype adds them as endogenes) - so
+    // children inherit them and a later xenogerm implant stacks on top rather than wiping
+    // them. Vanilla's own implant keeps everything as xenogenes, hence opt-in.
     [HarmonyPatch(typeof(GeneUtility), nameof(GeneUtility.ImplantXenogermItem))]
     public static class Patch_ImplantXenogermItem
     {
@@ -47,6 +54,45 @@ namespace XenogermTraderStock
             // assign the identity fields explicitly. Genes stay as the xenogenes vanilla added.
             pawn.genes.SetXenotypeDirect(comp.sourceXenotype);
             pawn.genes.iconDef = null;
+
+            if (comp.sourceXenotype.inheritable && XenogermTraderStockMod.Settings.ImplantsGermlineAsEndogenes)
+            {
+                RetargetToEndogenes(pawn, xenogerm);
+            }
+        }
+
+        // Re-adds the implant's genes as endogenes. Vanilla has just SetXenotype(Baseliner)'d
+        // the pawn (every prior xenogene gone) and added exactly the xenogerm's genes as
+        // xenogenes, so clearing the xenogene list removes the implant and nothing else.
+        //
+        // A conflicting germline gene the pawn already had (its own skin or hair colour,
+        // say) is removed first. Two endogenes in conflict are not resolved by arrival
+        // order but by display order (GeneUtility.Overrides -> GenesInOrder), so leaving
+        // the pawn's own gene in place could let it win over the implant's and the pawn
+        // would keep, e.g., a fair skin under an Impid germline. Xenogenes never had this
+        // problem because a xenogene always overrides an endogene.
+        //
+        // Consequences that follow from having no xenogenes, exactly as for a born member:
+        // no xenogerm can be extracted from the pawn (GeneUtility.CanAbsorbXenogerm), and
+        // the pawn no longer counts as having an implanted part for that purpose.
+        private static void RetargetToEndogenes(Pawn pawn, Xenogerm xenogerm)
+        {
+            pawn.genes.ClearXenogenes();
+            List<Gene> endogenes = pawn.genes.Endogenes;
+            foreach (GeneDef gene in xenogerm.GeneSet.GenesListForReading)
+            {
+                for (int i = endogenes.Count - 1; i >= 0; i--)
+                {
+                    Gene existing = endogenes[i];
+                    // An identical gene already in the germline stays put; AddGene
+                    // below is a no-op for it (Pawn_GeneTracker.HasEndogene).
+                    if (existing.def != gene && existing.def.ConflictsWith(gene))
+                    {
+                        pawn.genes.RemoveGene(existing);
+                    }
+                }
+                pawn.genes.AddGene(gene, xenogene: false);
+            }
         }
     }
 }
