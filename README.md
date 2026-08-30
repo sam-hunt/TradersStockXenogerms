@@ -63,6 +63,7 @@ Subscribe on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedet
 - **Gene Trader mod** (`tac.genetrader`) — Fully supported. If installed, the orbital gene trader will also stock xenogerms.
 - **Save-safe** — Can be added or removed mid-game without issues.
 - **Xenotype mods** — Automatically includes xenotypes from other mods.
+- **Vanilla Races Expanded - Android** — Android xenotypes are never sold (they are machines, not genelines) and stay out of the settings grid. Other mods can opt their own non-organic genes out the same way by adding `<li Class="XenogermTraderStock.GeneExtension"><excludeFromXenogermStock>true</excludeFromXenogermStock></li>` to a gene's `<modExtensions>`.
 
 ## Contributing
 

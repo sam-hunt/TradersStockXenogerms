@@ -57,15 +57,27 @@ namespace XenogermTraderStock
         }
 
         // Xenotypes that can never appear in stock regardless of settings: the
-        // Baseliner (nothing to implant) and gene-less xenotypes.
+        // Baseliner (nothing to implant), gene-less xenotypes, and anything
+        // carrying a gene opted out via GeneExtension (VREA androids). These
+        // are hidden from the grid outright rather than greyed like a category
+        // block, since no setting can bring them back.
         public static bool IsCandidate(XenotypeDef xenotype)
         {
-            return xenotype != XenotypeDefOf.Baseliner && !xenotype.genes.NullOrEmpty();
+            return xenotype != XenotypeDefOf.Baseliner
+                && !xenotype.genes.NullOrEmpty()
+                && !ContainsExcludedGene(xenotype.genes);
         }
 
         public static bool IsCandidate(CustomXenotype xenotype)
         {
-            return !xenotype.genes.NullOrEmpty();
+            return !xenotype.genes.NullOrEmpty() && !ContainsExcludedGene(xenotype.genes);
+        }
+
+        // Pure so it is testable headless: Def.GetModExtension only walks the
+        // modExtensions list and tolerates it being null.
+        public static bool ContainsExcludedGene(IEnumerable<GeneDef> genes)
+        {
+            return genes.Any(g => g.GetModExtension<GeneExtension>()?.excludeFromXenogermStock == true);
         }
 
         public static CategoryBlock GetCategoryBlock(XenotypeDef xenotype)

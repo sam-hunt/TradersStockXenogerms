@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- Vanilla Races Expanded - Android builds its androids on Biotech's gene
+       system, so its xenotypes (and any custom android project the player
+       starts with) would otherwise be sold as xenogerms — implanting one into a
+       human is nonsense. Flag every android gene with our GeneExtension opt-out;
+       XenotypeEligibility.IsCandidate then drops any xenotype containing one.
+
+       VREA derives all hardware and subroutine genes from two abstract bases,
+       and RimWorld's XML inheritance appends a child's <li> list onto its
+       parent's, so flagging the bases reaches every android gene — including
+       the ones other mods (Altered Carbon 2, ...) derive from VREA_HardwareBase.
+       The bases already carry a VEF GeneExtension in <modExtensions>; the
+       conditional keeps this working if that ever goes away. FindMod matches the
+       display <name>, not the packageId (vanillaracesexpanded.android). -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Vanilla Races Expanded - Android</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/VREAndroids.AndroidGeneDef[@Name="VREA_HardwareBase"]/modExtensions</xpath>
+          <match Class="PatchOperationAdd">
+            <xpath>/Defs/VREAndroids.AndroidGeneDef[@Name="VREA_HardwareBase"]/modExtensions</xpath>
+            <value>
+              <li Class="XenogermTraderStock.GeneExtension">
+                <excludeFromXenogermStock>true</excludeFromXenogermStock>
+              </li>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>/Defs/VREAndroids.AndroidGeneDef[@Name="VREA_HardwareBase"]</xpath>
+            <value>
+              <modExtensions>
+                <li Class="XenogermTraderStock.GeneExtension">
+                  <excludeFromXenogermStock>true</excludeFromXenogermStock>
+                </li>
+              </modExtensions>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/VREAndroids.AndroidGeneDef[@Name="VREA_SubroutineBase"]/modExtensions</xpath>
+          <match Class="PatchOperationAdd">
+            <xpath>/Defs/VREAndroids.AndroidGeneDef[@Name="VREA_SubroutineBase"]/modExtensions</xpath>
+            <value>
+              <li Class="XenogermTraderStock.GeneExtension">
+                <excludeFromXenogermStock>true</excludeFromXenogermStock>
+              </li>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>/Defs/VREAndroids.AndroidGeneDef[@Name="VREA_SubroutineBase"]</xpath>
+            <value>
+              <modExtensions>
+                <li Class="XenogermTraderStock.GeneExtension">
+                  <excludeFromXenogermStock>true</excludeFromXenogermStock>
+                </li>
+              </modExtensions>
+            </value>
+          </nomatch>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+</Patch>

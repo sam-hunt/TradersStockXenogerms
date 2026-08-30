@@ -28,20 +28,28 @@ engine.PACKAGE_ID = "shunter.xenogermtraderstock"
 
 # RATIONALE: this is this repo's l10n CANONICAL_ACTIVE_MODS list - Biotech is
 # XTS's hard dep (xenogerms are a Biotech concept) and the only DLC the probe
-# needs active. There are no optional integration mods to boot alongside it,
-# so this is a clean-startup-log gate rather than an integration-seam check.
-# Probe last (auto-quit).
+# needs active - plus the one optional integration seam: Vanilla Races Expanded
+# - Android (needs VEF core), whose gene bases Patches_VREAndroid.xml patches
+# under a PatchOperationFindMod. Without VREA active that patch never runs, so
+# a broken xpath would only ever surface in a player's log. Probe last
+# (auto-quit).
 engine.SMOKE_ACTIVE_MODS = [
     "brrainz.harmony",
     "ludeon.rimworld",
     "ludeon.rimworld.biotech",
+    "oskarpotocki.vanillafactionsexpanded.core",
+    "vanillaracesexpanded.android",
     "shunter.xenogermtraderstock",
     "shunter.l10nprobe",
 ]
 
 engine.OWN_PATTERNS = ["XenogermTraderStock", "[Xenogerm Trader Stock]", "XTS_"]
 
-# No optional-mod integrations exist for this repo.
-engine.INTEGRATION_PATTERNS = {}
+# The other mods' namespaces/prefixes: an error mentioning any of these gates
+# the test even when the exception fires inside their code.
+engine.INTEGRATION_PATTERNS = {
+    "VREA": ["VREAndroids"],
+    "VEF": ["VEF."],
+}
 
 raise SystemExit(engine.main())

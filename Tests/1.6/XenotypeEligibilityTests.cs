@@ -1,11 +1,16 @@
+using System.Collections.Generic;
+using RimWorld;
+using Verse;
 using Xunit;
 
 namespace XenogermTraderStock.Tests
 {
     // Unit coverage for the pure overloads of XenotypeEligibility
-    // (GetCategoryBlock/IsSellable taking raw settings + trait bools). The
-    // XenotypeDef/CustomXenotype overloads need a live DefDatabase and are out
-    // of scope for this headless suite.
+    // (GetCategoryBlock/IsSellable taking raw settings + trait bools) and the
+    // GeneExtension opt-out gate. The XenotypeDef overloads need a live
+    // DefDatabase (XenotypeDefOf.Baseliner) and are out of scope for this
+    // headless suite; CustomXenotype is a plain IExposable, so its overload is
+    // covered.
     [Collection("XenogermPricing")]
     public class XenotypeEligibilityTests
     {
@@ -147,6 +152,63 @@ namespace XenogermTraderStock.Tests
                 archite: true, inheritable: false, playerCreated: false, excluded: excluded);
 
             Assert.Equal(expectedSellable, sellable);
+        }
+    
+
+        [Fact]
+        public void ContainsExcludedGene_NoExtensions_IsFalse()
+        {
+            var genes = new List<GeneDef> { TestHelpers.MakeGene(), TestHelpers.MakeGene() };
+
+            Assert.False(XenotypeEligibility.ContainsExcludedGene(genes));
+        }
+
+        [Fact]
+        public void ContainsExcludedGene_ExtensionWithFlagOff_IsFalse()
+        {
+            var genes = new List<GeneDef> { TestHelpers.MakeGene(exclude: false) };
+
+            Assert.False(XenotypeEligibility.ContainsExcludedGene(genes));
+        }
+
+        [Fact]
+        public void ContainsExcludedGene_OneFlaggedGeneAmongMany_IsTrue()
+        {
+            var genes = new List<GeneDef>
+            {
+                TestHelpers.MakeGene(),
+                TestHelpers.MakeGene(exclude: true),
+                TestHelpers.MakeGene(),
+            };
+
+            Assert.True(XenotypeEligibility.ContainsExcludedGene(genes));
+        }
+
+        [Fact]
+        public void IsCandidate_CustomXenotypeWithFlaggedGene_IsFalse()
+        {
+            var custom = new CustomXenotype { name = "Android project" };
+            custom.genes.Add(TestHelpers.MakeGene());
+            custom.genes.Add(TestHelpers.MakeGene(exclude: true));
+
+            Assert.False(XenotypeEligibility.IsCandidate(custom));
+        }
+
+        [Fact]
+        public void IsCandidate_CustomXenotypeWithOrdinaryGenes_IsTrue()
+        {
+            var custom = new CustomXenotype { name = "Organic" };
+            custom.genes.Add(TestHelpers.MakeGene());
+
+            Assert.True(XenotypeEligibility.IsCandidate(custom));
+        }
+
+        [Fact]
+        public void IsCandidate_GenelessCustomXenotype_IsFalse()
+        {
+            var custom = new CustomXenotype { name = "Empty" };
+
+            Assert.False(XenotypeEligibility.IsCandidate(custom));
         }
     }
 }

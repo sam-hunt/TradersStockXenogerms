@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Verse;
 
 namespace XenogermTraderStock.Tests
 {
-    // Synthetic data builders for pricing tests. XenogermPricing is pure (it
-    // only reads GeneDef.biostatMet / biostatCpx / biostatArc plus
-    // XenogermTraderStockMod.Settings), so this only needs to populate those
-    // three fields.
+    // Synthetic data builders. XenogermPricing is pure (it only reads
+    // GeneDef.biostatMet / biostatCpx / biostatArc plus
+    // XenogermTraderStockMod.Settings) and the GeneExtension gate only walks
+    // GeneDef.modExtensions, so this only needs to populate those fields.
     internal static class TestHelpers
     {
         // Calling `new GeneDef()` runs Def's instance ctor, which assigns
@@ -15,13 +16,25 @@ namespace XenogermTraderStock.Tests
         // outside a live game. GetUninitializedObject allocates without
         // running any constructor, matching the pattern UWU's TestHelpers
         // uses for ThingDef.
-        public static GeneDef MakeGene(int metabolism = 0, int complexity = 0, int archites = 0, string defName = null)
+        //
+        // exclude: null leaves modExtensions null (the common case for a gene
+        // no mod has patched); true/false attaches a GeneExtension with that
+        // excludeFromXenogermStock value.
+        public static GeneDef MakeGene(int metabolism = 0, int complexity = 0, int archites = 0,
+            string defName = null, bool? exclude = null)
         {
             var gene = (GeneDef)FormatterServices.GetUninitializedObject(typeof(GeneDef));
             gene.defName = defName ?? "TestGene";
             gene.biostatMet = metabolism;
             gene.biostatCpx = complexity;
             gene.biostatArc = archites;
+            if (exclude.HasValue)
+            {
+                gene.modExtensions = new List<DefModExtension>
+                {
+                    new GeneExtension { excludeFromXenogermStock = exclude.Value },
+                };
+            }
             return gene;
         }
 

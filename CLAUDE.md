@@ -62,6 +62,7 @@ Source/1.6/
 ├── Patch_ImplantXenogerm.cs        # Harmony postfix for xenotype assignment
 ├── StockGenerator_Xenogerms.cs     # Trader stock generation with weighted rates
 ├── XenotypeEligibility.cs          # Derived "may traders sell this xenotype?" state
+├── GeneExtension.cs                # DefModExtension opt-out: genes that bar a xenotype from stock
 ├── XenotypeGridUI.cs               # Settings-window per-xenotype toggle grid
 ├── XenogermFactory.cs              # Creates xenogerm Things from definitions
 ├── XenogermPricing.cs              # Centralized pricing calculations
@@ -74,7 +75,8 @@ Source/1.6/
 ├── Patches_Traders.xml             # Adds StockGenerator_Xenogerms to trader defs
 ├── Patches_Xenogerm.xml            # Adds CompXenotypeSource and StatParts to xenogerm def
 ├── Patches_Stats.xml               # Stat definitions for pricing
-└── Patches_GeneTrader.xml          # Gene Trader mod compatibility patch
+├── Patches_GeneTrader.xml          # Gene Trader mod compatibility patch
+└── Patches_VREAndroid.xml          # Flags VREA android genes with GeneExtension (never sold)
 
 1.6/Languages/English/Keyed/
 └── XTS_UI.xml                      # All player-facing strings (XTS_ key prefix)
@@ -103,6 +105,7 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 | `Patch_ImplantXenogermItem` | Harmony postfix assigning xenotype after implantation |
 | `StockGenerator_Xenogerms` | Generates xenogerms for traders with weighted spawn rates |
 | `XenotypeEligibility` | Single source of truth for sellable state: category toggles + per-xenotype blacklist |
+| `GeneExtension` | `DefModExtension` for GeneDefs; `excludeFromXenogermStock` bars any xenotype containing the gene |
 | `XenotypeGridUI` | 4-column settings grid of xenotype toggles (icon, name, live price, description tooltip) |
 | `XenogermFactory` | Creates xenogerm Things from XenotypeDef or CustomXenotype |
 | `XenogermPricing` | Centralized pricing calculations (used by StockGenerator and StatPart) |
@@ -118,6 +121,8 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 **Stock Generation:** `StockGenerator_Xenogerms` is injected into trader defs via XML patches. It queries `DefDatabase<XenotypeDef>` at generation time, filtering through `XenotypeEligibility.IsSellable` and weighting spawn probability inversely by price.
 
 **Per-xenotype filtering (derived state):** `XenotypeEligibility` is the only place that decides whether a xenotype is sellable; both the generator and the settings grid read it. Inputs are the three category toggles (archite / inheritable / player-created) and the per-xenotype blacklist on settings (`excludedXenotypes` by defName, `excludedCustomXenotypes` by `CustomXenotype.name`). The UI presents a whitelist (checked = sold) but stores a blacklist so defaults are "everything on" and xenotypes added/removed by other mods need no migration. A category toggle overrides the per-xenotype choice (cell greys out, unchecked, inert; tooltip still shows) without touching the stored entry, so re-enabling the category restores it. Never read the blacklist directly from generation code.
+
+**Non-organic genelines (`GeneExtension`):** vanilla has no "organic humanlike" concept — `canGenerateInGeneSet=false` sits on Core hair-colour endogenes (Impid/Waster/Highmate would vanish) and `selectionWeight=0` on Hemogenic (Sanguophage) — so exclusion is an explicit gene-level marker. Any xenotype, preset or custom, containing a gene whose `GeneExtension.excludeFromXenogermStock` is true fails `IsCandidate` and is hidden from the grid outright (not greyed: no setting can restore it). Gene-level because Vanilla Races Expanded - Android's custom "android projects" land in `Current.Game.customXenotypeDatabase` at game start with no Def to patch. `Patches_VREAndroid.xml` flags VREA's two abstract gene bases (XML inheritance appends child `<li>` lists onto the parent's, so every derived gene inherits it, including other mods' `VREA_HardwareBase` children). Other mods opt out with the same `<modExtensions>` snippet.
 
 ### Pricing Formula
 
@@ -136,7 +141,7 @@ Default pricing settings:
 
 `Tests/1.6/` holds an xUnit (net472) suite for the pure logic: `XenogermPricing` breakdown/market-value math, settings defaults/`ResetToDefaults`, and the inverse-price spawn-weight formula. Tests are headless — no live game context (`GeneDef`s are built uninitialized via `FormatterServices`); anything needing `DefDatabase`/`Current.Game` is out of scope. Run natively with `dotnet test Tests/1.6/XenogermTraderStock.Tests.csproj` — vstest hosts the net472 suite via mono. If a run fails with `BadImageFormatException`/`TypeLoadException`, a DLL is missing from the test csproj copy target (see the Assembly-CSharp-firstpass comment there): mono resolves field types eagerly where the Windows CLR is lazy. CI builds the Tests project but does not run it.
 
-**Startup smoke test (pre-release):** `python3 Scripts/integration-smoke-test.py` (game closed) boots the *deployed* copy of the mod on its pinned minimal list — it does not build, and only `-c Release` builds deploy, so run the Release build first or it silently tests the previous DLL. It then classifies Player.log errors by origin and fails on anything attributed to this mod. Run before every release (wired into the release skill); thin shim over the shared engine in `l10n/smoke/` (born from the BetterTradersGuild v1.1.0 CWTL incident).
+**Startup smoke test (pre-release):** `python3 Scripts/integration-smoke-test.py` (game closed) boots the *deployed* copy of the mod on its pinned minimal list (Biotech plus VEF core + Vanilla Races Expanded - Android, so `Patches_VREAndroid.xml`'s `FindMod` branch actually executes) — it does not build, and only `-c Release` builds deploy, so run the Release build first or it silently tests the previous DLL. It then classifies Player.log errors by origin and fails on anything attributed to this mod. Run before every release (wired into the release skill); thin shim over the shared engine in `l10n/smoke/` (born from the BetterTradersGuild v1.1.0 CWTL incident).
 
 ## Localization
 

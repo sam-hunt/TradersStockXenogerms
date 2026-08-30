@@ -35,6 +35,7 @@ Sell prices are intentionally low (5%) to prevent buy-sell exploits, with a bonu
 [*]Fully supports the Gene Trader mod: if installed, its orbital gene trader will also stock xenogerms
 [*]Safe to add or remove mid-game
 [*]Automatically includes xenotypes added by other mods
+[*]Vanilla Races Expanded - Android: android xenotypes are never sold (they are machines, not genelines) and stay out of the settings grid
 [/list]
 
 [hr][/hr]
