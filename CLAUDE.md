@@ -61,6 +61,8 @@ Source/1.6/
 ├── CompXenotypeSource.cs           # ThingComp storing source XenotypeDef
 ├── Patch_ImplantXenogerm.cs        # Harmony postfix for xenotype assignment
 ├── StockGenerator_Xenogerms.cs     # Trader stock generation with weighted rates
+├── XenotypeEligibility.cs          # Derived "may traders sell this xenotype?" state
+├── XenotypeGridUI.cs               # Settings-window per-xenotype toggle grid
 ├── XenogermFactory.cs              # Creates xenogerm Things from definitions
 ├── XenogermPricing.cs              # Centralized pricing calculations
 ├── StatPart_XenogermValue.cs       # MarketValue stat calculation
@@ -100,6 +102,8 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 | `CompXenotypeSource` | ThingComp storing source XenotypeDef on xenogerms |
 | `Patch_ImplantXenogermItem` | Harmony postfix assigning xenotype after implantation |
 | `StockGenerator_Xenogerms` | Generates xenogerms for traders with weighted spawn rates |
+| `XenotypeEligibility` | Single source of truth for sellable state: category toggles + per-xenotype blacklist |
+| `XenotypeGridUI` | 4-column settings grid of xenotype toggles (icon, name, live price, description tooltip) |
 | `XenogermFactory` | Creates xenogerm Things from XenotypeDef or CustomXenotype |
 | `XenogermPricing` | Centralized pricing calculations (used by StockGenerator and StatPart) |
 | `StatPart_XenogermValue` | Calculates MarketValue based on genes |
@@ -111,7 +115,9 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 
 **Pricing via StatParts:** Market value and sell factor are calculated dynamically using `StatPart` classes rather than fixed values. This allows xenogerm prices to reflect their gene composition. Only xenogerms with `CompXenotypeSource.sourceXenotype != null` get premium pricing — player-crafted xenogerms retain the base 20 silver value.
 
-**Stock Generation:** `StockGenerator_Xenogerms` is injected into trader defs via XML patches. It queries `DefDatabase<XenotypeDef>` at generation time, filtering by mod settings (archite, inheritable, player-created toggles) and weighting spawn probability inversely by price.
+**Stock Generation:** `StockGenerator_Xenogerms` is injected into trader defs via XML patches. It queries `DefDatabase<XenotypeDef>` at generation time, filtering through `XenotypeEligibility.IsSellable` and weighting spawn probability inversely by price.
+
+**Per-xenotype filtering (derived state):** `XenotypeEligibility` is the only place that decides whether a xenotype is sellable; both the generator and the settings grid read it. Inputs are the three category toggles (archite / inheritable / player-created) and the per-xenotype blacklist on settings (`excludedXenotypes` by defName, `excludedCustomXenotypes` by `CustomXenotype.name`). The UI presents a whitelist (checked = sold) but stores a blacklist so defaults are "everything on" and xenotypes added/removed by other mods need no migration. A category toggle overrides the per-xenotype choice (cell greys out, unchecked, inert; tooltip still shows) without touching the stored entry, so re-enabling the category restores it. Never read the blacklist directly from generation code.
 
 ### Pricing Formula
 

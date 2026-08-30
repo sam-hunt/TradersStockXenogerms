@@ -49,6 +49,93 @@ namespace XenogermTraderStock.Tests
         }
 
         [Fact]
+        public void NewInstance_ExclusionSetsAreEmpty()
+        {
+            var settings = new XenogermTraderStockSettings();
+
+            Assert.NotNull(settings.excludedXenotypes);
+            Assert.NotNull(settings.excludedCustomXenotypes);
+            Assert.Empty(settings.excludedXenotypes);
+            Assert.Empty(settings.excludedCustomXenotypes);
+        }
+
+        [Fact]
+        public void SetXenotypeExcluded_AddsAndRemoves_IdempotentlyAndIgnoresNull()
+        {
+            var settings = new XenogermTraderStockSettings();
+
+            settings.SetXenotypeExcluded("Foo", true);
+            Assert.True(settings.IsXenotypeExcluded("Foo"));
+            Assert.Single(settings.excludedXenotypes);
+
+            // Adding again is idempotent.
+            settings.SetXenotypeExcluded("Foo", true);
+            Assert.Single(settings.excludedXenotypes);
+
+            settings.SetXenotypeExcluded("Foo", false);
+            Assert.False(settings.IsXenotypeExcluded("Foo"));
+            Assert.Empty(settings.excludedXenotypes);
+
+            // Removing an absent entry does not throw.
+            settings.SetXenotypeExcluded("Foo", false);
+            Assert.Empty(settings.excludedXenotypes);
+
+            // A null key is ignored: no throw, no entry.
+            settings.SetXenotypeExcluded(null, true);
+            Assert.Empty(settings.excludedXenotypes);
+        }
+
+        [Fact]
+        public void SetCustomXenotypeExcluded_AddsAndRemoves_IdempotentlyAndIgnoresNull()
+        {
+            var settings = new XenogermTraderStockSettings();
+
+            settings.SetCustomXenotypeExcluded("Foo", true);
+            Assert.True(settings.IsCustomXenotypeExcluded("Foo"));
+            Assert.Single(settings.excludedCustomXenotypes);
+
+            // Adding again is idempotent.
+            settings.SetCustomXenotypeExcluded("Foo", true);
+            Assert.Single(settings.excludedCustomXenotypes);
+
+            settings.SetCustomXenotypeExcluded("Foo", false);
+            Assert.False(settings.IsCustomXenotypeExcluded("Foo"));
+            Assert.Empty(settings.excludedCustomXenotypes);
+
+            // Removing an absent entry does not throw.
+            settings.SetCustomXenotypeExcluded("Foo", false);
+            Assert.Empty(settings.excludedCustomXenotypes);
+
+            // A null key is ignored: no throw, no entry.
+            settings.SetCustomXenotypeExcluded(null, true);
+            Assert.Empty(settings.excludedCustomXenotypes);
+        }
+
+        [Fact]
+        public void PresetAndCustomExclusionSets_AreIndependent()
+        {
+            var settings = new XenogermTraderStockSettings();
+
+            settings.SetXenotypeExcluded("Foo", true);
+
+            Assert.True(settings.IsXenotypeExcluded("Foo"));
+            Assert.False(settings.IsCustomXenotypeExcluded("Foo"));
+        }
+
+        [Fact]
+        public void ResetToDefaults_ClearsBothExclusionSets()
+        {
+            var settings = new XenogermTraderStockSettings();
+            settings.SetXenotypeExcluded("Foo", true);
+            settings.SetCustomXenotypeExcluded("Bar", true);
+
+            settings.ResetToDefaults();
+
+            Assert.Empty(settings.excludedXenotypes);
+            Assert.Empty(settings.excludedCustomXenotypes);
+        }
+
+        [Fact]
         public void DefaultValues_FallWithinTheirSliderRanges()
         {
             // Guards against a future default edit landing outside the slider

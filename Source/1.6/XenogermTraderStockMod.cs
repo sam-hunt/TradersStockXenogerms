@@ -93,6 +93,14 @@ namespace XenogermTraderStock
                 XenogermTraderStockSettings.MinValuePerArchite,
                 XenogermTraderStockSettings.MaxValuePerArchite);
 
+            listing.GapLine(16f);
+            listing.Label("XTS_XenotypesSection".Translate());
+            Text.Font = GameFont.Tiny;
+            listing.Label("XTS_XenotypesSectionDesc".Translate());
+            Text.Font = prevFont;
+            listing.Gap(6f);
+            XenotypeGridUI.Draw(listing);
+
             settingsHeight = listing.CurHeight;
             listing.End();
             Widgets.EndScrollView();

@@ -51,61 +51,15 @@ namespace XenogermTraderStock
             }
         }
 
-        private IEnumerable<XenotypeDef> GetValidXenotypes()
+        private static IEnumerable<XenotypeDef> GetValidXenotypes()
         {
-            var settings = XenogermTraderStockMod.Settings;
-
-            foreach (var xenotype in DefDatabase<XenotypeDef>.AllDefsListForReading)
-            {
-                // Skip Baseliner - no point selling that
-                if (xenotype == XenotypeDefOf.Baseliner)
-                    continue;
-
-                // Skip xenotypes with no genes
-                if (xenotype.genes.NullOrEmpty())
-                    continue;
-
-                // Filter archite xenotypes
-                if (!settings.includeArchiteXenotypes && xenotype.Archite)
-                    continue;
-
-                // Filter inheritable xenotypes
-                if (!settings.includeInheritableXenotypes && xenotype.inheritable)
-                    continue;
-
-                yield return xenotype;
-            }
+            return DefDatabase<XenotypeDef>.AllDefsListForReading.Where(XenotypeEligibility.IsSellable);
         }
 
-        private IEnumerable<CustomXenotype> GetValidCustomXenotypes()
+        private static IEnumerable<CustomXenotype> GetValidCustomXenotypes()
         {
-            var settings = XenogermTraderStockMod.Settings;
-
-            // Only include custom xenotypes if the setting is enabled
-            if (!settings.includePlayerCreatedXenotypes)
-                yield break;
-
-            // Access custom xenotypes from current game
             var customXenotypes = Current.Game?.customXenotypeDatabase?.customXenotypes;
-            if (customXenotypes == null)
-                yield break;
-
-            foreach (var customXenotype in customXenotypes)
-            {
-                // Skip xenotypes with no genes
-                if (customXenotype.genes.NullOrEmpty())
-                    continue;
-
-                // Filter archite xenotypes
-                if (!settings.includeArchiteXenotypes && customXenotype.genes.Any(g => g.biostatArc > 0))
-                    continue;
-
-                // Filter inheritable xenotypes
-                if (!settings.includeInheritableXenotypes && customXenotype.inheritable)
-                    continue;
-
-                yield return customXenotype;
-            }
+            return customXenotypes?.Where(XenotypeEligibility.IsSellable) ?? Enumerable.Empty<CustomXenotype>();
         }
 
         public override bool HandlesThingDef(ThingDef thingDef)
