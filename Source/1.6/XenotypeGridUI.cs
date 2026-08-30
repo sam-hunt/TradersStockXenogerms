@@ -133,11 +133,13 @@ namespace XenogermTraderStock
                     breakdown.Archites, settings.valuePerArchite.ToString("F0"))
                     .Colorize(ColoredText.SubtleGrayColor);
 
+            // The reason a cell is greyed out is the one line a blocked cell's
+            // hover exists for, so it goes in red rather than footnote grey.
             string blockKey = BlockSettingKey(cell.Block);
             if (blockKey != null)
             {
                 text += "\n\n" + "XTS_XenotypeBlockedBy".Translate(blockKey.Translate())
-                    .Colorize(ColoredText.SubtleGrayColor);
+                    .Colorize(ColorLibrary.RedReadable);
             }
             return text;
         }
