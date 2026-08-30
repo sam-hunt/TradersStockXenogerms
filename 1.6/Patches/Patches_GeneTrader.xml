@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
   <!-- Add xenogerm stock generator to Gene Trader orbital trader (conditional on mod being loaded) -->
+  <!-- No loadAfter needed: RimWorld combines every active mod's Defs into one
+       document before any patches run, so Orbital_GeneTrader is present here
+       wherever Gene Trader sits in the load order. FindMod matches the mod's
+       display <name>, not its packageId (tac.genetrader). -->
   <Operation Class="PatchOperationFindMod">
     <mods>
       <li>Gene Trader</li>
