@@ -24,6 +24,14 @@ namespace XenogermTraderStock
 
         private static List<XenotypeDef> cachedPresets;
 
+        // Tooltip descriptor colours. Archite: the tip-title yellow nudged toward
+        // ColorLibrary.Lime, so it reads as "special" without repeating the title.
+        // Germline: the palette's very light brown. Player-scenario: the player
+        // faction's own colour, straight from its def so it tracks any retint.
+        private static readonly Color ArchiteColor = new Color(0.8f, 0.95f, 0.35f);
+        private static readonly Color GermlineColor = ColorLibrary.Beige;
+        private static Color PlayerScenarioColor => FactionDefOf.PlayerColony.DefaultColor;
+
         private static XenogermTraderStockSettings Settings => XenogermTraderStockMod.Settings;
 
         public static void Draw(Listing_Standard listing)
@@ -123,8 +131,17 @@ namespace XenogermTraderStock
             var settings = Settings;
 
             string text = cell.LabelCap.Colorize(ColoredText.TipSectionTitleColor)
-                + "\n\n" + cell.Description
-                + "\n\n" + "XTS_XenotypePriceBreakdown".Translate(
+                + "\n\n" + cell.Description;
+
+            // One coloured line per category the xenotype falls into, so a
+            // glance at the hover says why it prices and gates the way it does.
+            string descriptors = BuildDescriptors(cell);
+            if (!descriptors.NullOrEmpty())
+            {
+                text += "\n\n" + descriptors;
+            }
+
+            text += "\n\n" + "XTS_XenotypePriceBreakdown".Translate(
                     price.ToStringMoney(),
                     XenogermPricing.BaseXenogermValue.ToString("F0"),
                     settings.basePresetValue.ToString("F0"),
@@ -142,6 +159,26 @@ namespace XenogermTraderStock
                     .Colorize(ColorLibrary.RedReadable);
             }
             return text;
+        }
+
+        private static string BuildDescriptors(Cell cell)
+        {
+            var lines = new List<string>(3);
+            if (cell.Archite)
+            {
+                lines.Add("XTS_XenotypeArchite".Translate().Colorize(ArchiteColor));
+            }
+            if (cell.Inheritable)
+            {
+                // Vanilla's own line from the xenotype info card (Biotech Keyed),
+                // so it is already localized everywhere.
+                lines.Add("GenesAreInheritable".Translate().Colorize(GermlineColor));
+            }
+            if (cell.IsPlayerScenario)
+            {
+                lines.Add("XTS_XenotypePlayerScenario".Translate().Colorize(PlayerScenarioColor));
+            }
+            return string.Join("\n", lines);
         }
 
         private static string BlockSettingKey(XenotypeEligibility.CategoryBlock block)
@@ -172,6 +209,9 @@ namespace XenogermTraderStock
             public static Cell ForCustom(CustomXenotype custom) => new Cell(null, custom);
 
             public List<GeneDef> Genes => def != null ? def.genes : custom.genes;
+            public bool Archite => def != null ? def.Archite : XenotypeEligibility.IsArchite(custom);
+            public bool Inheritable => def != null ? def.inheritable : custom.inheritable;
+            public bool IsPlayerScenario => def == null;
             public Texture2D Icon => def != null ? def.Icon : custom.IconDef.Icon;
             public string LabelCap => def != null ? def.LabelCap : custom.name.CapitalizeFirst();
             public int TooltipId => def != null ? def.GetHashCode() : custom.name.GetHashCode();

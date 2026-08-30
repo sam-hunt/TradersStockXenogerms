@@ -31,6 +31,8 @@
   <XTS_NoXenotypes>No sellable xenotypes are loaded.</XTS_NoXenotypes>
   <XTS_XenotypePriceBreakdown>Price {0} = base {1} + preset {2} + metabolism {3}×{4} + complexity {5}×{6} + archite genes {7}×{8}</XTS_XenotypePriceBreakdown>
   <XTS_XenotypeBlockedBy>Not sold: '{0}' is switched off above.</XTS_XenotypeBlockedBy>
+  <XTS_XenotypeArchite>Contains archite genes</XTS_XenotypeArchite>
+  <XTS_XenotypePlayerScenario>Defined in your scenario, not by a mod or DLC</XTS_XenotypePlayerScenario>
   <XTS_CustomXenotypeDesc>A custom xenotype your scenario's starting colonists were created with.</XTS_CustomXenotypeDesc>
 
   <XTS_DefaultSuffix> (default)</XTS_DefaultSuffix>
