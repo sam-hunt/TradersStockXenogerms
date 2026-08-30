@@ -136,7 +136,7 @@ Default pricing settings:
 
 `Tests/1.6/` holds an xUnit (net472) suite for the pure logic: `XenogermPricing` breakdown/market-value math, settings defaults/`ResetToDefaults`, and the inverse-price spawn-weight formula. Tests are headless — no live game context (`GeneDef`s are built uninitialized via `FormatterServices`); anything needing `DefDatabase`/`Current.Game` is out of scope. Run natively with `dotnet test Tests/1.6/XenogermTraderStock.Tests.csproj` — vstest hosts the net472 suite via mono. If a run fails with `BadImageFormatException`/`TypeLoadException`, a DLL is missing from the test csproj copy target (see the Assembly-CSharp-firstpass comment there): mono resolves field types eagerly where the Windows CLR is lazy. CI builds the Tests project but does not run it.
 
-**Startup smoke test (pre-release):** `python3 Scripts/integration-smoke-test.py` (game closed) boots the mod on its pinned minimal list, then classifies Player.log errors by origin and fails on anything attributed to this mod. Run before every release (wired into the release skill); thin shim over the shared engine in `l10n/smoke/` (born from the BetterTradersGuild v1.1.0 CWTL incident).
+**Startup smoke test (pre-release):** `python3 Scripts/integration-smoke-test.py` (game closed) boots the *deployed* copy of the mod on its pinned minimal list — it does not build, and only `-c Release` builds deploy, so run the Release build first or it silently tests the previous DLL. It then classifies Player.log errors by origin and fails on anything attributed to this mod. Run before every release (wired into the release skill); thin shim over the shared engine in `l10n/smoke/` (born from the BetterTradersGuild v1.1.0 CWTL incident).
 
 ## Localization
 
