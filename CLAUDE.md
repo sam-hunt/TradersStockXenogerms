@@ -52,14 +52,20 @@ A machine-local Claude Code Stop hook (`.claude/hooks/sync-mod.sh`, untracked) r
 
 **Settings Access:** `XenogermTraderStockMod.Settings` provides global access to mod configuration.
 
+**Settings window (family pattern):** `XenogermTraderStockSettings` is a partial class split across `Core/Settings/Settings_*.cs`, one file per section owning its fields, `Expose*Settings`, `Reset*Settings` and `Draw*Section`; the frame file holds `DoWindowContents`, the fan-outs and the shared `SectionHeader` / `SliderRow` / `CheckboxLabeledGated` helpers. Help text is hover-tooltip only (section descriptions ride on the medium-font header) — no always-visible tiny-font sub-labels. Adding a setting is a one-file edit; a new section is a new file plus three one-line calls in the frame.
+
 ### Directory Structure
 
 ```
 Source/1.6/                         # Family layout: one folder per concern, root namespace
 │                                   # XenogermTraderStock everywhere except Patches/ (.Patches)
 ├── Core/
-│   ├── XenogermTraderStockMod.cs       # Mod entry point, Harmony init, settings window
-│   └── XenogermTraderStockSettings.cs  # Persisted config (fields, defaults, ranges, scribe)
+│   ├── XenogermTraderStockMod.cs       # Mod entry point, Harmony init; delegates the window to Settings
+│   ├── XenogermTraderStockSettings.cs  # Settings frame: scroll/reset window, Expose/Reset fan-out, row helpers
+│   └── Settings/                       # One partial-class file per settings section (fields, scribe, defaults, draw)
+│       ├── Settings_Categories.cs      # Archite / inheritable / player-scenario toggles, endogene implant gate
+│       ├── Settings_Pricing.cs         # Pricing sliders: defaults, ranges, snap steps
+│       └── Settings_Xenotypes.cs       # Per-xenotype blacklist sets + the grid section
 ├── Comps/
 │   └── CompXenotypeSource.cs           # ThingComp storing source XenotypeDef
 ├── Patches/                            # Harmony patches, named <Type>_<Method>_Patch
@@ -109,8 +115,8 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 
 | Class | Purpose |
 |-------|---------|
-| `XenogermTraderStockMod` | Mod entry point, Harmony init, settings UI |
-| `XenogermTraderStockSettings` | Persisted mod settings (pricing, toggles) |
+| `XenogermTraderStockMod` | Mod entry point, Harmony init |
+| `XenogermTraderStockSettings` | Persisted mod settings and the settings window (partial class, one file per section under `Core/Settings/`) |
 | `CompXenotypeSource` | ThingComp storing source XenotypeDef on xenogerms |
 | `GeneUtility_ImplantXenogermItem_Patch` | Harmony postfix assigning xenotype after implantation |
 | `StockGenerator_Xenogerms` | Generates xenogerms for traders with weighted spawn rates |

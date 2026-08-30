@@ -3,6 +3,8 @@
 
   <XTS_SettingsCategory>Xenogerm Trader Stock</XTS_SettingsCategory>
 
+  <XTS_CategoriesSection>Xenotype categories</XTS_CategoriesSection>
+  <XTS_CategoriesSectionDesc>Switch whole groups of xenotypes in or out of trader stock. Individual xenotypes can then be ticked on or off in the list below.</XTS_CategoriesSectionDesc>
   <XTS_IncludeArchite>Include archite xenotypes</XTS_IncludeArchite>
   <XTS_IncludeArchiteDesc>Allow traders to sell xenogerms for xenotypes containing archite genes (e.g., Sanguophage). These are typically more expensive.</XTS_IncludeArchiteDesc>
   <XTS_IncludeInheritable>Include inheritable xenotypes</XTS_IncludeInheritable>

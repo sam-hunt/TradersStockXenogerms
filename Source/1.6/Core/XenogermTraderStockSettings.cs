@@ -1,144 +1,171 @@
-using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace XenogermTraderStock
 {
-    public class XenogermTraderStockSettings : ModSettings
+    // Mod settings: the window frame, the ExposeData / ResetToDefaults fan-out, and
+    // the shared row helpers. The class is split across Core/Settings/, one
+    // partial-class file per UI section, each owning its own fields, scribe
+    // entries, defaults and draw method - so a setting is a one-file edit.
+    //
+    // Every settings-window string is localized through .Translate() against
+    // Keyed/XTS_UI.xml, except where vanilla already localizes the exact string
+    // (reuse its key rather than shipping a second copy translators would do
+    // twice) and names of game content, which come from their defs.
+    //
+    // Help text convention: hover tooltips only (the tooltip argument of the
+    // checkbox / slider / header helpers) - no always-visible tiny-font
+    // sub-labels, which read as a wall of text at section scale.
+    //
+    // To add a setting, in its section's partial file:
+    //  1. declare a public field (its default as the initializer, plus a const
+    //     for that default so tests and ResetToDefaults name the same value),
+    //  2. Scribe_Values.Look it in Expose*Settings, passing the same default so
+    //     an unset value loads right,
+    //  3. restore it in Reset*Settings,
+    //  4. add its label/description keys to XTS_UI.xml,
+    //  5. draw it in Draw*Section.
+    // A whole new section is a new file there plus three one-line calls here
+    // (Expose / Reset / Draw).
+    public partial class XenogermTraderStockSettings : ModSettings
     {
-        public bool includeArchiteXenotypes = DefaultIncludeArchiteXenotypes;
-        public bool includeInheritableXenotypes = DefaultIncludeInheritableXenotypes;
-        public bool includePlayerScenarioXenotypes = DefaultIncludePlayerScenarioXenotypes;
+        // Trailing space each section leaves below itself, so a section that
+        // early-returns leaves no gap behind rather than a double gap between
+        // its neighbours.
+        private const float SectionGap = 18f;
 
-        // Write a trader-sold germline (inheritable) xenogerm's genes into the
-        // pawn's endogenes rather than as xenogenes, making a true member of the
-        // xenotype (children inherit, later implants stack instead of replacing).
-        // Only meaningful while germline xenogerms can be sold at all, so read it
-        // through ImplantsGermlineAsEndogenes, never directly.
-        public bool implantGermlineAsEndogenes = DefaultImplantGermlineAsEndogenes;
+        // Presentation state for the scroll view, deliberately not scribed.
+        private Vector2 scrollPosition;
+        private float contentHeight;
 
-        // Per-xenotype opt-outs. The settings UI presents these as a whitelist
-        // (checked = sold), but they are stored as a blacklist so the default is
-        // "everything on" and a xenotype added or removed by another mod needs no
-        // migration: unknown names are simply never matched. Preset xenotypes are
-        // keyed by defName, player-scenario ones by CustomXenotype.name (they have
-        // no def). Read through XenotypeEligibility rather than directly - these
-        // are only one input to the derived sellable state.
-        public HashSet<string> excludedXenotypes = new HashSet<string>();
-        public HashSet<string> excludedCustomXenotypes = new HashSet<string>();
-
-        // Pricing constants with defaults matching original values
-        public float basePresetValue = DefaultBasePresetValue;
-        public float valuePerMetabolism = DefaultValuePerMetabolism;
-        public float valuePerComplexity = DefaultValuePerComplexity;
-        public float valuePerArchite = DefaultValuePerArchite;
-
-        // Default values
-        public const bool DefaultIncludeArchiteXenotypes = true;
-        public const bool DefaultIncludeInheritableXenotypes = false;
-        public const bool DefaultIncludePlayerScenarioXenotypes = true;
-        public const bool DefaultImplantGermlineAsEndogenes = false;
-        public const float DefaultBasePresetValue = 1300f;
-        public const float DefaultValuePerMetabolism = 10f;
-        public const float DefaultValuePerComplexity = 15f;
-        public const float DefaultValuePerArchite = 100f;
-
-        // Slider ranges and snap steps. Steps are sized to the silver a single
-        // notch moves on a typical xenogerm (a few dozen silver against a
-        // ~1,500 price), not to the raw unit: a 1-silver notch on a 0-3000 range
-        // is unlandable by mouse and meaningless in play. Every default must sit
-        // on its step grid so the "(default)" suffix is reachable by dragging.
-        public const float MinBasePresetValue = 0f;
-        public const float MaxBasePresetValue = 3000f;
-        public const float StepBasePresetValue = 50f;
-        public const float MinValuePerMetabolism = 0f;
-        public const float MaxValuePerMetabolism = 50f;
-        public const float StepValuePerMetabolism = 5f;
-        public const float MinValuePerComplexity = 0f;
-        public const float MaxValuePerComplexity = 75f;
-        public const float StepValuePerComplexity = 5f;
-        public const float MinValuePerArchite = 0f;
-        public const float MaxValuePerArchite = 500f;
-        public const float StepValuePerArchite = 25f;
-
-        // Derived state: the toggle is gated on inheritable xenotypes being sold
-        // (the settings window greys it out and shows it unchecked otherwise), so
-        // the implant patch must see the same effective value the player does.
-        // The stored flag survives underneath for when the gate reopens.
-        public bool ImplantsGermlineAsEndogenes => includeInheritableXenotypes && implantGermlineAsEndogenes;
+        // These fan out to the sections in display order; serialization order is
+        // immaterial (Scribe is keyed by name).
+        public override void ExposeData()
+        {
+            ExposeCategorySettings();
+            ExposePricingSettings();
+            ExposeXenotypeSettings();
+            base.ExposeData();
+        }
 
         public void ResetToDefaults()
         {
-            includeArchiteXenotypes = DefaultIncludeArchiteXenotypes;
-            includeInheritableXenotypes = DefaultIncludeInheritableXenotypes;
-            includePlayerScenarioXenotypes = DefaultIncludePlayerScenarioXenotypes;
-            implantGermlineAsEndogenes = DefaultImplantGermlineAsEndogenes;
-            basePresetValue = DefaultBasePresetValue;
-            valuePerMetabolism = DefaultValuePerMetabolism;
-            valuePerComplexity = DefaultValuePerComplexity;
-            valuePerArchite = DefaultValuePerArchite;
-            excludedXenotypes.Clear();
-            excludedCustomXenotypes.Clear();
+            ResetCategorySettings();
+            ResetPricingSettings();
+            ResetXenotypeSettings();
         }
 
-        public bool IsXenotypeExcluded(string defName)
+        public void DoWindowContents(Rect inRect)
         {
-            return excludedXenotypes.Contains(defName);
-        }
+            const float buttonHeight = 30f;
+            const float buttonGap = 10f;
+            const float buttonWidth = 200f;
+            const float scrollBarWidth = 16f;
 
-        public void SetXenotypeExcluded(string defName, bool excluded)
-        {
-            SetMembership(excludedXenotypes, defName, excluded);
-        }
+            // Reserve the bottom strip for the pinned reset button; the scroll
+            // view gets everything above it.
+            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - buttonHeight - buttonGap);
+            Rect buttonRect = new Rect(inRect.x, inRect.yMax - buttonHeight, buttonWidth, buttonHeight);
 
-        public bool IsCustomXenotypeExcluded(string name)
-        {
-            return excludedCustomXenotypes.Contains(name);
-        }
+            // Content is the view minus the scrollbar gutter wide, and the content
+            // or the view tall - whichever is larger - so the scrollbar appears
+            // only once the rows overflow. contentHeight is 0 on the first frame
+            // and measured off the listing below for every frame after.
+            float innerWidth = viewRect.width - scrollBarWidth;
+            Rect innerRect = new Rect(0f, 0f, innerWidth, Mathf.Max(contentHeight, viewRect.height));
 
-        public void SetCustomXenotypeExcluded(string name, bool excluded)
-        {
-            SetMembership(excludedCustomXenotypes, name, excluded);
-        }
+            Widgets.BeginScrollView(viewRect, ref scrollPosition, innerRect);
 
-        private static void SetMembership(HashSet<string> set, string key, bool member)
-        {
-            if (key == null)
+            Listing_Standard listing = new Listing_Standard();
+            // Tall scratch rect so the listing never clamps its own height; the
+            // real one comes back below via CurHeight.
+            listing.Begin(new Rect(0f, 0f, innerWidth - 8f, 99999f));
+            GameFont prevFont = Text.Font;
+
+            listing.Gap();
+
+            DrawCategoriesSection(listing);
+            DrawPricingSection(listing);
+            DrawXenotypesSection(listing);
+
+            Text.Font = prevFont;
+            contentHeight = listing.CurHeight;
+            listing.End();
+            Widgets.EndScrollView();
+
+            if (Widgets.ButtonText(buttonRect, "XTS_ResetToDefaults".Translate()))
             {
-                return;
+                ResetToDefaults();
             }
-            if (member)
+        }
+
+        // Top-level section heading (medium font), e.g. "Xenogerm pricing", with
+        // the section's explanatory text as a hover tooltip on the heading.
+        private static void SectionHeader(Listing_Standard listing, string label, string tooltip = null)
+        {
+            Text.Font = GameFont.Medium;
+            if (tooltip.NullOrEmpty())
             {
-                set.Add(key);
+                listing.Label(label);
             }
             else
             {
-                set.Remove(key);
+                listing.Label(label, tooltip: tooltip);
             }
+            Text.Font = GameFont.Small;
+            listing.Gap(6f);
         }
 
-        public override void ExposeData()
+        // One labelled slider row in the house style: "Property: value" with a
+        // "(default)" suffix while at the shipped default, description as hover
+        // tooltip. Returns the slider value snapped to `step` measured from `min`.
+        // Both comparisons are Mathf.Approximately rather than ==, because
+        // step-snapping doesn't always reproduce the exact default float.
+        private static float SliderRow(Listing_Standard listing, string labelKey, string descKey,
+            float value, float defaultValue, float min, float max, float step)
         {
-            Scribe_Values.Look(ref includeArchiteXenotypes, "includeArchiteXenotypes", DefaultIncludeArchiteXenotypes);
-            Scribe_Values.Look(ref includeInheritableXenotypes, "includeInheritableXenotypes", DefaultIncludeInheritableXenotypes);
-            Scribe_Values.Look(ref includePlayerScenarioXenotypes, "includePlayerScenarioXenotypes", DefaultIncludePlayerScenarioXenotypes);
-            Scribe_Values.Look(ref implantGermlineAsEndogenes, "implantGermlineAsEndogenes", DefaultImplantGermlineAsEndogenes);
-
-            Scribe_Values.Look(ref basePresetValue, "basePresetValue", DefaultBasePresetValue);
-            Scribe_Values.Look(ref valuePerMetabolism, "valuePerMetabolism", DefaultValuePerMetabolism);
-            Scribe_Values.Look(ref valuePerComplexity, "valuePerComplexity", DefaultValuePerComplexity);
-            Scribe_Values.Look(ref valuePerArchite, "valuePerArchite", DefaultValuePerArchite);
-
-            Scribe_Collections.Look(ref excludedXenotypes, "excludedXenotypes", LookMode.Value);
-            Scribe_Collections.Look(ref excludedCustomXenotypes, "excludedCustomXenotypes", LookMode.Value);
-            if (Scribe.mode == LoadSaveMode.LoadingVars)
+            string label = labelKey.Translate(value.ToString("F0"));
+            if (Mathf.Approximately(value, defaultValue))
             {
-                // Scribe_Collections nulls the target when the node is absent
-                // (settings files written before the blacklist existed).
-                excludedXenotypes ??= new HashSet<string>();
-                excludedCustomXenotypes ??= new HashSet<string>();
+                label += "XTS_DefaultSuffix".Translate();
+            }
+            listing.Label(label, tooltip: descKey.Translate(defaultValue.ToString("F0")));
+            return Mathf.Round((listing.Slider(value, min, max) - min) / step) * step + min;
+        }
+
+        // Checkbox whose prerequisite may be off. GUI.enabled alone is not enough
+        // for that state: it only fades the visuals, while RimWorld's invisible-
+        // button hit test ignores it, so a "greyed" checkbox would still toggle on
+        // click. When gated off this draws a genuinely non-interactive checkbox,
+        // shown UNCHECKED (the effective state, since the feature can't run) while
+        // the stored value stays untouched and reappears once re-enabled.
+        private static void CheckboxLabeledGated(Listing_Standard listing, string label, ref bool value,
+            string tooltip, bool enabled)
+        {
+            if (enabled)
+            {
+                listing.CheckboxLabeled(label, ref value, tooltip);
+                return;
             }
 
-            base.ExposeData();
+            // Mirror Listing_Standard.CheckboxLabeled's rect/tooltip handling, but
+            // draw through Widgets' disabled path with a throwaway unchecked state.
+            bool prevGuiEnabled = GUI.enabled;
+            GUI.enabled = false;
+            float height = Text.CalcHeight(label, listing.ColumnWidth);
+            Rect rect = listing.GetRect(height);
+            if (!tooltip.NullOrEmpty())
+            {
+                if (Mouse.IsOver(rect))
+                {
+                    Widgets.DrawHighlight(rect);
+                }
+                TooltipHandler.TipRegion(rect, tooltip);
+            }
+            bool shownUnchecked = false;
+            Widgets.CheckboxLabeled(rect, label, ref shownUnchecked, disabled: true);
+            listing.Gap(listing.verticalSpacing);
+            GUI.enabled = prevGuiEnabled;
         }
     }
 }
