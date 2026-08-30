@@ -49,10 +49,11 @@ namespace XenogermTraderStock.Tests
         }
 
         [Fact]
-        public void GetCategoryBlock_InheritableExcludedByToggle_ReturnsInheritable()
+        public void GetCategoryBlock_InheritableExcludedByDefaultToggle_ReturnsInheritable()
         {
+            // includeInheritableXenotypes defaults to false, so this needs no
+            // explicit mutation of the fresh settings.
             var settings = TestHelpers.InstallDefaultSettings();
-            settings.includeInheritableXenotypes = false;
 
             var block = XenotypeEligibility.GetCategoryBlock(settings,
                 archite: false, inheritable: true, playerCreated: false);
@@ -61,11 +62,10 @@ namespace XenogermTraderStock.Tests
         }
 
         [Fact]
-        public void GetCategoryBlock_PlayerCreatedExcludedByDefaultToggle_ReturnsPlayerCreated()
+        public void GetCategoryBlock_PlayerCreatedExcludedByToggle_ReturnsPlayerCreated()
         {
-            // includePlayerCreatedXenotypes defaults to false, so this needs
-            // no explicit mutation of the fresh settings.
             var settings = TestHelpers.InstallDefaultSettings();
+            settings.includePlayerCreatedXenotypes = false;
 
             var block = XenotypeEligibility.GetCategoryBlock(settings,
                 archite: false, inheritable: false, playerCreated: true);
@@ -126,10 +126,15 @@ namespace XenogermTraderStock.Tests
         [Fact]
         public void IsSellable_NotExcludedAndNoCategoryBlock_IsTrue()
         {
+            // Every category toggle is set explicitly so the test does not
+            // depend on which categories happen to be on by default.
             var settings = TestHelpers.InstallDefaultSettings();
+            settings.includeArchiteXenotypes = true;
+            settings.includeInheritableXenotypes = true;
+            settings.includePlayerCreatedXenotypes = true;
 
             bool sellable = XenotypeEligibility.IsSellable(settings,
-                archite: true, inheritable: true, playerCreated: false, excluded: false);
+                archite: true, inheritable: true, playerCreated: true, excluded: false);
 
             Assert.True(sellable);
         }

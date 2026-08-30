@@ -27,8 +27,8 @@ namespace XenogermTraderStock
 
         // Default values
         public const bool DefaultIncludeArchiteXenotypes = true;
-        public const bool DefaultIncludeInheritableXenotypes = true;
-        public const bool DefaultIncludePlayerCreatedXenotypes = false;
+        public const bool DefaultIncludeInheritableXenotypes = false;
+        public const bool DefaultIncludePlayerCreatedXenotypes = true;
         public const float DefaultBasePresetValue = 1300f;
         public const float DefaultValuePerMetabolism = 10f;
         public const float DefaultValuePerComplexity = 15f;
