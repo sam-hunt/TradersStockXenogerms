@@ -89,7 +89,7 @@ Scripts/
 
 ### Core Mechanism
 
-The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenotypeSource`. When implanted, a Harmony postfix patch on `GeneUtility.ImplantXenogermItem` calls `SetXenotypeDirect()` to assign the preset xenotype to the pawn (vanilla only copies genes and display name).
+The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenotypeSource`. When implanted, a Harmony postfix patch on `GeneUtility.ImplantXenogermItem` calls `SetXenotypeDirect()` and nulls `iconDef`, leaving the gene tracker's identity fields (`xenotype`, `xenotypeName`, `iconDef`) exactly as `PawnGenerator` leaves them for a generated pawn of that xenotype (vanilla only copies genes, display name, and the item's icon — which `Xenogerm.ExposeData` backfills to the custom-xenotype `Basic` icon on load). `hybrid` is deliberately untouched: it describes the germline, which an implant does not change.
 
 ### Key Classes
 

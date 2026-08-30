@@ -21,9 +21,12 @@ namespace XenogermTraderStock
             // Set display name (shows as "Hussar xenogerm" etc)
             xenogerm.xenotypeName = xenotype.label;
 
-            // Note: iconDef is for custom xenotypes (XenotypeIconDef).
-            // Preset xenotypes use XenotypeDef.iconPath directly.
-            // Leaving iconDef null - display uses xenotypeName.
+            // Vanilla xenogerm items always carry a non-null iconDef (the gene assembler
+            // picks one, and Xenogerm.ExposeData backfills Basic on load). There is no
+            // XenotypeIconDef for a preset xenotype - presets draw from XenotypeDef.iconPath -
+            // so use Basic here too, keeping the item identical before and after a save/load.
+            // Patch_ImplantXenogermItem clears it on the pawn so the preset's own icon shows.
+            xenogerm.iconDef = XenotypeIconDefOf.Basic;
 
             // Store xenotype reference for implantation
             var comp = xenogerm.TryGetComp<CompXenotypeSource>();
