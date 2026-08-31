@@ -38,7 +38,7 @@ namespace XenogermTraderStock.Patches
     // replace the pawn's endogenes - what PawnGenerator produces for a born member of an
     // inheritable xenotype (SetXenotype adds them as endogenes) - so children inherit them
     // and a later xenogerm implant stacks on top rather than wiping them. Vanilla's own
-    // implant keeps everything as xenogenes, hence opt-in.
+    // implant keeps everything as xenogenes, hence a setting (default on).
     [HarmonyPatch(typeof(GeneUtility), nameof(GeneUtility.ImplantXenogermItem))]
     public static class GeneUtility_ImplantXenogermItem_Patch
     {
@@ -55,7 +55,7 @@ namespace XenogermTraderStock.Patches
             pawn.genes.SetXenotypeDirect(comp.sourceXenotype);
             pawn.genes.iconDef = null;
 
-            // Baseliner bypasses the germline opt-in: its gene-less xenogerm has
+            // Baseliner bypasses the germline setting: its gene-less xenogerm has
             // exactly one honest meaning - make this pawn a baseliner - and with
             // no genes to add there is no "keep it as xenogenes" alternative for
             // the setting to choose. Vanilla has already wiped the xenogenes

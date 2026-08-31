@@ -12,7 +12,7 @@ namespace XenogermTraderStock
         // replacing). Free-standing on purpose: it acts at implant time on an
         // item the player already owns, so it must not depend on what the shop
         // grid currently has ticked.
-        public const bool DefaultImplantGermlineAsEndogenes = false;
+        public const bool DefaultImplantGermlineAsEndogenes = true;
         public bool implantGermlineAsEndogenes = DefaultImplantGermlineAsEndogenes;
 
         private void ExposeImplantationSettings()
