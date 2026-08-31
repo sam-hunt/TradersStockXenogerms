@@ -43,9 +43,9 @@ namespace XenogermTraderStock
         public override void ExposeData()
         {
             ExposeXenotypeSettings();
+            ExposePricingSettings();
             ExposeQuantitySettings();
             ExposeImplantationSettings();
-            ExposePricingSettings();
             ExposeCommonalitySettings();
             base.ExposeData();
         }
@@ -53,9 +53,9 @@ namespace XenogermTraderStock
         public void ResetToDefaults()
         {
             ResetXenotypeSettings();
+            ResetPricingSettings();
             ResetQuantitySettings();
             ResetImplantationSettings();
-            ResetPricingSettings();
             ResetCommonalitySettings();
         }
 
@@ -89,9 +89,9 @@ namespace XenogermTraderStock
             listing.Gap();
 
             DrawXenotypesSection(listing);
+            DrawPricingSection(listing);
             DrawQuantitySection(listing);
             DrawImplantationSection(listing);
-            DrawPricingSection(listing);
             DrawCommonalitySection(listing);
 
             Text.Font = prevFont;
