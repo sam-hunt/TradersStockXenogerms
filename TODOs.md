@@ -8,7 +8,5 @@
 
 ## Follow-ups from the 2026-08-31 overnight pass (items 1-8 landed, one commit each)
 
-- Tooltip archite line is text-only ("Contains archite genes"): `TipSignal` carries a string, so no icon can ride in a hover - decide whether to draw a small archite badge in the grid cell itself instead.
-- In-game eyeball of the new tooltip colours (archite lime-yellow is a hand-picked `Color(0.8, 0.95, 0.35)`, no palette entry; germline `ColorLibrary.Beige`; player-scenario `FactionDefOf.PlayerColony.DefaultColor`) and of the greyed endogene checkbox under a switched-off inheritable toggle.
+- In-game eyeball of the new settings-grid interactions (2026-09-01): filter-row label click cycles the tri-state box; drag-painting across grid cells sets them all to the first toggle's state (cursor shows the painted checkbox while dragging) and snaps a category row's checkbox when the stroke crosses it.
 - Playtest the endogene retarget: implant a trader-sold Impid/Yttakin xenogerm with the toggle on; confirm skin/hair follow the implant (previous germline is replaced wholesale; the pawn's own skin/hair colour genes return only when the xenotype has none), children inherit, the gene tab shows endogenes, and the pawn can no longer have a xenogerm extracted.
-- Section descriptions moved from tiny-font sub-labels to header hover tooltips per the family convention - confirm the "Xenotypes for sale" how-to (untick / greyed / hover) is discoverable enough from a header hover.
