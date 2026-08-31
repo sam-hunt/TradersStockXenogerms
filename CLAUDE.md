@@ -68,6 +68,8 @@ Source/1.6/                         # Family layout: one folder per concern, roo
 │       └── Settings_Xenotypes.cs       # Per-xenotype blacklist sets + the grid section
 ├── Comps/
 │   └── CompXenotypeSource.cs           # ThingComp storing source XenotypeDef
+├── Debug/
+│   └── XenogermDebugActions.cs         # Dev-mode spawn-xenogerm action; bypasses XenotypeEligibility
 ├── Patches/                            # Harmony patches, named <Type>_<Method>_Patch
 │   └── GeneUtility_ImplantXenogermItem_Patch.cs  # Postfix: xenotype assignment (+ endogene retarget)
 ├── Stats/
