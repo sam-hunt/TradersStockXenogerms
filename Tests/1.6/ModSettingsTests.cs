@@ -22,6 +22,7 @@ namespace XenogermTraderStock.Tests
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerMetabolism, settings.valuePerMetabolism);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerComplexity, settings.valuePerComplexity);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerArchite, settings.valuePerArchite);
+            Assert.Equal(XenogermTraderStockSettings.DefaultSelectionStrategy, settings.selectionStrategy);
         }
 
         [Fact]
@@ -37,6 +38,7 @@ namespace XenogermTraderStock.Tests
                 valuePerMetabolism = XenogermTraderStockSettings.DefaultValuePerMetabolism + 5f,
                 valuePerComplexity = XenogermTraderStockSettings.DefaultValuePerComplexity + 5f,
                 valuePerArchite = XenogermTraderStockSettings.DefaultValuePerArchite + 50f,
+                selectionStrategy = XenogermSelectionStrategy.Uniform,
             };
 
             settings.ResetToDefaults();
@@ -49,6 +51,7 @@ namespace XenogermTraderStock.Tests
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerMetabolism, settings.valuePerMetabolism);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerComplexity, settings.valuePerComplexity);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerArchite, settings.valuePerArchite);
+            Assert.Equal(XenogermTraderStockSettings.DefaultSelectionStrategy, settings.selectionStrategy);
         }
 
         [Theory]

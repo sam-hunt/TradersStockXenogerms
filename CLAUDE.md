@@ -79,7 +79,7 @@ Source/1.6/                         # Family layout: one folder per concern, roo
 │   └── StatPart_XenogermSellFactor.cs  # SellPriceFactor stat for archite bonus
 ├── Traders/
 │   ├── StockGenerator_Xenogerms.cs     # Trader stock generation with weighted rates
-│   ├── XenogermCommonality.cs          # Stateless price->spawn-weight strategies (inverse/soft/price/bell/uniform)
+│   ├── XenogermCommonality.cs          # Stateless price->spawn-weight strategies (inverse/inverse-root/linear/sqrt/bell/uniform)
 │   └── XenogermFactory.cs              # Creates xenogerm Things from definitions
 ├── Xenotypes/
 │   ├── XenotypeEligibility.cs          # Derived "may traders sell this xenotype?" state
@@ -140,7 +140,7 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 
 **Pricing via StatParts:** Market value and sell factor are calculated dynamically using `StatPart` classes rather than fixed values. This allows xenogerm prices to reflect their gene composition. Only xenogerms with `CompXenotypeSource.sourceXenotype != null` get premium pricing — player-crafted xenogerms retain the base 20 silver value.
 
-**Stock Generation:** `StockGenerator_Xenogerms` is injected into trader defs via XML patches. It queries `DefDatabase<XenotypeDef>` at generation time, filtering through `XenotypeEligibility.IsSellable` and weighting spawn probability by the settings-chosen `XenogermCommonality` strategy (default: inverse price; all strategies are stateless and pool-relative — the bell curve centres on the pool's median).
+**Stock Generation:** `StockGenerator_Xenogerms` is injected into trader defs via XML patches. It queries `DefDatabase<XenotypeDef>` at generation time, filtering through `XenotypeEligibility.IsSellable` and weighting spawn probability by the settings-chosen `XenogermCommonality` strategy (default: inverse root, 1/√price; all strategies are stateless and pool-relative — the bell curve centres on the pool's median).
 
 **Per-xenotype filtering (derived state):** `XenotypeEligibility` is the only place that decides whether a xenotype is sellable; both the generator and the settings grid read it. Inputs are the three category toggles (archite / inheritable / player-scenario) and the per-xenotype blacklist on settings (`excludedXenotypes` by defName, `excludedCustomXenotypes` by `CustomXenotype.name`). The UI presents a whitelist (checked = sold) but stores a blacklist so defaults are "everything on" and xenotypes added/removed by other mods need no migration. A category toggle overrides the per-xenotype choice (cell greys out, unchecked, inert; tooltip still shows) without touching the stored entry, so re-enabling the category restores it. Never read the blacklist directly from generation code.
 

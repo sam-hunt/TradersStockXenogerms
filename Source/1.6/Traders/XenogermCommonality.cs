@@ -6,9 +6,10 @@ namespace XenogermTraderStock
     // How a trader picks which xenotypes its xenogerm stock is for.
     public enum XenogermSelectionStrategy
     {
-        InversePrice,     // cheaper = more common (shipped default)
-        SoftInversePrice, // 1/sqrt(price): cheap still favoured, gentler slope
+        InversePrice,     // cheaper = more common
+        SoftInversePrice, // 1/sqrt(price): cheap still favoured, gentler slope (shipped default)
         Price,            // pricier = more common
+        SqrtPrice,        // sqrt(price): pricey still favoured, gentler slope
         BellCurve,        // gaussian around the pool's median price
         Uniform,          // every sellable option equally likely
     }
@@ -38,6 +39,12 @@ namespace XenogermTraderStock
                     for (int i = 0; i < weights.Length; i++)
                     {
                         weights[i] = FloorPrice(prices[i]);
+                    }
+                    break;
+                case XenogermSelectionStrategy.SqrtPrice:
+                    for (int i = 0; i < weights.Length; i++)
+                    {
+                        weights[i] = (float)Math.Sqrt(FloorPrice(prices[i]));
                     }
                     break;
                 case XenogermSelectionStrategy.SoftInversePrice:

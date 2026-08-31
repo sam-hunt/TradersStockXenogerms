@@ -2,13 +2,13 @@ using Verse;
 
 namespace XenogermTraderStock
 {
-    // "Xenotype commonality" settings section: which weighting strategy the
+    // "Xenotype commonality by price" settings section: which weighting strategy the
     // stock generator uses to pick xenotypes for a trader's xenogerms
     // (XenogermCommonality evaluates it). Read at generation time, so a change
     // shows on newly generated traders only.
     public partial class XenogermTraderStockSettings
     {
-        public const XenogermSelectionStrategy DefaultSelectionStrategy = XenogermSelectionStrategy.InversePrice;
+        public const XenogermSelectionStrategy DefaultSelectionStrategy = XenogermSelectionStrategy.SoftInversePrice;
         public XenogermSelectionStrategy selectionStrategy = DefaultSelectionStrategy;
 
         private void ExposeCommonalitySettings()
@@ -31,6 +31,8 @@ namespace XenogermTraderStock
                 "XTS_StrategySoftInversePrice", "XTS_StrategySoftInversePriceDesc");
             StrategyRadio(listing, XenogermSelectionStrategy.Price,
                 "XTS_StrategyPrice", "XTS_StrategyPriceDesc");
+            StrategyRadio(listing, XenogermSelectionStrategy.SqrtPrice,
+                "XTS_StrategySqrtPrice", "XTS_StrategySqrtPriceDesc");
             StrategyRadio(listing, XenogermSelectionStrategy.BellCurve,
                 "XTS_StrategyBellCurve", "XTS_StrategyBellCurveDesc");
             StrategyRadio(listing, XenogermSelectionStrategy.Uniform,
