@@ -11,8 +11,10 @@ namespace XenogermTraderStock
     // that stock generation would never produce - category toggles, per-xenotype
     // blacklist, GeneExtension opt-outs like VREA androids - can still be put in
     // hand for testing; entries eligibility currently filters out carry vanilla's
-    // " [NO]" suffix but spawn anyway. Only Baseliner and gene-less xenotypes are
-    // skipped: an empty gene set cannot form a meaningful xenogerm item.
+    // " [NO]" suffix but spawn anyway. Only gene-less xenotypes are skipped (an
+    // empty gene set cannot form a meaningful xenogerm item), with the one
+    // exception eligibility itself makes: Baseliner, whose empty xenogerm is the
+    // baseliner-conversion item.
     public static class XenogermDebugActions
     {
         // The debug menu's DebugActionNode tree is built ONCE per play-data load
@@ -28,12 +30,11 @@ namespace XenogermTraderStock
         {
             var nodes = new List<DebugActionNode>();
 
-            // Presets in the same order as the settings grid: vanilla display
-            // priority, then label for same-priority modded xenotypes.
-            foreach (var xenotype in DefDatabase<XenotypeDef>.AllDefsListForReading
-                .Where(x => x != XenotypeDefOf.Baseliner && !x.genes.NullOrEmpty())
-                .OrderByDescending(x => x.displayPriority)
-                .ThenBy(x => x.LabelCap.ToString()))
+            // Presets in the same order as the settings grid: Baseliner pinned
+            // first, then vanilla display priority, then label.
+            foreach (var xenotype in XenotypeEligibility.InDisplayOrder(
+                DefDatabase<XenotypeDef>.AllDefsListForReading
+                    .Where(x => x == XenotypeDefOf.Baseliner || !x.genes.NullOrEmpty())))
             {
                 var node = new DebugActionNode(xenotype.LabelCap, DebugActionType.ToolMap, delegate
                 {

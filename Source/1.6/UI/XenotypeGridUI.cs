@@ -211,9 +211,14 @@ namespace XenogermTraderStock
             }
             // Every xenotype's genes land on exactly one side of the germline:
             // an inheritable xenotype implants endogenes, any other xenogenes.
-            lines.Add(cell.Inheritable
-                ? "XTS_XenotypeEndogenes".Translate().Colorize(GermlineColor)
-                : "XTS_XenotypeXenogenes".Translate().Colorize(XenogeneColor));
+            // Baseliner's xenogerm has no genes to land anywhere - it wipes
+            // instead of implanting - so it gets neither line.
+            if (!cell.Genes.NullOrEmpty())
+            {
+                lines.Add(cell.Inheritable
+                    ? "XTS_XenotypeEndogenes".Translate().Colorize(GermlineColor)
+                    : "XTS_XenotypeXenogenes".Translate().Colorize(XenogeneColor));
+            }
             if (cell.IsPlayerScenario)
             {
                 lines.Add("XTS_XenotypePlayerScenario".Translate().Colorize(PlayerScenarioColor));

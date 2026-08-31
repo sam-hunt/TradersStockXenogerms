@@ -56,16 +56,18 @@ namespace XenogermTraderStock
                 && GetCategoryBlock(settings, archite, inheritable, playerScenario) == CategoryBlock.None;
         }
 
-        // Xenotypes that can never appear in stock regardless of settings: the
-        // Baseliner (nothing to implant), gene-less xenotypes, and anything
-        // carrying a gene opted out via GeneExtension (VREA androids). These
-        // are hidden from the grid outright rather than greyed like a category
-        // block, since no setting can bring them back.
+        // Xenotypes that can never appear in stock regardless of settings:
+        // gene-less xenotypes and anything carrying a gene opted out via
+        // GeneExtension (VREA androids). These are hidden from the grid outright
+        // rather than greyed like a category block, since no setting can bring
+        // them back. Baseliner is the deliberate exception to the gene-less
+        // rule: its empty xenogerm is the "make this pawn a baseliner" item -
+        // vanilla implantation wipes all xenogenes before consulting the germ's
+        // (empty) gene list, and the implant patch clears the germline too.
         public static bool IsCandidate(XenotypeDef xenotype)
         {
-            return xenotype != XenotypeDefOf.Baseliner
-                && !xenotype.genes.NullOrEmpty()
-                && !ContainsExcludedGene(xenotype.genes);
+            return xenotype == XenotypeDefOf.Baseliner
+                || (!xenotype.genes.NullOrEmpty() && !ContainsExcludedGene(xenotype.genes));
         }
 
         public static bool IsCandidate(CustomXenotype xenotype)
@@ -113,13 +115,22 @@ namespace XenogermTraderStock
         }
 
         // Presets in the order vanilla lists them (displayPriority descending),
-        // then label to keep same-priority modded xenotypes stable.
+        // then label to keep same-priority modded xenotypes stable. Baseliner is
+        // pinned first outright: vanilla's displayPriority 1000 is already the
+        // ceiling, but a modded xenotype outranking it would otherwise displace
+        // the one entry every pool wants on top. Shared by the settings grid and
+        // the debug spawner so the pools always agree.
+        public static IEnumerable<XenotypeDef> InDisplayOrder(IEnumerable<XenotypeDef> xenotypes)
+        {
+            return xenotypes
+                .OrderByDescending(x => x == XenotypeDefOf.Baseliner)
+                .ThenByDescending(x => x.displayPriority)
+                .ThenBy(x => x.LabelCap.ToString());
+        }
+
         public static IEnumerable<XenotypeDef> CandidateXenotypes()
         {
-            return DefDatabase<XenotypeDef>.AllDefsListForReading
-                .Where(IsCandidate)
-                .OrderByDescending(x => x.displayPriority)
-                .ThenBy(x => x.LabelCap.ToString());
+            return InDisplayOrder(DefDatabase<XenotypeDef>.AllDefsListForReading.Where(IsCandidate));
         }
 
         // The live game's database while playing (the one the generator reads);

@@ -113,6 +113,8 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 
 **Germline retarget (opt-in):** with `Settings.ImplantsGermlineAsEndogenes` (derived: `includeInheritableXenotypes && implantGermlineAsEndogenes`; the window greys the toggle out and shows it unchecked when the gate is off, so read the derived property, never the raw flag) a trader-sold xenogerm for an *inheritable* xenotype has the pawn's endogenes replaced wholesale by its genes after the identity fields are set — what `PawnGenerator` produces for a born member, not a merge (a merge would also let old genes win conflicts: two endogenes resolve by display order, `GeneUtility.Overrides` → `GenesInOrder`, not arrival order). The pawn's own melanin/hair-colour genes are re-added only when the xenotype supplies none — the backfill `PawnGenerator` does with random ones. Side effects match a born member: no xenogenes, so no xenogerm extraction.
 
+**Baseliner xenogerm:** Baseliner is `XenotypeEligibility.IsCandidate`'s one gene-less exception and is pinned first in every pool (`InDisplayOrder`, shared by grid and debug spawner). Its empty xenogerm is the baseliner-conversion item: vanilla implantation wipes all xenogenes unconditionally (`SetXenotype` clears before consulting the empty gene list — verified safe end-to-end, no gene-count gate in the float-menu/bill/recipe chain), and the patch always runs the germline retarget for it regardless of the opt-in (no genes means no "keep as xenogenes" alternative for the setting to choose; skin/hair colour survives via the retarget's own backfill). Prices at base + `basePresetValue` (no gene stats).
+
 ### Key Classes
 
 | Class | Purpose |

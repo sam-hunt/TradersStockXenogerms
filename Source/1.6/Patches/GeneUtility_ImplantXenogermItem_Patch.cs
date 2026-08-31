@@ -55,7 +55,17 @@ namespace XenogermTraderStock.Patches
             pawn.genes.SetXenotypeDirect(comp.sourceXenotype);
             pawn.genes.iconDef = null;
 
-            if (comp.sourceXenotype.inheritable && XenogermTraderStockMod.Settings.ImplantsGermlineAsEndogenes)
+            // Baseliner bypasses the germline opt-in: its gene-less xenogerm has
+            // exactly one honest meaning - make this pawn a baseliner - and with
+            // no genes to add there is no "keep it as xenogenes" alternative for
+            // the setting to choose. Vanilla has already wiped the xenogenes
+            // (SetXenotype clears them before consulting the empty gene list);
+            // the retarget clears the germline too, adding nothing back except
+            // the pawn's own skin/hair colour, which Baseliner never supplies.
+            // Without this, an Impid implanted with a baseliner xenogerm would
+            // be relabeled Baseliner while keeping every Impid germline gene.
+            if (comp.sourceXenotype == XenotypeDefOf.Baseliner
+                || (comp.sourceXenotype.inheritable && XenogermTraderStockMod.Settings.ImplantsGermlineAsEndogenes))
             {
                 RetargetToEndogenes(pawn, xenogerm);
             }
