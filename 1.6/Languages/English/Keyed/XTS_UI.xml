@@ -15,17 +15,6 @@
   <XTS_IncludePlayerScenario>Include player-scenario xenotypes</XTS_IncludePlayerScenario>
   <XTS_IncludePlayerScenarioDesc>Allow traders to sell xenogerms for the custom xenotypes your scenario's starting colonists were created with. Xenotypes assembled in-game at the gene assembler are never sold.</XTS_IncludePlayerScenarioDesc>
 
-  <XTS_PricingSection>Xenogerm pricing</XTS_PricingSection>
-  <XTS_PricingSectionDesc>Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only.</XTS_PricingSectionDesc>
-  <XTS_BasePresetValue>Base preset value: {0}</XTS_BasePresetValue>
-  <XTS_BasePresetValueDesc>Base silver value added to all preset xenotype xenogerms. Default: {0}</XTS_BasePresetValueDesc>
-  <XTS_ValuePerMetabolism>Value per metabolism: {0}</XTS_ValuePerMetabolism>
-  <XTS_ValuePerMetabolismDesc>Silver value added per point of absolute metabolism. Default: {0}</XTS_ValuePerMetabolismDesc>
-  <XTS_ValuePerComplexity>Value per complexity: {0}</XTS_ValuePerComplexity>
-  <XTS_ValuePerComplexityDesc>Silver value added per point of genetic complexity. Default: {0}</XTS_ValuePerComplexityDesc>
-  <XTS_ValuePerArchite>Value per archite gene: {0}</XTS_ValuePerArchite>
-  <XTS_ValuePerArchiteDesc>Silver value added per archite gene. Default: {0}</XTS_ValuePerArchiteDesc>
-
   <XTS_XenotypesSection>Xenotypes for sale</XTS_XenotypesSection>
   <XTS_XenotypesSectionDesc>Untick a xenotype to keep its xenogerm out of trader stock. Xenotypes greyed out here are switched off by one of the settings above; their own tick is remembered and comes back when that setting is re-enabled. Hover a xenotype for its description and price breakdown.</XTS_XenotypesSectionDesc>
   <XTS_NoXenotypes>No sellable xenotypes are loaded.</XTS_NoXenotypes>
@@ -45,6 +34,17 @@
   <XTS_XenotypePlayerScenario>Defined in your scenario, not by a mod or DLC</XTS_XenotypePlayerScenario>
   <XTS_CustomXenotypeDesc>A custom xenotype your scenario's starting colonists were created with.</XTS_CustomXenotypeDesc>
   <XTS_XenotypeSourceScenario>Scenario</XTS_XenotypeSourceScenario>
+
+  <XTS_PricingSection>Xenogerm pricing</XTS_PricingSection>
+  <XTS_PricingSectionDesc>Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only.</XTS_PricingSectionDesc>
+  <XTS_BasePresetValue>Base preset value: {0}</XTS_BasePresetValue>
+  <XTS_BasePresetValueDesc>Base silver value added to all preset xenotype xenogerms. Default: {0}</XTS_BasePresetValueDesc>
+  <XTS_ValuePerMetabolism>Value per metabolism: {0}</XTS_ValuePerMetabolism>
+  <XTS_ValuePerMetabolismDesc>Silver value added per point of absolute metabolism. Default: {0}</XTS_ValuePerMetabolismDesc>
+  <XTS_ValuePerComplexity>Value per complexity: {0}</XTS_ValuePerComplexity>
+  <XTS_ValuePerComplexityDesc>Silver value added per point of genetic complexity. Default: {0}</XTS_ValuePerComplexityDesc>
+  <XTS_ValuePerArchite>Value per archite gene: {0}</XTS_ValuePerArchite>
+  <XTS_ValuePerArchiteDesc>Silver value added per archite gene. Default: {0}</XTS_ValuePerArchiteDesc>
 
   <XTS_CommonalitySection>Xenotype commonality</XTS_CommonalitySection>
   <XTS_CommonalitySectionDesc>How a trader picks which xenotypes its xenogerms are for. Chances are recomputed from the prices of everything currently sellable, so the choice applies to newly generated stock only.</XTS_CommonalitySectionDesc>
