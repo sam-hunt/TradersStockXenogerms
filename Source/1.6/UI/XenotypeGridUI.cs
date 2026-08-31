@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -33,6 +32,11 @@ namespace XenogermTraderStock
         private static readonly Color GermlineColor = ColorLibrary.Beige;
         private static readonly Color XenogeneColor = new Color(0.55f, 0.85f, 0.95f);
         private static Color PlayerScenarioColor => FactionDefOf.PlayerColony.DefaultColor;
+
+        // Accent on the price list's closing total: the tone of vanilla's
+        // readable tooltip cyan (ColoredText.DateTimeColor), so the one number
+        // the list builds to pops from the uncolored subtotals above it.
+        private static readonly Color TotalPriceColor = new Color(0.53f, 0.96f, 0.96f);
 
         private static XenogermTraderStockSettings Settings => XenogermTraderStockMod.Settings;
 
@@ -157,25 +161,25 @@ namespace XenogermTraderStock
 
             // Formula transparency: one line per pricing component, each ending
             // with its parenthesized subtotal, the final price closing the list.
-            // Components stay the default white; only the total line drops to
-            // footnote grey. Every Translate here is Resolve()d immediately:
-            // a bare TaggedString riding a + chain turns the whole chain into a
-            // TaggedString, and its implicit string conversion is
-            // RawText.StripTags() - one leak decolorizes the entire tooltip.
-            // (Resolve also gold-tints $ amounts, as the old grey line did.)
-            text += "\n\n" + "XTS_PriceBase".Translate(XenogermPricing.BaseXenogermValue.ToStringMoney()).Resolve()
-                + "\n" + "XTS_PricePreset".Translate(settings.basePresetValue.ToStringMoney()).Resolve()
+            // Component lines stay entirely uncolored so the total row is the
+            // list's one accent: default-white text with a cyan price. That
+            // rules out Resolve(), whose CurrencyRegex gold-tints every $
+            // amount - so each Translate is ToString()d instead (RawText, tags
+            // kept), never left to ride the + chain as a bare TaggedString,
+            // whose implicit string conversion is RawText.StripTags() - one
+            // leak decolorizes the entire tooltip.
+            text += "\n\n" + "XTS_PriceBase".Translate(XenogermPricing.BaseXenogermValue.ToStringMoney()).ToString()
+                + "\n" + "XTS_PricePreset".Translate(settings.basePresetValue.ToStringMoney()).ToString()
                 + "\n" + "XTS_PriceMetabolism".Translate(
                     breakdown.AbsoluteMetabolism, settings.valuePerMetabolism.ToString("F0"),
-                    (breakdown.AbsoluteMetabolism * settings.valuePerMetabolism).ToStringMoney()).Resolve()
+                    (breakdown.AbsoluteMetabolism * settings.valuePerMetabolism).ToStringMoney()).ToString()
                 + "\n" + "XTS_PriceComplexity".Translate(
                     breakdown.Complexity, settings.valuePerComplexity.ToString("F0"),
-                    (breakdown.Complexity * settings.valuePerComplexity).ToStringMoney()).Resolve()
+                    (breakdown.Complexity * settings.valuePerComplexity).ToStringMoney()).ToString()
                 + "\n" + "XTS_PriceArchite".Translate(
                     breakdown.Archites, settings.valuePerArchite.ToString("F0"),
-                    (breakdown.Archites * settings.valuePerArchite).ToStringMoney()).Resolve()
-                + "\n" + "XTS_PriceTotal".Translate(price.ToStringMoney())
-                    .Colorize(ColoredText.SubtleGrayColor);
+                    (breakdown.Archites * settings.valuePerArchite).ToStringMoney()).ToString()
+                + "\n" + "XTS_PriceTotal".Translate(price.ToStringMoney().Colorize(TotalPriceColor)).ToString();
 
             // Last line: where the xenotype comes from, as the info card's Source
             // row shows it (vanilla's Stat_Source_Label + the content pack name).

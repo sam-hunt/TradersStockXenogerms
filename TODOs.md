@@ -1,6 +1,5 @@
 # TODOs
 
-- fixing mod settings xenotype grid item tooltip pricing section coloring
 - review pass of all player facing english strings
 - review pass of steam workshop description
 - confirm readme's claim of removal save-safety now we've added more features
