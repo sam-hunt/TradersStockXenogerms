@@ -1,3 +1,4 @@
+using Verse;
 using Xunit;
 
 namespace XenogermTraderStock.Tests
@@ -136,6 +137,73 @@ namespace XenogermTraderStock.Tests
 
             Assert.Empty(settings.soldXenotypes);
             Assert.Empty(settings.soldCustomXenotypes);
+        }
+
+        // The trader count overrides store only deviations from the XML
+        // defaults: a missing entry means "use the def's countRange", so a
+        // fresh instance holds none and reset just empties the dictionary.
+        [Fact]
+        public void NewInstance_TraderCountOverridesAreEmpty()
+        {
+            var settings = new XenogermTraderStockSettings();
+
+            Assert.NotNull(settings.traderCountRanges);
+            Assert.Empty(settings.traderCountRanges);
+        }
+
+        [Fact]
+        public void GetTraderCountRange_UnseenEntryOrNullKey_IsNull()
+        {
+            var settings = new XenogermTraderStockSettings();
+
+            Assert.Null(settings.GetTraderCountRange("Orbital_Exotic"));
+            Assert.Null(settings.GetTraderCountRange(null));
+        }
+
+        [Fact]
+        public void SetTraderCountRange_Upserts_AndIgnoresNullKey()
+        {
+            var settings = new XenogermTraderStockSettings();
+
+            settings.SetTraderCountRange("Orbital_Exotic", new IntRange(1, 3));
+            Assert.Equal(new IntRange(1, 3), settings.GetTraderCountRange("Orbital_Exotic"));
+            Assert.Single(settings.traderCountRanges);
+
+            // Overwrites the same entry rather than adding another.
+            settings.SetTraderCountRange("Orbital_Exotic", new IntRange(0, 5));
+            Assert.Equal(new IntRange(0, 5), settings.GetTraderCountRange("Orbital_Exotic"));
+            Assert.Single(settings.traderCountRanges);
+
+            // A null key is ignored: no throw, no entry.
+            settings.SetTraderCountRange(null, new IntRange(2, 4));
+            Assert.Single(settings.traderCountRanges);
+        }
+
+        [Fact]
+        public void RemoveTraderCountRange_DropsTheEntry_IgnoresNullAndAbsentKeys()
+        {
+            var settings = new XenogermTraderStockSettings();
+            settings.SetTraderCountRange("Orbital_Exotic", new IntRange(1, 3));
+
+            settings.RemoveTraderCountRange("Orbital_Exotic");
+            Assert.Null(settings.GetTraderCountRange("Orbital_Exotic"));
+            Assert.Empty(settings.traderCountRanges);
+
+            // Removing an absent entry or a null key does not throw.
+            settings.RemoveTraderCountRange("Orbital_Exotic");
+            settings.RemoveTraderCountRange(null);
+            Assert.Empty(settings.traderCountRanges);
+        }
+
+        [Fact]
+        public void ResetToDefaults_ClearsTraderCountOverrides()
+        {
+            var settings = new XenogermTraderStockSettings();
+            settings.SetTraderCountRange("Orbital_Exotic", new IntRange(1, 3));
+
+            settings.ResetToDefaults();
+
+            Assert.Empty(settings.traderCountRanges);
         }
 
         [Theory]

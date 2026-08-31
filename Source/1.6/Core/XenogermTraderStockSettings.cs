@@ -43,6 +43,7 @@ namespace XenogermTraderStock
         public override void ExposeData()
         {
             ExposeXenotypeSettings();
+            ExposeQuantitySettings();
             ExposeImplantationSettings();
             ExposePricingSettings();
             ExposeCommonalitySettings();
@@ -52,6 +53,7 @@ namespace XenogermTraderStock
         public void ResetToDefaults()
         {
             ResetXenotypeSettings();
+            ResetQuantitySettings();
             ResetImplantationSettings();
             ResetPricingSettings();
             ResetCommonalitySettings();
@@ -87,6 +89,7 @@ namespace XenogermTraderStock
             listing.Gap();
 
             DrawXenotypesSection(listing);
+            DrawQuantitySection(listing);
             DrawImplantationSection(listing);
             DrawPricingSection(listing);
             DrawCommonalitySection(listing);

@@ -28,6 +28,12 @@
   <XTS_CustomXenotypeDesc>A custom xenotype your scenario's starting colonists were created with.</XTS_CustomXenotypeDesc>
   <XTS_XenotypeSourceScenario>Scenario</XTS_XenotypeSourceScenario>
 
+  <XTS_QuantitySection>Stock quantity</XTS_QuantitySection>
+  <XTS_QuantitySectionDesc>How many xenogerms each trader kind carries, rolled from the range for every new trader. Changes affect newly generated traders only.</XTS_QuantitySectionDesc>
+  <!-- {0}: trader kind label, {1}/{2}: current minimum/maximum count -->
+  <XTS_TraderCount>{0}: {1}~{2}</XTS_TraderCount>
+  <XTS_TraderCountDesc>The number of xenogerms this trader arrives with, rolled from this range each visit. Default: {0}~{1}</XTS_TraderCountDesc>
+
   <XTS_ImplantationSection>Implantation</XTS_ImplantationSection>
   <XTS_ImplantationSectionDesc>How trader-sold xenogerms behave when implanted.</XTS_ImplantationSectionDesc>
   <XTS_ImplantGermlineAsEndogenes>Implant germline xenotypes as endogenes</XTS_ImplantGermlineAsEndogenes>

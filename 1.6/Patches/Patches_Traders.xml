@@ -9,4 +9,17 @@
       </li>
     </value>
   </Operation>
+
+  <!-- Add xenogerm stock generator to the Exotic Goods ground caravan: a rarer
+       find than the orbital trader, hence the lower ceiling. Each countRange
+       here is that trader's SHIPPED DEFAULT - the settings' per-trader stock
+       quantity overrides fall back to it when unset. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/TraderKindDef[defName="Caravan_Outlander_Exotic"]/stockGenerators</xpath>
+    <value>
+      <li Class="XenogermTraderStock.StockGenerator_Xenogerms">
+        <countRange>0~1</countRange>
+      </li>
+    </value>
+  </Operation>
 </Patch>
