@@ -140,12 +140,22 @@ namespace XenogermTraderStock
 
             TextAnchor prevAnchor = Text.Anchor;
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(new Rect(rect.x, rect.y, rect.width - CheckboxSize, rect.height), label);
+            Rect labelRect = new Rect(rect.x, rect.y, rect.width - CheckboxSize, rect.height);
+            Widgets.Label(labelRect, label);
             Text.Anchor = prevAnchor;
 
             Rect checkboxRect = new Rect(rect.xMax - CheckboxSize,
                 rect.y + ((rect.height - CheckboxSize) / 2f), CheckboxSize, CheckboxSize);
             MultiCheckboxState newState = Widgets.CheckboxMulti(checkboxRect, state);
+            // The label half of the row is a click target too, the way vanilla
+            // CheckboxLabeled spans its whole row: same binary cycle CheckboxMulti
+            // applies on a click (on/partial -> off, off -> on), same sounds.
+            if (newState == state && Widgets.ButtonInvisible(labelRect))
+            {
+                newState = state == MultiCheckboxState.Off ? MultiCheckboxState.On : MultiCheckboxState.Off;
+                (newState == MultiCheckboxState.On ? SoundDefOf.Checkbox_TurnedOn : SoundDefOf.Checkbox_TurnedOff)
+                    .PlayOneShotOnCamera();
+            }
             if (newState != state)
             {
                 // CheckboxMulti only ever returns On or Off from a click.
