@@ -49,6 +49,7 @@ namespace XenogermTraderStock
             ExposeCategorySettings();
             ExposePricingSettings();
             ExposeXenotypeSettings();
+            ExposeCommonalitySettings();
             base.ExposeData();
         }
 
@@ -57,6 +58,7 @@ namespace XenogermTraderStock
             ResetCategorySettings();
             ResetPricingSettings();
             ResetXenotypeSettings();
+            ResetCommonalitySettings();
         }
 
         public void DoWindowContents(Rect inRect)
@@ -91,6 +93,7 @@ namespace XenogermTraderStock
             DrawCategoriesSection(listing);
             DrawPricingSection(listing);
             DrawXenotypesSection(listing);
+            DrawCommonalitySection(listing);
 
             Text.Font = prevFont;
             contentHeight = listing.CurHeight;

@@ -10,44 +10,42 @@ namespace XenogermTraderStock
     {
         public override IEnumerable<Thing> GenerateThings(PlanetTile forTile, Faction faction = null)
         {
-            var validXenotypes = GetValidXenotypes().ToList();
-            var validCustomXenotypes = GetValidCustomXenotypes().ToList();
+            // Combined preset + custom pool with a parallel price list: the
+            // commonality strategy is pool-relative (the bell curve centres on
+            // the pool's median price), so weights are computed in one pass over
+            // everything sellable rather than per option.
+            var options = new List<(object xenotype, bool isCustom)>();
+            var prices = new List<float>();
 
-            int totalOptions = validXenotypes.Count + validCustomXenotypes.Count;
-            if (totalOptions == 0)
+            foreach (var xenotype in GetValidXenotypes())
+            {
+                options.Add((xenotype, false));
+                prices.Add(XenogermPricing.EstimateMarketValue(xenotype.genes));
+            }
+
+            foreach (var customXenotype in GetValidCustomXenotypes())
+            {
+                options.Add((customXenotype, true));
+                prices.Add(XenogermPricing.EstimateMarketValue(customXenotype.genes));
+            }
+
+            if (options.Count == 0)
             {
                 yield break;
             }
 
-            // Build combined list with weights for weighted selection
-            var weightedOptions = new List<(object xenotype, bool isCustom, float weight)>();
-
-            // Inverse weighting - cheaper xenogerms spawn more frequently
-            foreach (var xenotype in validXenotypes)
-            {
-                float weight = 1f / XenogermPricing.EstimateMarketValue(xenotype.genes);
-                weightedOptions.Add((xenotype, false, weight));
-            }
-
-            foreach (var customXenotype in validCustomXenotypes)
-            {
-                float weight = 1f / XenogermPricing.EstimateMarketValue(customXenotype.genes);
-                weightedOptions.Add((customXenotype, true, weight));
-            }
+            float[] weights = XenogermCommonality.Weights(prices,
+                XenogermTraderStockMod.Settings.selectionStrategy);
 
             int count = countRange.RandomInRange;
             for (int i = 0; i < count; i++)
             {
-                var selected = weightedOptions.RandomElementByWeight(opt => opt.weight);
+                int index = Enumerable.Range(0, options.Count).RandomElementByWeight(j => weights[j]);
+                var selected = options[index];
 
-                if (selected.isCustom)
-                {
-                    yield return XenogermFactory.CreateForCustomXenotype((CustomXenotype)selected.xenotype);
-                }
-                else
-                {
-                    yield return XenogermFactory.CreateForXenotype((XenotypeDef)selected.xenotype);
-                }
+                yield return selected.isCustom
+                    ? XenogermFactory.CreateForCustomXenotype((CustomXenotype)selected.xenotype)
+                    : XenogermFactory.CreateForXenotype((XenotypeDef)selected.xenotype);
             }
         }
 

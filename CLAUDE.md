@@ -64,6 +64,7 @@ Source/1.6/                         # Family layout: one folder per concern, roo
 │   ├── XenogermTraderStockSettings.cs  # Settings frame: scroll/reset window, Expose/Reset fan-out, row helpers
 │   └── Settings/                       # One partial-class file per settings section (fields, scribe, defaults, draw)
 │       ├── Settings_Categories.cs      # Archite / inheritable / player-scenario toggles, endogene implant gate
+│       ├── Settings_Commonality.cs     # Stock-selection strategy radio group
 │       ├── Settings_Pricing.cs         # Pricing sliders: defaults, ranges, snap steps
 │       └── Settings_Xenotypes.cs       # Per-xenotype blacklist sets + the grid section
 ├── Comps/
@@ -78,6 +79,7 @@ Source/1.6/                         # Family layout: one folder per concern, roo
 │   └── StatPart_XenogermSellFactor.cs  # SellPriceFactor stat for archite bonus
 ├── Traders/
 │   ├── StockGenerator_Xenogerms.cs     # Trader stock generation with weighted rates
+│   ├── XenogermCommonality.cs          # Stateless price->spawn-weight strategies (inverse/soft/price/bell/uniform)
 │   └── XenogermFactory.cs              # Creates xenogerm Things from definitions
 ├── Xenotypes/
 │   ├── XenotypeEligibility.cs          # Derived "may traders sell this xenotype?" state
@@ -138,7 +140,7 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 
 **Pricing via StatParts:** Market value and sell factor are calculated dynamically using `StatPart` classes rather than fixed values. This allows xenogerm prices to reflect their gene composition. Only xenogerms with `CompXenotypeSource.sourceXenotype != null` get premium pricing — player-crafted xenogerms retain the base 20 silver value.
 
-**Stock Generation:** `StockGenerator_Xenogerms` is injected into trader defs via XML patches. It queries `DefDatabase<XenotypeDef>` at generation time, filtering through `XenotypeEligibility.IsSellable` and weighting spawn probability inversely by price.
+**Stock Generation:** `StockGenerator_Xenogerms` is injected into trader defs via XML patches. It queries `DefDatabase<XenotypeDef>` at generation time, filtering through `XenotypeEligibility.IsSellable` and weighting spawn probability by the settings-chosen `XenogermCommonality` strategy (default: inverse price; all strategies are stateless and pool-relative — the bell curve centres on the pool's median).
 
 **Per-xenotype filtering (derived state):** `XenotypeEligibility` is the only place that decides whether a xenotype is sellable; both the generator and the settings grid read it. Inputs are the three category toggles (archite / inheritable / player-scenario) and the per-xenotype blacklist on settings (`excludedXenotypes` by defName, `excludedCustomXenotypes` by `CustomXenotype.name`). The UI presents a whitelist (checked = sold) but stores a blacklist so defaults are "everything on" and xenotypes added/removed by other mods need no migration. A category toggle overrides the per-xenotype choice (cell greys out, unchecked, inert; tooltip still shows) without touching the stored entry, so re-enabling the category restores it. Never read the blacklist directly from generation code.
 
@@ -159,7 +161,7 @@ Default pricing settings:
 
 ## Testing
 
-`Tests/1.6/` holds an xUnit (net472) suite for the pure logic: `XenogermPricing` breakdown/market-value math, settings defaults/`ResetToDefaults`, and the inverse-price spawn-weight formula. Tests are headless — no live game context (`GeneDef`s are built uninitialized via `FormatterServices`); anything needing `DefDatabase`/`Current.Game` is out of scope. Run natively with `dotnet test Tests/1.6/XenogermTraderStock.Tests.csproj` — vstest hosts the net472 suite via mono. If a run fails with `BadImageFormatException`/`TypeLoadException`, a DLL is missing from the test csproj copy target (see the Assembly-CSharp-firstpass comment there): mono resolves field types eagerly where the Windows CLR is lazy. CI builds the Tests project but does not run it.
+`Tests/1.6/` holds an xUnit (net472) suite for the pure logic: `XenogermPricing` breakdown/market-value math, settings defaults/`ResetToDefaults`, and the `XenogermCommonality` spawn-weight strategies. Tests are headless — no live game context (`GeneDef`s are built uninitialized via `FormatterServices`); anything needing `DefDatabase`/`Current.Game` is out of scope. Run natively with `dotnet test Tests/1.6/XenogermTraderStock.Tests.csproj` — vstest hosts the net472 suite via mono. If a run fails with `BadImageFormatException`/`TypeLoadException`, a DLL is missing from the test csproj copy target (see the Assembly-CSharp-firstpass comment there): mono resolves field types eagerly where the Windows CLR is lazy. CI builds the Tests project but does not run it.
 
 **Startup smoke test (pre-release):** `python3 Scripts/integration-smoke-test.py` (game closed) boots the *deployed* copy of the mod on its pinned minimal list (Biotech plus VEF core + Vanilla Races Expanded - Android, so `Patches_VREAndroid.xml`'s `FindMod` branch actually executes) — it does not build, and only `-c Release` builds deploy, so run the Release build first or it silently tests the previous DLL. It then classifies Player.log errors by origin and fails on anything attributed to this mod. Run before every release (wired into the release skill); thin shim over the shared engine in `l10n/smoke/` (born from the BetterTradersGuild v1.1.0 CWTL incident).
 

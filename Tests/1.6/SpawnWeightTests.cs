@@ -5,11 +5,13 @@ using Xunit;
 namespace XenogermTraderStock.Tests
 {
     // StockGenerator_Xenogerms.GenerateThings weights spawn selection by
-    // `1f / XenogermPricing.EstimateMarketValue(genes)` — cheaper xenogerms
-    // spawn more often. GenerateThings itself needs a PlanetTile, a Faction,
-    // and DefDatabase<XenotypeDef> contents, so it isn't headless-testable;
-    // what's pure is the weight formula it feeds RandomElementByWeight. These
-    // tests exercise that formula directly against XenogermPricing.
+    // XenogermCommonality.Weights over the pool's estimated market values —
+    // under the default InversePrice strategy, cheaper xenogerms spawn more
+    // often. GenerateThings itself needs a PlanetTile, a Faction, and
+    // DefDatabase<XenotypeDef> contents, so it isn't headless-testable; what's
+    // pure is the price-to-weight pipeline it feeds RandomElementByWeight.
+    // These tests exercise that pipeline for the default strategy; the other
+    // strategies' math lives in XenogermCommonalityTests.
     [Collection("XenogermPricing")]
     public class SpawnWeightTests
     {
@@ -20,7 +22,9 @@ namespace XenogermTraderStock.Tests
 
         private static float Weight(IEnumerable<GeneDef> genes)
         {
-            return 1f / XenogermPricing.EstimateMarketValue(genes);
+            return XenogermCommonality.Weights(
+                new[] { XenogermPricing.EstimateMarketValue(genes) },
+                XenogermSelectionStrategy.InversePrice)[0];
         }
 
         [Fact]

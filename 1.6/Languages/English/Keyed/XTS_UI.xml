@@ -46,6 +46,19 @@
   <XTS_CustomXenotypeDesc>A custom xenotype your scenario's starting colonists were created with.</XTS_CustomXenotypeDesc>
   <XTS_XenotypeSourceScenario>Scenario</XTS_XenotypeSourceScenario>
 
+  <XTS_CommonalitySection>Xenotype commonality</XTS_CommonalitySection>
+  <XTS_CommonalitySectionDesc>How a trader picks which xenotypes its xenogerms are for. Chances are recomputed from the prices of everything currently sellable, so the choice applies to newly generated stock only.</XTS_CommonalitySectionDesc>
+  <XTS_StrategyInversePrice>Inverse price</XTS_StrategyInversePrice>
+  <XTS_StrategyInversePriceDesc>Cheaper xenogerms are more common: each xenotype's chance is proportional to 1 divided by its price. Expensive archite xenogerms stay rare finds.</XTS_StrategyInversePriceDesc>
+  <XTS_StrategySoftInversePrice>Inverse price, softened</XTS_StrategySoftInversePrice>
+  <XTS_StrategySoftInversePriceDesc>Cheaper xenogerms are still more common, but the bias is gentler: each xenotype's chance is proportional to 1 divided by the square root of its price.</XTS_StrategySoftInversePriceDesc>
+  <XTS_StrategyPrice>Price</XTS_StrategyPrice>
+  <XTS_StrategyPriceDesc>Pricier xenogerms are more common: each xenotype's chance is proportional to its price.</XTS_StrategyPriceDesc>
+  <XTS_StrategyBellCurve>Bell curve</XTS_StrategyBellCurve>
+  <XTS_StrategyBellCurveDesc>Mid-priced xenogerms are the most common: chances follow a bell curve centred on the median price of everything sellable, so the cheapest and the priciest are both rare.</XTS_StrategyBellCurveDesc>
+  <XTS_StrategyUniform>Uniform</XTS_StrategyUniform>
+  <XTS_StrategyUniformDesc>Every sellable xenotype is equally likely, regardless of price.</XTS_StrategyUniformDesc>
+
   <XTS_DefaultSuffix> (default)</XTS_DefaultSuffix>
   <XTS_ResetToDefaults>Reset to defaults</XTS_ResetToDefaults>
 
