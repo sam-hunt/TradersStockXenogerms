@@ -44,8 +44,8 @@ namespace XenogermTraderStock
         {
             ExposeXenotypeSettings();
             ExposePricingSettings();
-            ExposeQuantitySettings();
             ExposeImplantationSettings();
+            ExposeQuantitySettings();
             ExposeCommonalitySettings();
             base.ExposeData();
         }
@@ -54,8 +54,8 @@ namespace XenogermTraderStock
         {
             ResetXenotypeSettings();
             ResetPricingSettings();
-            ResetQuantitySettings();
             ResetImplantationSettings();
+            ResetQuantitySettings();
             ResetCommonalitySettings();
         }
 
@@ -90,8 +90,8 @@ namespace XenogermTraderStock
 
             DrawXenotypesSection(listing);
             DrawPricingSection(listing);
-            DrawQuantitySection(listing);
             DrawImplantationSection(listing);
+            DrawQuantitySection(listing);
             DrawCommonalitySection(listing);
 
             Text.Font = prevFont;
