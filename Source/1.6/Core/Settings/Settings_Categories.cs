@@ -61,12 +61,14 @@ namespace XenogermTraderStock
                 "XTS_IncludeInheritableDesc".Translate());
 
             // Gated on the row above: without germline xenogerms in stock there is
-            // nothing for it to act on, so it greys out and shows unchecked.
+            // nothing for it to act on, so it greys out and shows unchecked. The
+            // indent marks it as a child of that row.
             CheckboxLabeledGated(listing,
                 "XTS_ImplantGermlineAsEndogenes".Translate(),
                 ref implantGermlineAsEndogenes,
                 "XTS_ImplantGermlineAsEndogenesDesc".Translate("XTS_IncludeInheritable".Translate()),
-                enabled: includeInheritableXenotypes);
+                enabled: includeInheritableXenotypes,
+                indent: DependentRowIndent);
 
             listing.CheckboxLabeled(
                 "XTS_IncludePlayerScenario".Translate(),

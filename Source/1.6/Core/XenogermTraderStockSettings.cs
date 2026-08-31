@@ -34,6 +34,10 @@ namespace XenogermTraderStock
         // its neighbours.
         private const float SectionGap = 18f;
 
+        // Left indent for a row gated on the row above it, marking it visually
+        // as a child. One checkbox width, so the nesting is legible at a glance.
+        private const float DependentRowIndent = 24f;
+
         // Presentation state for the scroll view, deliberately not scribed.
         private Vector2 scrollPosition;
         private float contentHeight;
@@ -140,32 +144,43 @@ namespace XenogermTraderStock
         // shown UNCHECKED (the effective state, since the feature can't run) while
         // the stored value stays untouched and reappears once re-enabled.
         private static void CheckboxLabeledGated(Listing_Standard listing, string label, ref bool value,
-            string tooltip, bool enabled)
+            string tooltip, bool enabled, float indent = 0f)
         {
+            // Listing.Indent only moves curX while GetRect keeps handing out
+            // ColumnWidth-wide rects, so shrink ColumnWidth in step: the row's
+            // right edge (and its checkbox) stays aligned with sibling rows and
+            // only the label steps in.
+            listing.Indent(indent);
+            listing.ColumnWidth -= indent;
+
             if (enabled)
             {
                 listing.CheckboxLabeled(label, ref value, tooltip);
-                return;
+            }
+            else
+            {
+                // Mirror Listing_Standard.CheckboxLabeled's rect/tooltip handling, but
+                // draw through Widgets' disabled path with a throwaway unchecked state.
+                bool prevGuiEnabled = GUI.enabled;
+                GUI.enabled = false;
+                float height = Text.CalcHeight(label, listing.ColumnWidth);
+                Rect rect = listing.GetRect(height);
+                if (!tooltip.NullOrEmpty())
+                {
+                    if (Mouse.IsOver(rect))
+                    {
+                        Widgets.DrawHighlight(rect);
+                    }
+                    TooltipHandler.TipRegion(rect, tooltip);
+                }
+                bool shownUnchecked = false;
+                Widgets.CheckboxLabeled(rect, label, ref shownUnchecked, disabled: true);
+                listing.Gap(listing.verticalSpacing);
+                GUI.enabled = prevGuiEnabled;
             }
 
-            // Mirror Listing_Standard.CheckboxLabeled's rect/tooltip handling, but
-            // draw through Widgets' disabled path with a throwaway unchecked state.
-            bool prevGuiEnabled = GUI.enabled;
-            GUI.enabled = false;
-            float height = Text.CalcHeight(label, listing.ColumnWidth);
-            Rect rect = listing.GetRect(height);
-            if (!tooltip.NullOrEmpty())
-            {
-                if (Mouse.IsOver(rect))
-                {
-                    Widgets.DrawHighlight(rect);
-                }
-                TooltipHandler.TipRegion(rect, tooltip);
-            }
-            bool shownUnchecked = false;
-            Widgets.CheckboxLabeled(rect, label, ref shownUnchecked, disabled: true);
-            listing.Gap(listing.verticalSpacing);
-            GUI.enabled = prevGuiEnabled;
+            listing.ColumnWidth += indent;
+            listing.Outdent(indent);
         }
     }
 }
