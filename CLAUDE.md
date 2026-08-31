@@ -156,10 +156,10 @@ SellPriceFactor = 0.05 (base) + (archites × 0.035)
 ```
 
 Default pricing settings:
-- `basePresetValue`: 1300 (range: 0-3000)
-- `valuePerMetabolism`: 10 (range: 0-50)
-- `valuePerComplexity`: 15 (range: 0-75)
-- `valuePerArchite`: 100 (range: 0-500)
+- `basePresetValue`: 1300 (range: 0-5000)
+- `valuePerMetabolism`: 10 (range: 0-100)
+- `valuePerComplexity`: 15 (range: 0-100)
+- `valuePerArchite`: 100 (range: 0-1000)
 
 ## Testing
 

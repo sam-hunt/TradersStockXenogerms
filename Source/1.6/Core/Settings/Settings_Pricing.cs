@@ -27,16 +27,16 @@ namespace XenogermTraderStock
         // is unlandable by mouse and meaningless in play. Every default must sit
         // on its step grid so the "(default)" suffix is reachable by dragging.
         public const float MinBasePresetValue = 0f;
-        public const float MaxBasePresetValue = 3000f;
+        public const float MaxBasePresetValue = 5000f;
         public const float StepBasePresetValue = 50f;
         public const float MinValuePerMetabolism = 0f;
-        public const float MaxValuePerMetabolism = 50f;
+        public const float MaxValuePerMetabolism = 100f;
         public const float StepValuePerMetabolism = 5f;
         public const float MinValuePerComplexity = 0f;
-        public const float MaxValuePerComplexity = 75f;
+        public const float MaxValuePerComplexity = 100f;
         public const float StepValuePerComplexity = 5f;
         public const float MinValuePerArchite = 0f;
-        public const float MaxValuePerArchite = 500f;
+        public const float MaxValuePerArchite = 1000f;
         public const float StepValuePerArchite = 25f;
 
         private void ExposePricingSettings()
