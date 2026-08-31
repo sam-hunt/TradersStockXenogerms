@@ -82,9 +82,19 @@ namespace XenogermTraderStock
             return genes.Any(g => g.GetModExtension<GeneExtension>()?.excludeFromXenogermStock == true);
         }
 
+        // Baseliner's def is not inheritable (there are no genes to inherit),
+        // but its xenogerm always rewrites the germline - the implant patch's
+        // unconditional retarget - so for category gating it counts as
+        // inheritable: a player who switched germline xenogerms out of stock
+        // keeps germline-wiping items out too.
+        private static bool GatesAsInheritable(XenotypeDef xenotype)
+        {
+            return xenotype.inheritable || xenotype == XenotypeDefOf.Baseliner;
+        }
+
         public static CategoryBlock GetCategoryBlock(XenotypeDef xenotype)
         {
-            return GetCategoryBlock(Settings, xenotype.Archite, xenotype.inheritable, playerScenario: false);
+            return GetCategoryBlock(Settings, xenotype.Archite, GatesAsInheritable(xenotype), playerScenario: false);
         }
 
         public static CategoryBlock GetCategoryBlock(CustomXenotype xenotype)
@@ -95,7 +105,7 @@ namespace XenogermTraderStock
         public static bool IsSellable(XenotypeDef xenotype)
         {
             return IsCandidate(xenotype)
-                && IsSellable(Settings, xenotype.Archite, xenotype.inheritable, playerScenario: false,
+                && IsSellable(Settings, xenotype.Archite, GatesAsInheritable(xenotype), playerScenario: false,
                     excluded: Settings.IsXenotypeExcluded(xenotype.defName));
         }
 
