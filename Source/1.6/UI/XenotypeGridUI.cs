@@ -33,10 +33,10 @@ namespace XenogermTraderStock
         private static readonly Color XenogeneColor = new Color(0.55f, 0.85f, 0.95f);
         private static Color PlayerScenarioColor => FactionDefOf.PlayerColony.DefaultColor;
 
-        // Accent on the price list's closing total: the tone of vanilla's
-        // readable tooltip cyan (ColoredText.DateTimeColor), so the one number
-        // the list builds to pops from the uncolored subtotals above it.
-        private static readonly Color TotalPriceColor = new Color(0.53f, 0.96f, 0.96f);
+        // Accent on the price list's closing total row: full bright cyan, so
+        // the one line the list builds to pops from the uncolored component
+        // rows above it.
+        private static readonly Color TotalPriceColor = Color.cyan;
 
         private static XenogermTraderStockSettings Settings => XenogermTraderStockMod.Settings;
 
@@ -159,27 +159,35 @@ namespace XenogermTraderStock
                     .Colorize(ColorLibrary.RedReadable);
             }
 
-            // Formula transparency: one line per pricing component, each ending
-            // with its parenthesized subtotal, the final price closing the list.
-            // Component lines stay entirely uncolored so the total row is the
-            // list's one accent: default-white text with a cyan price. That
-            // rules out Resolve(), whose CurrencyRegex gold-tints every $
-            // amount - so each Translate is ToString()d instead (RawText, tags
-            // kept), never left to ride the + chain as a bare TaggedString,
-            // whose implicit string conversion is RawText.StripTags() - one
-            // leak decolorizes the entire tooltip.
-            text += "\n\n" + "XTS_PriceBase".Translate(XenogermPricing.BaseXenogermValue.ToStringMoney()).ToString()
-                + "\n" + "XTS_PricePreset".Translate(settings.basePresetValue.ToStringMoney()).ToString()
-                + "\n" + "XTS_PriceMetabolism".Translate(
-                    breakdown.AbsoluteMetabolism, settings.valuePerMetabolism.ToString("F0"),
-                    (breakdown.AbsoluteMetabolism * settings.valuePerMetabolism).ToStringMoney()).ToString()
-                + "\n" + "XTS_PriceComplexity".Translate(
-                    breakdown.Complexity, settings.valuePerComplexity.ToString("F0"),
-                    (breakdown.Complexity * settings.valuePerComplexity).ToStringMoney()).ToString()
-                + "\n" + "XTS_PriceArchite".Translate(
-                    breakdown.Archites, settings.valuePerArchite.ToString("F0"),
-                    (breakdown.Archites * settings.valuePerArchite).ToStringMoney()).ToString()
-                + "\n" + "XTS_PriceTotal".Translate(price.ToStringMoney().Colorize(TotalPriceColor)).ToString();
+            // Formula transparency: one line per pricing component, its silver
+            // amount hung off a right-aligned column, the total closing the
+            // list as the one accent - its full row in bright cyan, colorized
+            // after alignment so padding is measured on plain text. Component
+            // rows stay entirely uncolored, which rules out Resolve(): its
+            // CurrencyRegex gold-tints every $ amount. Each Translate is
+            // ToString()d (RawText, tags kept) rather than left to ride the +
+            // chain as a bare TaggedString, whose implicit string conversion
+            // is RawText.StripTags() - one leak decolorizes the entire tooltip.
+            var priceRows = new List<(string label, string money)>
+            {
+                ("XTS_PriceBase".Translate().ToString(),
+                    XenogermPricing.BaseXenogermValue.ToStringMoney()),
+                ("XTS_PricePreset".Translate().ToString(),
+                    settings.basePresetValue.ToStringMoney()),
+                ("XTS_PriceMetabolism".Translate(
+                        breakdown.AbsoluteMetabolism, settings.valuePerMetabolism.ToString("F0")).ToString(),
+                    (breakdown.AbsoluteMetabolism * settings.valuePerMetabolism).ToStringMoney()),
+                ("XTS_PriceComplexity".Translate(
+                        breakdown.Complexity, settings.valuePerComplexity.ToString("F0")).ToString(),
+                    (breakdown.Complexity * settings.valuePerComplexity).ToStringMoney()),
+                ("XTS_PriceArchite".Translate(
+                        breakdown.Archites, settings.valuePerArchite.ToString("F0")).ToString(),
+                    (breakdown.Archites * settings.valuePerArchite).ToStringMoney()),
+                ("XTS_PriceTotal".Translate().ToString(), price.ToStringMoney()),
+            };
+            List<string> priceLines = AlignPriceColumn(priceRows);
+            text += "\n\n" + string.Join("\n", priceLines.Take(priceLines.Count - 1))
+                + "\n" + priceLines[priceLines.Count - 1].Colorize(TotalPriceColor);
 
             // Last line: where the xenotype comes from, as the info card's Source
             // row shows it (vanilla's Stat_Source_Label + the content pack name).
@@ -211,6 +219,46 @@ namespace XenogermTraderStock
                 lines.Add("XTS_XenotypePlayerScenario".Translate().Colorize(PlayerScenarioColor));
             }
             return string.Join("\n", lines);
+        }
+
+        // Vanilla tooltips are a single rich-text label and IMGUI markup has no
+        // alignment or tab stops, so the money column is right-aligned the only
+        // way text allows: each line padded with spaces measured against the
+        // widest row. Space-width quantization can wobble an edge by a pixel or
+        // two. ActiveTip.DrawTooltip sets GameFont.Small before resolving the
+        // tip text, so CalcSize here measures the font the tooltip draws with;
+        // the font is still pinned locally because BuildTooltip's other callers
+        // (none today) owe no such guarantee.
+        private static List<string> AlignPriceColumn(List<(string label, string money)> rows)
+        {
+            // The tooltip box caps content at 260px minus 4px padding a side;
+            // rows aligned past that would word-wrap, which reads worse than a
+            // shorter column, so the widest rows just keep the minimum gap.
+            const float maxColumnWidth = 252f;
+            const int minGapSpaces = 2;
+
+            GameFont prevFont = Text.Font;
+            Text.Font = GameFont.Small;
+
+            float spaceWidth = Text.CalcSize("$ $").x - Text.CalcSize("$$").x;
+            float rightEdge = 0f;
+            foreach ((string label, string money) in rows)
+            {
+                rightEdge = Mathf.Max(rightEdge,
+                    Text.CalcSize(label).x + (minGapSpaces * spaceWidth) + Text.CalcSize(money).x);
+            }
+            rightEdge = Mathf.Min(rightEdge, maxColumnWidth);
+
+            var lines = new List<string>(rows.Count);
+            foreach ((string label, string money) in rows)
+            {
+                float pad = rightEdge - Text.CalcSize(label).x - Text.CalcSize(money).x;
+                int spaces = Mathf.Max(minGapSpaces, Mathf.RoundToInt(pad / spaceWidth));
+                lines.Add(label + new string(' ', spaces) + money);
+            }
+
+            Text.Font = prevFont;
+            return lines;
         }
 
         private static string BlockSettingKey(XenotypeEligibility.CategoryBlock block)

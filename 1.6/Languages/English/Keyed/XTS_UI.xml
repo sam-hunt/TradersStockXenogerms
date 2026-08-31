@@ -29,14 +29,15 @@
   <XTS_XenotypesSection>Xenotypes for sale</XTS_XenotypesSection>
   <XTS_XenotypesSectionDesc>Untick a xenotype to keep its xenogerm out of trader stock. Xenotypes greyed out here are switched off by one of the settings above; their own tick is remembered and comes back when that setting is re-enabled. Hover a xenotype for its description and price breakdown.</XTS_XenotypesSectionDesc>
   <XTS_NoXenotypes>No sellable xenotypes are loaded.</XTS_NoXenotypes>
-  <!-- Price breakdown: one line per formula component, each ending with its parenthesized silver subtotal; the total line closes the list -->
-  <XTS_PriceBase>Base xenogerm ({0})</XTS_PriceBase>
-  <XTS_PricePreset>Preset xenotype ({0})</XTS_PricePreset>
-  <!-- {0}: stat point count, {1}: silver per point, {2}: parenthesized subtotal -->
-  <XTS_PriceMetabolism>Metabolism {0} × {1} ({2})</XTS_PriceMetabolism>
-  <XTS_PriceComplexity>Complexity {0} × {1} ({2})</XTS_PriceComplexity>
-  <XTS_PriceArchite>Archite genes {0} × {1} ({2})</XTS_PriceArchite>
-  <XTS_PriceTotal>Price ({0})</XTS_PriceTotal>
+  <!-- Price breakdown labels: one line per formula component, the total closing the list. The silver
+       amounts are no longer part of these strings - code appends each as a right-aligned column. -->
+  <XTS_PriceBase>Base xenogerm</XTS_PriceBase>
+  <XTS_PricePreset>Preset xenotype</XTS_PricePreset>
+  <!-- {0}: stat point count, {1}: silver per point -->
+  <XTS_PriceMetabolism>Metabolism {0} × {1}</XTS_PriceMetabolism>
+  <XTS_PriceComplexity>Complexity {0} × {1}</XTS_PriceComplexity>
+  <XTS_PriceArchite>Archite genes {0} × {1}</XTS_PriceArchite>
+  <XTS_PriceTotal>Price</XTS_PriceTotal>
   <XTS_XenotypeBlockedBy>Not sold: '{0}' is switched off above.</XTS_XenotypeBlockedBy>
   <XTS_XenotypeArchite>Contains archite genes</XTS_XenotypeArchite>
   <XTS_XenotypeEndogenes>Contains endogenes</XTS_XenotypeEndogenes>
