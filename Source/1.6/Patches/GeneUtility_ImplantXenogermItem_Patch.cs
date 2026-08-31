@@ -34,7 +34,7 @@ namespace XenogermTraderStock.Patches
     // - Proper xenotype display in social/info panels (label, icon, info-card link)
     // - "Naturalized" members of germline xenotypes (e.g., Impid) for social purposes
     //
-    // Optionally (settings.ImplantsGermlineAsEndogenes), a germline xenotype's genes
+    // Optionally (settings.implantGermlineAsEndogenes), a germline xenotype's genes
     // replace the pawn's endogenes - what PawnGenerator produces for a born member of an
     // inheritable xenotype (SetXenotype adds them as endogenes) - so children inherit them
     // and a later xenogerm implant stacks on top rather than wiping them. Vanilla's own
@@ -65,7 +65,7 @@ namespace XenogermTraderStock.Patches
             // Without this, an Impid implanted with a baseliner xenogerm would
             // be relabeled Baseliner while keeping every Impid germline gene.
             if (comp.sourceXenotype == XenotypeDefOf.Baseliner
-                || (comp.sourceXenotype.inheritable && XenogermTraderStockMod.Settings.ImplantsGermlineAsEndogenes))
+                || (comp.sourceXenotype.inheritable && XenogermTraderStockMod.Settings.implantGermlineAsEndogenes))
             {
                 RetargetToEndogenes(pawn, xenogerm);
             }

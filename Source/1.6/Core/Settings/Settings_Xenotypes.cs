@@ -3,73 +3,76 @@ using Verse;
 
 namespace XenogermTraderStock
 {
-    // "Xenotypes for sale" settings section: the per-xenotype opt-outs behind the
-    // toggle grid (UI/XenotypeGridUI.cs draws it).
+    // "Xenotypes for sale" settings section: the per-xenotype sold ledger
+    // behind the toggle grid and its category filter rows (UI/XenotypeGridUI.cs
+    // draws both).
     //
-    // The grid presents a whitelist (checked = sold) but the sets below store a
-    // BLACKLIST, so the default is "everything on" and a xenotype added or
-    // removed by another mod needs no migration: unknown names are simply never
-    // matched. Presets are keyed by defName, player-scenario xenotypes by
-    // CustomXenotype.name (they have no def). Read through XenotypeEligibility
-    // rather than directly - these are only one input to the derived sellable
-    // state, and a category toggle above overrides them without touching them.
+    // The ledger stores an EXPLICIT sold bool for every xenotype ever seen -
+    // presets keyed by defName, player-scenario xenotypes by
+    // CustomXenotype.name (they have no def). A missing entry means the
+    // xenotype has never been loaded on this install;
+    // XenotypeEligibility.SeedUnseen writes it the first time it shows up,
+    // majority-voted from its category peers. Entries whose xenotype is no
+    // longer loaded stay dormant rather than being pruned, so a temporarily
+    // disabled mod keeps its choices. Read through XenotypeEligibility rather
+    // than directly - it owns candidacy and seeding.
     public partial class XenogermTraderStockSettings
     {
-        public HashSet<string> excludedXenotypes = new HashSet<string>();
-        public HashSet<string> excludedCustomXenotypes = new HashSet<string>();
+        public Dictionary<string, bool> soldXenotypes = new Dictionary<string, bool>();
+        public Dictionary<string, bool> soldCustomXenotypes = new Dictionary<string, bool>();
 
         private void ExposeXenotypeSettings()
         {
-            Scribe_Collections.Look(ref excludedXenotypes, "excludedXenotypes", LookMode.Value);
-            Scribe_Collections.Look(ref excludedCustomXenotypes, "excludedCustomXenotypes", LookMode.Value);
+            Scribe_Collections.Look(ref soldXenotypes, "soldXenotypes", LookMode.Value, LookMode.Value);
+            Scribe_Collections.Look(ref soldCustomXenotypes, "soldCustomXenotypes", LookMode.Value, LookMode.Value);
             if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
                 // Scribe_Collections nulls the target when the node is absent
-                // (settings files written before the blacklist existed).
-                excludedXenotypes ??= new HashSet<string>();
-                excludedCustomXenotypes ??= new HashSet<string>();
+                // (settings files written before the ledger existed).
+                soldXenotypes ??= new Dictionary<string, bool>();
+                soldCustomXenotypes ??= new Dictionary<string, bool>();
             }
         }
 
+        // Clearing the ledger IS the reset: the next SeedUnseen pass re-seeds
+        // an empty ledger to the shipped defaults, because every majority vote
+        // ties.
         private void ResetXenotypeSettings()
         {
-            excludedXenotypes.Clear();
-            excludedCustomXenotypes.Clear();
+            soldXenotypes.Clear();
+            soldCustomXenotypes.Clear();
         }
 
-        public bool IsXenotypeExcluded(string defName)
+        public bool? GetXenotypeSold(string defName)
         {
-            return excludedXenotypes.Contains(defName);
+            return GetEntry(soldXenotypes, defName);
         }
 
-        public void SetXenotypeExcluded(string defName, bool excluded)
+        public void SetXenotypeSold(string defName, bool sold)
         {
-            SetMembership(excludedXenotypes, defName, excluded);
+            SetEntry(soldXenotypes, defName, sold);
         }
 
-        public bool IsCustomXenotypeExcluded(string name)
+        public bool? GetCustomXenotypeSold(string name)
         {
-            return excludedCustomXenotypes.Contains(name);
+            return GetEntry(soldCustomXenotypes, name);
         }
 
-        public void SetCustomXenotypeExcluded(string name, bool excluded)
+        public void SetCustomXenotypeSold(string name, bool sold)
         {
-            SetMembership(excludedCustomXenotypes, name, excluded);
+            SetEntry(soldCustomXenotypes, name, sold);
         }
 
-        private static void SetMembership(HashSet<string> set, string key, bool member)
+        private static bool? GetEntry(Dictionary<string, bool> ledger, string key)
         {
-            if (key == null)
+            return key != null && ledger.TryGetValue(key, out bool sold) ? sold : (bool?)null;
+        }
+
+        private static void SetEntry(Dictionary<string, bool> ledger, string key, bool sold)
+        {
+            if (key != null)
             {
-                return;
-            }
-            if (member)
-            {
-                set.Add(key);
-            }
-            else
-            {
-                set.Remove(key);
+                ledger[key] = sold;
             }
         }
 

@@ -8,11 +8,11 @@ using Verse;
 namespace XenogermTraderStock
 {
     // Settings-window grid of every xenotype the generator could sell, four per
-    // row so a heavily modded xenotype list stays scannable. Each cell shows the
-    // derived sellable state (XenotypeEligibility), not the raw blacklist entry:
-    // a xenotype suppressed by a category toggle draws greyed and unchecked, and
-    // its own toggle is inert until the category comes back, at which point the
-    // stored per-xenotype choice reappears untouched.
+    // row so a heavily modded xenotype list stays scannable, headed by one
+    // tri-state filter row per xenotype category. Each cell reads and writes
+    // the per-xenotype sold ledger directly and is always interactive; an
+    // unsold cell dims its icon and label so the set actually on sale pops
+    // from the full roster at a glance.
     public static class XenotypeGridUI
     {
         public const int Columns = 4;
@@ -20,8 +20,6 @@ namespace XenogermTraderStock
         private const float IconSize = 24f;
         private const float CheckboxSize = 24f;
         private const float Pad = 4f;
-
-        private static List<XenotypeDef> cachedPresets;
 
         // Tooltip descriptor colours. Archite: the tip-title yellow nudged toward
         // ColorLibrary.Lime, so it reads as "special" without repeating the title.
@@ -42,12 +40,18 @@ namespace XenogermTraderStock
 
         public static void Draw(Listing_Standard listing)
         {
-            // Defs are fixed after load; custom xenotypes can change under us
-            // (in-game xenotype editor), so those are re-read every frame.
-            cachedPresets ??= XenotypeEligibility.CandidateXenotypes().ToList();
+            // Any candidate the ledger has not seen gets its entry before the
+            // grid reads it (covers customs created mid-game too).
+            XenotypeEligibility.SeedUnseen();
 
-            var cells = new List<Cell>(cachedPresets.Count);
-            foreach (XenotypeDef def in cachedPresets)
+            // Re-enumerated every frame, presets included: an in-process
+            // play-data reload (a mid-session language change) replaces every
+            // def instance, so a per-process def cache would go stale - see
+            // UniqueMeleeWeapons' StaticConstructorOnStartupUtility_CallAll_Patch
+            // for the re-run hook the day this needs more than "don't cache".
+            // Customs additionally change under us via the in-game editor.
+            var cells = new List<Cell>();
+            foreach (XenotypeDef def in XenotypeEligibility.CandidateXenotypes())
             {
                 cells.Add(Cell.ForPreset(def));
             }
@@ -61,6 +65,14 @@ namespace XenogermTraderStock
                 listing.Label("XTS_NoXenotypes".Translate());
                 return;
             }
+
+            DrawFilterRow(listing, XenotypeEligibility.XenotypeCategory.Archite,
+                "XTS_FilterArchite", "XTS_FilterArchiteDesc", cells);
+            DrawFilterRow(listing, XenotypeEligibility.XenotypeCategory.Inheritable,
+                "XTS_FilterInheritable", "XTS_FilterInheritableDesc", cells);
+            DrawFilterRow(listing, XenotypeEligibility.XenotypeCategory.PlayerScenario,
+                "XTS_FilterPlayerScenario", "XTS_FilterPlayerScenarioDesc", cells);
+            listing.Gap(6f);
 
             GameFont prevFont = Text.Font;
             TextAnchor prevAnchor = Text.Anchor;
@@ -82,13 +94,76 @@ namespace XenogermTraderStock
             Text.Font = prevFont;
         }
 
+        // One tri-state bulk-edit row per category: checked = every member
+        // sold, unchecked = none, partial = mixed. The row is a pure
+        // derivation of the ledger, never separate state, and clicking keeps
+        // vanilla CheckboxMulti's cycle (on/partial -> off, off -> on) writing
+        // every member's entry. There is no row for Plain xenotypes - they
+        // partition into no group worth bulk-editing - and a category with no
+        // loaded members draws nothing. Note the categories are DISJOINT
+        // (XenotypeEligibility.Categorize picks one per xenotype), so the rows
+        // never fight over a cell.
+        private static void DrawFilterRow(Listing_Standard listing, XenotypeEligibility.XenotypeCategory category,
+            string labelKey, string descKey, List<Cell> cells)
+        {
+            int total = 0;
+            int soldCount = 0;
+            foreach (Cell cell in cells)
+            {
+                if (cell.Category != category)
+                {
+                    continue;
+                }
+                total++;
+                if (cell.Sold)
+                {
+                    soldCount++;
+                }
+            }
+            if (total == 0)
+            {
+                return;
+            }
+
+            MultiCheckboxState state = soldCount == total ? MultiCheckboxState.On
+                : soldCount == 0 ? MultiCheckboxState.Off
+                : MultiCheckboxState.Partial;
+
+            string label = labelKey.Translate();
+            float height = Mathf.Max(Text.CalcHeight(label, listing.ColumnWidth - CheckboxSize), CheckboxSize);
+            Rect rect = listing.GetRect(height);
+            if (Mouse.IsOver(rect))
+            {
+                Widgets.DrawHighlight(rect);
+            }
+            TooltipHandler.TipRegion(rect, descKey.Translate());
+
+            TextAnchor prevAnchor = Text.Anchor;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(rect.x, rect.y, rect.width - CheckboxSize, rect.height), label);
+            Text.Anchor = prevAnchor;
+
+            Rect checkboxRect = new Rect(rect.xMax - CheckboxSize,
+                rect.y + ((rect.height - CheckboxSize) / 2f), CheckboxSize, CheckboxSize);
+            MultiCheckboxState newState = Widgets.CheckboxMulti(checkboxRect, state);
+            if (newState != state)
+            {
+                // CheckboxMulti only ever returns On or Off from a click.
+                bool sold = newState == MultiCheckboxState.On;
+                foreach (Cell cell in cells)
+                {
+                    if (cell.Category == category)
+                    {
+                        cell.SetSold(sold);
+                    }
+                }
+            }
+
+            listing.Gap(listing.verticalSpacing);
+        }
+
         private static void DrawCell(Rect rect, Cell cell)
         {
-            var block = cell.Block;
-            bool live = block == XenotypeEligibility.CategoryBlock.None;
-            // Derived state: a category block always presents as "not sold".
-            bool sellable = live && !cell.Excluded;
-
             Rect checkboxRect = new Rect(rect.x + Pad, rect.y + ((rect.height - CheckboxSize) / 2f), CheckboxSize, CheckboxSize);
             Rect iconRect = new Rect(checkboxRect.xMax + Pad, rect.y + ((rect.height - IconSize) / 2f), IconSize, IconSize);
             Rect labelRect = new Rect(iconRect.xMax + Pad, rect.y, rect.xMax - iconRect.xMax - (2f * Pad), rect.height);
@@ -96,34 +171,28 @@ namespace XenogermTraderStock
             if (Mouse.IsOver(rect))
             {
                 Widgets.DrawHighlight(rect);
-                // Tooltip whether or not the cell is live - the description and
-                // the reason it's greyed out are exactly what a blocked cell needs.
                 TooltipHandler.TipRegion(rect, new TipSignal(() => BuildTooltip(cell), cell.TooltipId));
             }
 
-            if (live)
+            bool sold = cell.Sold;
+            bool checkOn = sold;
+            Widgets.Checkbox(checkboxRect.position, ref checkOn, CheckboxSize);
+            if (Widgets.ButtonInvisible(new Rect(iconRect.x, rect.y, rect.xMax - iconRect.x, rect.height)))
             {
-                bool checkOn = sellable;
-                Widgets.Checkbox(checkboxRect.position, ref checkOn, CheckboxSize);
-                if (Widgets.ButtonInvisible(new Rect(iconRect.x, rect.y, rect.xMax - iconRect.x, rect.height)))
-                {
-                    checkOn = !checkOn;
-                    SoundDefOf.Click.PlayOneShotOnCamera();
-                }
-                if (checkOn != sellable)
-                {
-                    cell.SetExcluded(!checkOn);
-                }
+                checkOn = !checkOn;
+                SoundDefOf.Click.PlayOneShotOnCamera();
             }
-            else
+            if (checkOn != sold)
             {
-                Widgets.CheckboxDraw(checkboxRect.x, checkboxRect.y, active: false, disabled: true, CheckboxSize);
+                cell.SetSold(checkOn);
             }
 
+            // Dim by the post-click state so the cell follows the click in the
+            // same frame.
             Color prevColor = GUI.color;
-            GUI.color = live ? XenotypeDef.IconColor : XenotypeDef.IconColor * Widgets.InactiveColor;
+            GUI.color = checkOn ? XenotypeDef.IconColor : XenotypeDef.IconColor * Widgets.InactiveColor;
             GUI.DrawTexture(iconRect, cell.Icon);
-            GUI.color = live ? prevColor : Widgets.InactiveColor;
+            GUI.color = checkOn ? prevColor : Widgets.InactiveColor;
             Widgets.Label(labelRect, cell.Label().Truncate(labelRect.width));
             GUI.color = prevColor;
         }
@@ -142,21 +211,11 @@ namespace XenogermTraderStock
                 + "\n\n" + cell.Description;
 
             // One coloured line per category the xenotype falls into, so a
-            // glance at the hover says why it prices and gates the way it does.
+            // glance at the hover says why it prices and seeds the way it does.
             string descriptors = BuildDescriptors(cell);
             if (!descriptors.NullOrEmpty())
             {
                 text += "\n\n" + descriptors;
-            }
-
-            // The reason a cell is greyed out is the one line a blocked cell's
-            // hover exists for, so it goes in red rather than footnote grey, and
-            // above the price breakdown rather than buried under it.
-            string blockKey = BlockSettingKey(cell.Block);
-            if (blockKey != null)
-            {
-                text += "\n\n" + "XTS_XenotypeBlockedBy".Translate(blockKey.Translate())
-                    .Colorize(ColorLibrary.RedReadable);
             }
 
             // Formula transparency: one line per pricing component, its silver
@@ -273,17 +332,6 @@ namespace XenogermTraderStock
             return lines;
         }
 
-        private static string BlockSettingKey(XenotypeEligibility.CategoryBlock block)
-        {
-            switch (block)
-            {
-                case XenotypeEligibility.CategoryBlock.Archite: return "XTS_IncludeArchite";
-                case XenotypeEligibility.CategoryBlock.Inheritable: return "XTS_IncludeInheritable";
-                case XenotypeEligibility.CategoryBlock.PlayerScenario: return "XTS_IncludePlayerScenario";
-                default: return null;
-            }
-        }
-
         // Preset and player-scenario xenotypes flattened to what a cell draws, so
         // the grid loop doesn't branch on the source type.
         private readonly struct Cell
@@ -315,23 +363,25 @@ namespace XenogermTraderStock
                 ? (def.descriptionShort.NullOrEmpty() ? def.description : def.descriptionShort)
                 : "XTS_CustomXenotypeDesc".Translate().ToString();
 
-            public XenotypeEligibility.CategoryBlock Block => def != null
-                ? XenotypeEligibility.GetCategoryBlock(def)
-                : XenotypeEligibility.GetCategoryBlock(custom);
+            public XenotypeEligibility.XenotypeCategory Category => def != null
+                ? XenotypeEligibility.Categorize(def)
+                : XenotypeEligibility.Categorize(custom);
 
-            public bool Excluded => def != null
-                ? Settings.IsXenotypeExcluded(def.defName)
-                : Settings.IsCustomXenotypeExcluded(custom.name);
+            // The ledger is seeded before the grid reads it (Draw's first
+            // call), so the null fallback is never the shown state in practice.
+            public bool Sold => (def != null
+                ? Settings.GetXenotypeSold(def.defName)
+                : Settings.GetCustomXenotypeSold(custom.name)) ?? false;
 
-            public void SetExcluded(bool excluded)
+            public void SetSold(bool sold)
             {
                 if (def != null)
                 {
-                    Settings.SetXenotypeExcluded(def.defName, excluded);
+                    Settings.SetXenotypeSold(def.defName, sold);
                 }
                 else
                 {
-                    Settings.SetCustomXenotypeExcluded(custom.name, excluded);
+                    Settings.SetCustomXenotypeSold(custom.name, sold);
                 }
             }
 

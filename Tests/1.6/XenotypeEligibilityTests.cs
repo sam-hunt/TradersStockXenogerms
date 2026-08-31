@@ -5,160 +5,147 @@ using Xunit;
 
 namespace XenogermTraderStock.Tests
 {
-    // Unit coverage for the pure overloads of XenotypeEligibility
-    // (GetCategoryBlock/IsSellable taking raw settings + trait bools) and the
-    // GeneExtension opt-out gate. The XenotypeDef overloads need a live
-    // DefDatabase (XenotypeDefOf.Baseliner) and are out of scope for this
-    // headless suite; CustomXenotype is a plain IExposable, so its overload is
-    // covered.
+    // Unit coverage for the pure members of XenotypeEligibility: category
+    // precedence (Categorize), the majority-vote seeding rule (SeedValue),
+    // and the GeneExtension opt-out gate. The XenotypeDef overloads need a
+    // live DefDatabase (XenotypeDefOf.Baseliner) and are out of scope for
+    // this headless suite; CustomXenotype is a plain IExposable, so its
+    // IsCandidate overload is covered.
     [Collection("XenogermPricing")]
     public class XenotypeEligibilityTests
     {
         [Fact]
-        public void GetCategoryBlock_DefaultsAndNoTraits_IsNone()
+        public void Categorize_NoTraits_IsPlain()
         {
-            var settings = TestHelpers.InstallDefaultSettings();
+            var category = XenotypeEligibility.Categorize(archite: false, inheritable: false, playerScenario: false);
 
-            var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: false, inheritable: false, playerScenario: false);
-
-            Assert.Equal(XenotypeEligibility.CategoryBlock.None, block);
+            Assert.Equal(XenotypeEligibility.XenotypeCategory.Plain, category);
         }
 
         [Fact]
-        public void IsSellable_DefaultsAndNoTraitsAndNotExcluded_IsTrue()
+        public void Categorize_ArchiteOnly_IsArchite()
         {
-            var settings = TestHelpers.InstallDefaultSettings();
+            var category = XenotypeEligibility.Categorize(archite: true, inheritable: false, playerScenario: false);
 
-            bool sellable = XenotypeEligibility.IsSellable(settings,
-                archite: false, inheritable: false, playerScenario: false, excluded: false);
-
-            Assert.True(sellable);
+            Assert.Equal(XenotypeEligibility.XenotypeCategory.Archite, category);
         }
 
         [Fact]
-        public void GetCategoryBlock_ArchiteExcludedByToggle_ReturnsArchite()
+        public void Categorize_InheritableOnly_IsInheritable()
         {
-            var settings = TestHelpers.InstallDefaultSettings();
-            settings.includeArchiteXenotypes = false;
+            var category = XenotypeEligibility.Categorize(archite: false, inheritable: true, playerScenario: false);
 
-            var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: true, inheritable: false, playerScenario: false);
-
-            Assert.Equal(XenotypeEligibility.CategoryBlock.Archite, block);
+            Assert.Equal(XenotypeEligibility.XenotypeCategory.Inheritable, category);
         }
 
         [Fact]
-        public void GetCategoryBlock_InheritableExcludedByDefaultToggle_ReturnsInheritable()
+        public void Categorize_PlayerScenarioOnly_IsPlayerScenario()
         {
-            // includeInheritableXenotypes defaults to false, so this needs no
-            // explicit mutation of the fresh settings.
-            var settings = TestHelpers.InstallDefaultSettings();
+            var category = XenotypeEligibility.Categorize(archite: false, inheritable: false, playerScenario: true);
 
-            var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: false, inheritable: true, playerScenario: false);
-
-            Assert.Equal(XenotypeEligibility.CategoryBlock.Inheritable, block);
+            Assert.Equal(XenotypeEligibility.XenotypeCategory.PlayerScenario, category);
         }
 
         [Fact]
-        public void GetCategoryBlock_PlayerScenarioExcludedByToggle_ReturnsPlayerScenario()
+        public void Categorize_PlayerScenarioWinsOverArchiteAndInheritable()
         {
-            var settings = TestHelpers.InstallDefaultSettings();
-            settings.includePlayerScenarioXenotypes = false;
+            var category = XenotypeEligibility.Categorize(archite: true, inheritable: true, playerScenario: true);
 
-            var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: false, inheritable: false, playerScenario: true);
-
-            Assert.Equal(XenotypeEligibility.CategoryBlock.PlayerScenario, block);
+            Assert.Equal(XenotypeEligibility.XenotypeCategory.PlayerScenario, category);
         }
 
         [Fact]
-        public void GetCategoryBlock_AllThreeTraitsAndTogglesOff_PlayerScenarioWinsPrecedence()
+        public void Categorize_ArchiteWinsOverInheritable()
         {
-            var settings = TestHelpers.InstallDefaultSettings();
-            settings.includeArchiteXenotypes = false;
-            settings.includeInheritableXenotypes = false;
-            settings.includePlayerScenarioXenotypes = false;
+            var category = XenotypeEligibility.Categorize(archite: true, inheritable: true, playerScenario: false);
 
-            var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: true, inheritable: true, playerScenario: true);
-
-            Assert.Equal(XenotypeEligibility.CategoryBlock.PlayerScenario, block);
+            Assert.Equal(XenotypeEligibility.XenotypeCategory.Archite, category);
         }
 
         [Fact]
-        public void GetCategoryBlock_ArchiteAndInheritableTraitsBothOff_ArchiteWinsPrecedence()
+        public void SeedValue_MajoritySoldPeers_IsTrue()
         {
-            var settings = TestHelpers.InstallDefaultSettings();
-            settings.includeArchiteXenotypes = false;
-            settings.includeInheritableXenotypes = false;
+            var ledger = new List<(XenotypeEligibility.XenotypeCategory category, bool sold)>
+            {
+                (XenotypeEligibility.XenotypeCategory.Archite, true),
+                (XenotypeEligibility.XenotypeCategory.Archite, true),
+                (XenotypeEligibility.XenotypeCategory.Archite, false),
+            };
 
-            var block = XenotypeEligibility.GetCategoryBlock(settings,
-                archite: true, inheritable: true, playerScenario: false);
+            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Archite,
+                gatesAsInheritable: false, ledger: ledger);
 
-            Assert.Equal(XenotypeEligibility.CategoryBlock.Archite, block);
+            Assert.True(seeded);
         }
 
         [Fact]
-        public void IsSellable_ExcludedEvenWithAllCategoriesAllowed_IsFalse()
+        public void SeedValue_MajorityUnsoldPeers_IsFalse()
         {
-            var settings = TestHelpers.InstallDefaultSettings();
+            var ledger = new List<(XenotypeEligibility.XenotypeCategory category, bool sold)>
+            {
+                (XenotypeEligibility.XenotypeCategory.Archite, false),
+                (XenotypeEligibility.XenotypeCategory.Archite, false),
+                (XenotypeEligibility.XenotypeCategory.Archite, true),
+            };
 
-            bool sellable = XenotypeEligibility.IsSellable(settings,
-                archite: false, inheritable: false, playerScenario: false, excluded: true);
+            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Archite,
+                gatesAsInheritable: false, ledger: ledger);
 
-            Assert.False(sellable);
+            Assert.False(seeded);
         }
 
+        // Peers of a different category must not vote: a ledger stuffed with
+        // sold Archite entries and no Plain entries at all is an exact tie
+        // (zero same-category votes) for a Plain newcomer, so it falls back
+        // to !gatesAsInheritable rather than being dragged along by Archite.
         [Fact]
-        public void IsSellable_CategoryBlockedEvenWhenNotExcluded_IsFalse()
+        public void SeedValue_PeersOfOtherCategoriesDoNotVote()
         {
-            var settings = TestHelpers.InstallDefaultSettings();
-            settings.includeArchiteXenotypes = false;
+            var ledger = new List<(XenotypeEligibility.XenotypeCategory category, bool sold)>
+            {
+                (XenotypeEligibility.XenotypeCategory.Archite, true),
+                (XenotypeEligibility.XenotypeCategory.Archite, true),
+                (XenotypeEligibility.XenotypeCategory.Archite, true),
+            };
 
-            bool sellable = XenotypeEligibility.IsSellable(settings,
-                archite: true, inheritable: false, playerScenario: false, excluded: false);
+            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Plain,
+                gatesAsInheritable: false, ledger: ledger);
 
-            Assert.False(sellable);
+            Assert.True(seeded);
         }
 
-        [Fact]
-        public void IsSellable_NotExcludedAndNoCategoryBlock_IsTrue()
-        {
-            // Every category toggle is set explicitly so the test does not
-            // depend on which categories happen to be on by default.
-            var settings = TestHelpers.InstallDefaultSettings();
-            settings.includeArchiteXenotypes = true;
-            settings.includeInheritableXenotypes = true;
-            settings.includePlayerScenarioXenotypes = true;
-
-            bool sellable = XenotypeEligibility.IsSellable(settings,
-                archite: true, inheritable: true, playerScenario: true, excluded: false);
-
-            Assert.True(sellable);
-        }
-
-        // The blacklist input is untouched by category toggles: flipping the
-        // archite toggle back on restores sellability for a xenotype whose
-        // excluded flag never changed, with no other input needing to move.
         [Theory]
-        [InlineData(false, false, false)] // archite disallowed, not excluded -> blocked by category
-        [InlineData(true, false, true)]   // archite allowed, not excluded -> sellable
-        [InlineData(false, true, false)]  // archite disallowed, excluded -> blocked (both reasons)
-        [InlineData(true, true, false)]   // archite allowed, excluded -> blocked by blacklist alone
-        public void IsSellable_ArchiteToggleRestoresSellability_WhenExcludedFlagUnchanged(
-            bool includeArchiteXenotypes, bool excluded, bool expectedSellable)
+        [InlineData(false, true)]
+        [InlineData(true, false)]
+        public void SeedValue_ExactTie_FallsBackToNotGatesAsInheritable(bool gatesAsInheritable, bool expected)
         {
-            var settings = TestHelpers.InstallDefaultSettings();
-            settings.includeArchiteXenotypes = includeArchiteXenotypes;
+            var ledger = new List<(XenotypeEligibility.XenotypeCategory category, bool sold)>
+            {
+                (XenotypeEligibility.XenotypeCategory.Inheritable, true),
+                (XenotypeEligibility.XenotypeCategory.Inheritable, false),
+            };
 
-            bool sellable = XenotypeEligibility.IsSellable(settings,
-                archite: true, inheritable: false, playerScenario: false, excluded: excluded);
+            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Inheritable,
+                gatesAsInheritable, ledger);
 
-            Assert.Equal(expectedSellable, sellable);
+            Assert.Equal(expected, seeded);
         }
-    
+
+        // The empty ledger is the shipped-defaults case: a fresh install has
+        // no votes at all, so every category falls back to !gatesAsInheritable
+        // - germline-rewriting xenotypes seed unsold, everything else sold.
+        [Theory]
+        [InlineData(false, true)]
+        [InlineData(true, false)]
+        public void SeedValue_EmptyLedger_FallsBackToNotGatesAsInheritable(bool gatesAsInheritable, bool expected)
+        {
+            var ledger = new List<(XenotypeEligibility.XenotypeCategory category, bool sold)>();
+
+            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Plain,
+                gatesAsInheritable, ledger);
+
+            Assert.Equal(expected, seeded);
+        }
 
         [Fact]
         public void ContainsExcludedGene_NoExtensions_IsFalse()

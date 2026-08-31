@@ -34,10 +34,6 @@ namespace XenogermTraderStock
         // its neighbours.
         private const float SectionGap = 18f;
 
-        // Left indent for a row gated on the row above it, marking it visually
-        // as a child. One checkbox width, so the nesting is legible at a glance.
-        private const float DependentRowIndent = 24f;
-
         // Presentation state for the scroll view, deliberately not scribed.
         private Vector2 scrollPosition;
         private float contentHeight;
@@ -46,8 +42,8 @@ namespace XenogermTraderStock
         // immaterial (Scribe is keyed by name).
         public override void ExposeData()
         {
-            ExposeCategorySettings();
             ExposeXenotypeSettings();
+            ExposeImplantationSettings();
             ExposePricingSettings();
             ExposeCommonalitySettings();
             base.ExposeData();
@@ -55,8 +51,8 @@ namespace XenogermTraderStock
 
         public void ResetToDefaults()
         {
-            ResetCategorySettings();
             ResetXenotypeSettings();
+            ResetImplantationSettings();
             ResetPricingSettings();
             ResetCommonalitySettings();
         }
@@ -90,8 +86,8 @@ namespace XenogermTraderStock
 
             listing.Gap();
 
-            DrawCategoriesSection(listing);
             DrawXenotypesSection(listing);
+            DrawImplantationSection(listing);
             DrawPricingSection(listing);
             DrawCommonalitySection(listing);
 
@@ -138,52 +134,6 @@ namespace XenogermTraderStock
             }
             listing.Label(label, tooltip: descKey.Translate(defaultValue.ToString("F0")));
             return Mathf.Round((listing.Slider(value, min, max) - min) / step) * step + min;
-        }
-
-        // Checkbox whose prerequisite may be off. GUI.enabled alone is not enough
-        // for that state: it only fades the visuals, while RimWorld's invisible-
-        // button hit test ignores it, so a "greyed" checkbox would still toggle on
-        // click. When gated off this draws a genuinely non-interactive checkbox,
-        // shown UNCHECKED (the effective state, since the feature can't run) while
-        // the stored value stays untouched and reappears once re-enabled.
-        private static void CheckboxLabeledGated(Listing_Standard listing, string label, ref bool value,
-            string tooltip, bool enabled, float indent = 0f)
-        {
-            // Listing.Indent only moves curX while GetRect keeps handing out
-            // ColumnWidth-wide rects, so shrink ColumnWidth in step: the row's
-            // right edge (and its checkbox) stays aligned with sibling rows and
-            // only the label steps in.
-            listing.Indent(indent);
-            listing.ColumnWidth -= indent;
-
-            if (enabled)
-            {
-                listing.CheckboxLabeled(label, ref value, tooltip);
-            }
-            else
-            {
-                // Mirror Listing_Standard.CheckboxLabeled's rect/tooltip handling, but
-                // draw through Widgets' disabled path with a throwaway unchecked state.
-                bool prevGuiEnabled = GUI.enabled;
-                GUI.enabled = false;
-                float height = Text.CalcHeight(label, listing.ColumnWidth);
-                Rect rect = listing.GetRect(height);
-                if (!tooltip.NullOrEmpty())
-                {
-                    if (Mouse.IsOver(rect))
-                    {
-                        Widgets.DrawHighlight(rect);
-                    }
-                    TooltipHandler.TipRegion(rect, tooltip);
-                }
-                bool shownUnchecked = false;
-                Widgets.CheckboxLabeled(rect, label, ref shownUnchecked, disabled: true);
-                listing.Gap(listing.verticalSpacing);
-                GUI.enabled = prevGuiEnabled;
-            }
-
-            listing.ColumnWidth += indent;
-            listing.Outdent(indent);
         }
     }
 }

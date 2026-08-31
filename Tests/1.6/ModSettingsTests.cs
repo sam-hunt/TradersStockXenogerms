@@ -3,9 +3,11 @@ using Xunit;
 namespace XenogermTraderStock.Tests
 {
     // Unit coverage for XenogermTraderStockSettings: a fresh instance's
-    // field-initializer defaults, and ResetToDefaults() restoring those same
-    // values after mutation. Both are checked against the Default* constants
-    // directly so the test can't drift from the shipped defaults.
+    // field-initializer defaults, ResetToDefaults() restoring those same
+    // values after mutation, and the per-xenotype sold ledger (Get/Set for
+    // both the preset and custom dictionaries). Defaults are checked against
+    // the Default* constants directly so the test can't drift from the
+    // shipped defaults.
     [Collection("XenogermPricing")]
     public class ModSettingsTests
     {
@@ -14,9 +16,6 @@ namespace XenogermTraderStock.Tests
         {
             var settings = new XenogermTraderStockSettings();
 
-            Assert.Equal(XenogermTraderStockSettings.DefaultIncludeArchiteXenotypes, settings.includeArchiteXenotypes);
-            Assert.Equal(XenogermTraderStockSettings.DefaultIncludeInheritableXenotypes, settings.includeInheritableXenotypes);
-            Assert.Equal(XenogermTraderStockSettings.DefaultIncludePlayerScenarioXenotypes, settings.includePlayerScenarioXenotypes);
             Assert.Equal(XenogermTraderStockSettings.DefaultImplantGermlineAsEndogenes, settings.implantGermlineAsEndogenes);
             Assert.Equal(XenogermTraderStockSettings.DefaultBasePresetValue, settings.basePresetValue);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerMetabolism, settings.valuePerMetabolism);
@@ -30,9 +29,6 @@ namespace XenogermTraderStock.Tests
         {
             var settings = new XenogermTraderStockSettings
             {
-                includeArchiteXenotypes = !XenogermTraderStockSettings.DefaultIncludeArchiteXenotypes,
-                includeInheritableXenotypes = !XenogermTraderStockSettings.DefaultIncludeInheritableXenotypes,
-                includePlayerScenarioXenotypes = !XenogermTraderStockSettings.DefaultIncludePlayerScenarioXenotypes,
                 implantGermlineAsEndogenes = !XenogermTraderStockSettings.DefaultImplantGermlineAsEndogenes,
                 basePresetValue = XenogermTraderStockSettings.DefaultBasePresetValue + 500f,
                 valuePerMetabolism = XenogermTraderStockSettings.DefaultValuePerMetabolism + 5f,
@@ -43,9 +39,6 @@ namespace XenogermTraderStock.Tests
 
             settings.ResetToDefaults();
 
-            Assert.Equal(XenogermTraderStockSettings.DefaultIncludeArchiteXenotypes, settings.includeArchiteXenotypes);
-            Assert.Equal(XenogermTraderStockSettings.DefaultIncludeInheritableXenotypes, settings.includeInheritableXenotypes);
-            Assert.Equal(XenogermTraderStockSettings.DefaultIncludePlayerScenarioXenotypes, settings.includePlayerScenarioXenotypes);
             Assert.Equal(XenogermTraderStockSettings.DefaultImplantGermlineAsEndogenes, settings.implantGermlineAsEndogenes);
             Assert.Equal(XenogermTraderStockSettings.DefaultBasePresetValue, settings.basePresetValue);
             Assert.Equal(XenogermTraderStockSettings.DefaultValuePerMetabolism, settings.valuePerMetabolism);
@@ -54,110 +47,95 @@ namespace XenogermTraderStock.Tests
             Assert.Equal(XenogermTraderStockSettings.DefaultSelectionStrategy, settings.selectionStrategy);
         }
 
-        [Theory]
-        [InlineData(false, false, false)]
-        [InlineData(false, true, false)]
-        [InlineData(true, false, false)]
-        [InlineData(true, true, true)]
-        public void ImplantsGermlineAsEndogenes_RequiresBothInheritableAndTheToggle(
-            bool includeInheritable, bool implantAsEndogenes, bool expected)
-        {
-            // The window greys the toggle out (shown unchecked) while inheritable
-            // xenotypes are off; the implant patch must agree with what is shown.
-            var settings = new XenogermTraderStockSettings
-            {
-                includeInheritableXenotypes = includeInheritable,
-                implantGermlineAsEndogenes = implantAsEndogenes,
-            };
-
-            Assert.Equal(expected, settings.ImplantsGermlineAsEndogenes);
-        }
-
         [Fact]
-        public void NewInstance_ExclusionSetsAreEmpty()
+        public void NewInstance_SoldLedgersAreEmpty()
         {
             var settings = new XenogermTraderStockSettings();
 
-            Assert.NotNull(settings.excludedXenotypes);
-            Assert.NotNull(settings.excludedCustomXenotypes);
-            Assert.Empty(settings.excludedXenotypes);
-            Assert.Empty(settings.excludedCustomXenotypes);
+            Assert.NotNull(settings.soldXenotypes);
+            Assert.NotNull(settings.soldCustomXenotypes);
+            Assert.Empty(settings.soldXenotypes);
+            Assert.Empty(settings.soldCustomXenotypes);
         }
 
         [Fact]
-        public void SetXenotypeExcluded_AddsAndRemoves_IdempotentlyAndIgnoresNull()
+        public void GetXenotypeSold_UnseenEntryOrNullKey_IsNull()
         {
             var settings = new XenogermTraderStockSettings();
 
-            settings.SetXenotypeExcluded("Foo", true);
-            Assert.True(settings.IsXenotypeExcluded("Foo"));
-            Assert.Single(settings.excludedXenotypes);
+            Assert.Null(settings.GetXenotypeSold("Foo"));
+            Assert.Null(settings.GetXenotypeSold(null));
+        }
 
-            // Adding again is idempotent.
-            settings.SetXenotypeExcluded("Foo", true);
-            Assert.Single(settings.excludedXenotypes);
+        [Fact]
+        public void SetXenotypeSold_Upserts_AndIgnoresNullKey()
+        {
+            var settings = new XenogermTraderStockSettings();
 
-            settings.SetXenotypeExcluded("Foo", false);
-            Assert.False(settings.IsXenotypeExcluded("Foo"));
-            Assert.Empty(settings.excludedXenotypes);
+            settings.SetXenotypeSold("Foo", true);
+            Assert.True(settings.GetXenotypeSold("Foo"));
+            Assert.Single(settings.soldXenotypes);
 
-            // Removing an absent entry does not throw.
-            settings.SetXenotypeExcluded("Foo", false);
-            Assert.Empty(settings.excludedXenotypes);
+            // Overwrites the same entry rather than adding another.
+            settings.SetXenotypeSold("Foo", false);
+            Assert.False(settings.GetXenotypeSold("Foo"));
+            Assert.Single(settings.soldXenotypes);
 
             // A null key is ignored: no throw, no entry.
-            settings.SetXenotypeExcluded(null, true);
-            Assert.Empty(settings.excludedXenotypes);
+            settings.SetXenotypeSold(null, true);
+            Assert.Single(settings.soldXenotypes);
         }
 
         [Fact]
-        public void SetCustomXenotypeExcluded_AddsAndRemoves_IdempotentlyAndIgnoresNull()
+        public void GetCustomXenotypeSold_UnseenEntryOrNullKey_IsNull()
         {
             var settings = new XenogermTraderStockSettings();
 
-            settings.SetCustomXenotypeExcluded("Foo", true);
-            Assert.True(settings.IsCustomXenotypeExcluded("Foo"));
-            Assert.Single(settings.excludedCustomXenotypes);
+            Assert.Null(settings.GetCustomXenotypeSold("Foo"));
+            Assert.Null(settings.GetCustomXenotypeSold(null));
+        }
 
-            // Adding again is idempotent.
-            settings.SetCustomXenotypeExcluded("Foo", true);
-            Assert.Single(settings.excludedCustomXenotypes);
+        [Fact]
+        public void SetCustomXenotypeSold_Upserts_AndIgnoresNullKey()
+        {
+            var settings = new XenogermTraderStockSettings();
 
-            settings.SetCustomXenotypeExcluded("Foo", false);
-            Assert.False(settings.IsCustomXenotypeExcluded("Foo"));
-            Assert.Empty(settings.excludedCustomXenotypes);
+            settings.SetCustomXenotypeSold("Foo", true);
+            Assert.True(settings.GetCustomXenotypeSold("Foo"));
+            Assert.Single(settings.soldCustomXenotypes);
 
-            // Removing an absent entry does not throw.
-            settings.SetCustomXenotypeExcluded("Foo", false);
-            Assert.Empty(settings.excludedCustomXenotypes);
+            // Overwrites the same entry rather than adding another.
+            settings.SetCustomXenotypeSold("Foo", false);
+            Assert.False(settings.GetCustomXenotypeSold("Foo"));
+            Assert.Single(settings.soldCustomXenotypes);
 
             // A null key is ignored: no throw, no entry.
-            settings.SetCustomXenotypeExcluded(null, true);
-            Assert.Empty(settings.excludedCustomXenotypes);
+            settings.SetCustomXenotypeSold(null, true);
+            Assert.Single(settings.soldCustomXenotypes);
         }
 
         [Fact]
-        public void PresetAndCustomExclusionSets_AreIndependent()
+        public void PresetAndCustomSoldLedgers_AreIndependent()
         {
             var settings = new XenogermTraderStockSettings();
 
-            settings.SetXenotypeExcluded("Foo", true);
+            settings.SetXenotypeSold("Foo", true);
 
-            Assert.True(settings.IsXenotypeExcluded("Foo"));
-            Assert.False(settings.IsCustomXenotypeExcluded("Foo"));
+            Assert.True(settings.GetXenotypeSold("Foo"));
+            Assert.Null(settings.GetCustomXenotypeSold("Foo"));
         }
 
         [Fact]
-        public void ResetToDefaults_ClearsBothExclusionSets()
+        public void ResetToDefaults_ClearsBothSoldLedgers()
         {
             var settings = new XenogermTraderStockSettings();
-            settings.SetXenotypeExcluded("Foo", true);
-            settings.SetCustomXenotypeExcluded("Bar", true);
+            settings.SetXenotypeSold("Foo", true);
+            settings.SetCustomXenotypeSold("Bar", true);
 
             settings.ResetToDefaults();
 
-            Assert.Empty(settings.excludedXenotypes);
-            Assert.Empty(settings.excludedCustomXenotypes);
+            Assert.Empty(settings.soldXenotypes);
+            Assert.Empty(settings.soldCustomXenotypes);
         }
 
         [Theory]

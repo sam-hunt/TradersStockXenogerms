@@ -10,6 +10,11 @@ namespace XenogermTraderStock
     {
         public override IEnumerable<Thing> GenerateThings(PlanetTile forTile, Faction faction = null)
         {
+            // The custom pool is per-game, so the startup seeding pass cannot
+            // have covered it: give every unseen xenotype its ledger entry
+            // before eligibility is read.
+            XenotypeEligibility.SeedUnseen();
+
             // Combined preset + custom pool with a parallel price list: the
             // commonality strategy is pool-relative (the bell curve centres on
             // the pool's median price), so weights are computed in one pass over

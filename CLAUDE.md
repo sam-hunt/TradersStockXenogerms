@@ -52,7 +52,7 @@ A machine-local Claude Code Stop hook (`.claude/hooks/sync-mod.sh`, untracked) r
 
 **Settings Access:** `XenogermTraderStockMod.Settings` provides global access to mod configuration.
 
-**Settings window (family pattern):** `XenogermTraderStockSettings` is a partial class split across `Core/Settings/Settings_*.cs`, one file per section owning its fields, `Expose*Settings`, `Reset*Settings` and `Draw*Section`; the frame file holds `DoWindowContents`, the fan-outs and the shared `SectionHeader` / `SliderRow` / `CheckboxLabeledGated` helpers. Help text is hover-tooltip only (section descriptions ride on the medium-font header) — no always-visible tiny-font sub-labels. Adding a setting is a one-file edit; a new section is a new file plus three one-line calls in the frame.
+**Settings window (family pattern):** `XenogermTraderStockSettings` is a partial class split across `Core/Settings/Settings_*.cs`, one file per section owning its fields, `Expose*Settings`, `Reset*Settings` and `Draw*Section`; the frame file holds `DoWindowContents`, the fan-outs and the shared `SectionHeader` / `SliderRow` helpers. Help text is hover-tooltip only (section descriptions ride on the medium-font header) — no always-visible tiny-font sub-labels. Adding a setting is a one-file edit; a new section is a new file plus three one-line calls in the frame.
 
 ### Directory Structure
 
@@ -63,10 +63,10 @@ Source/1.6/                         # Family layout: one folder per concern, roo
 │   ├── XenogermTraderStockMod.cs       # Mod entry point, Harmony init; delegates the window to Settings
 │   ├── XenogermTraderStockSettings.cs  # Settings frame: scroll/reset window, Expose/Reset fan-out, row helpers
 │   └── Settings/                       # One partial-class file per settings section (fields, scribe, defaults, draw)
-│       ├── Settings_Categories.cs      # Archite / inheritable / player-scenario toggles, endogene implant gate
 │       ├── Settings_Commonality.cs     # Stock-selection strategy radio group
+│       ├── Settings_Implantation.cs    # Endogene implant toggle (free-standing behaviour, not a stock filter)
 │       ├── Settings_Pricing.cs         # Pricing sliders: defaults, ranges, snap steps
-│       └── Settings_Xenotypes.cs       # Per-xenotype blacklist sets + the grid section
+│       └── Settings_Xenotypes.cs       # Per-xenotype sold ledger + the grid section
 ├── Comps/
 │   └── CompXenotypeSource.cs           # ThingComp storing source XenotypeDef
 ├── Debug/
@@ -82,10 +82,11 @@ Source/1.6/                         # Family layout: one folder per concern, roo
 │   ├── XenogermCommonality.cs          # Stateless price->spawn-weight strategies (inverse/inverse-root/linear/sqrt/bell/uniform)
 │   └── XenogermFactory.cs              # Creates xenogerm Things from definitions
 ├── Xenotypes/
-│   ├── XenotypeEligibility.cs          # Derived "may traders sell this xenotype?" state
+│   ├── XenotypeEligibility.cs          # Sellable state: candidacy, category partition, ledger seeding
+│   ├── XenotypeLedgerStartup.cs        # Once-per-launch SeedUnseen pass (defName-keyed, reload-safe)
 │   └── GeneExtension.cs                # DefModExtension opt-out: genes that bar a xenotype from stock
 ├── UI/
-│   └── XenotypeGridUI.cs               # Settings-window per-xenotype toggle grid
+│   └── XenotypeGridUI.cs               # Settings-window xenotype toggle grid + tri-state category filter rows
 ├── Properties/
 │   └── AssemblyInfo.cs                 # Assembly version metadata
 
@@ -113,9 +114,9 @@ Scripts/
 
 The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenotypeSource`. When implanted, a Harmony postfix patch on `GeneUtility.ImplantXenogermItem` calls `SetXenotypeDirect()` and nulls `iconDef`, leaving the gene tracker's identity fields (`xenotype`, `xenotypeName`, `iconDef`) exactly as `PawnGenerator` leaves them for a generated pawn of that xenotype (vanilla only copies genes, display name, and the item's icon — which `Xenogerm.ExposeData` backfills to the custom-xenotype `Basic` icon on load). `hybrid` is deliberately untouched: it describes the germline, which an implant does not change.
 
-**Germline retarget (opt-in):** with `Settings.ImplantsGermlineAsEndogenes` (derived: `includeInheritableXenotypes && implantGermlineAsEndogenes`; the window greys the toggle out and shows it unchecked when the gate is off, so read the derived property, never the raw flag) a trader-sold xenogerm for an *inheritable* xenotype has the pawn's endogenes replaced wholesale by its genes after the identity fields are set — what `PawnGenerator` produces for a born member, not a merge (a merge would also let old genes win conflicts: two endogenes resolve by display order, `GeneUtility.Overrides` → `GenesInOrder`, not arrival order). The pawn's own melanin/hair-colour genes are re-added only when the xenotype supplies none — the backfill `PawnGenerator` does with random ones. Side effects match a born member: no xenogenes, so no xenogerm extraction.
+**Germline retarget (opt-in):** with `Settings.implantGermlineAsEndogenes` (free-standing on purpose: it acts at implant time on items the player already owns, so it must not depend on what the shop grid currently has ticked) a trader-sold xenogerm for an *inheritable* xenotype has the pawn's endogenes replaced wholesale by its genes after the identity fields are set — what `PawnGenerator` produces for a born member, not a merge (a merge would also let old genes win conflicts: two endogenes resolve by display order, `GeneUtility.Overrides` → `GenesInOrder`, not arrival order). The pawn's own melanin/hair-colour genes are re-added only when the xenotype supplies none — the backfill `PawnGenerator` does with random ones. Side effects match a born member: no xenogenes, so no xenogerm extraction.
 
-**Baseliner xenogerm:** Baseliner is `XenotypeEligibility.IsCandidate`'s one gene-less exception and is pinned first in every pool (`InDisplayOrder`, shared by grid and debug spawner). It gates as *inheritable* (`GatesAsInheritable`) despite `inheritable=false` on the def, because its implant always rewrites the germline — so `includeInheritableXenotypes` (default off) controls whether it is sold. Its empty xenogerm is the baseliner-conversion item: vanilla implantation wipes all xenogenes unconditionally (`SetXenotype` clears before consulting the empty gene list — verified safe end-to-end, no gene-count gate in the float-menu/bill/recipe chain), and the patch always runs the germline retarget for it regardless of the opt-in (no genes means no "keep as xenogenes" alternative for the setting to choose; skin/hair colour survives via the retarget's own backfill). Prices at base + `basePresetValue` (no gene stats).
+**Baseliner xenogerm:** Baseliner is `XenotypeEligibility.IsCandidate`'s one gene-less exception and is pinned first in every pool (`InDisplayOrder`, shared by grid and debug spawner). It gates as *inheritable* (`GatesAsInheritable`) despite `inheritable=false` on the def, because its implant always rewrites the germline — so it groups under the germline filter row and seeds unsold by default like the inheritable xenotypes. Its empty xenogerm is the baseliner-conversion item: vanilla implantation wipes all xenogenes unconditionally (`SetXenotype` clears before consulting the empty gene list — verified safe end-to-end, no gene-count gate in the float-menu/bill/recipe chain), and the patch always runs the germline retarget for it regardless of the opt-in (no genes means no "keep as xenogenes" alternative for the setting to choose; skin/hair colour survives via the retarget's own backfill). Prices at base + `basePresetValue` (no gene stats).
 
 ### Key Classes
 
@@ -126,9 +127,9 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 | `CompXenotypeSource` | ThingComp storing source XenotypeDef on xenogerms |
 | `GeneUtility_ImplantXenogermItem_Patch` | Harmony postfix assigning xenotype after implantation |
 | `StockGenerator_Xenogerms` | Generates xenogerms for traders with weighted spawn rates |
-| `XenotypeEligibility` | Single source of truth for sellable state: category toggles + per-xenotype blacklist |
+| `XenotypeEligibility` | Single source of truth for sellable state: candidacy, category partition, sold-ledger seeding |
 | `GeneExtension` | `DefModExtension` for GeneDefs; `excludeFromXenogermStock` bars any xenotype containing the gene |
-| `XenotypeGridUI` | 4-column settings grid of xenotype toggles (icon, name, live price, description tooltip) |
+| `XenotypeGridUI` | 4-column settings grid of xenotype toggles (icon, name, live price, description tooltip) + tri-state category filter rows |
 | `XenogermFactory` | Creates xenogerm Things from XenotypeDef or CustomXenotype |
 | `XenogermPricing` | Centralized pricing calculations (used by StockGenerator and StatPart) |
 | `StatPart_XenogermValue` | Calculates MarketValue based on genes |
@@ -142,7 +143,7 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 
 **Stock Generation:** `StockGenerator_Xenogerms` is injected into trader defs via XML patches. It queries `DefDatabase<XenotypeDef>` at generation time, filtering through `XenotypeEligibility.IsSellable` and weighting spawn probability by the settings-chosen `XenogermCommonality` strategy (default: inverse root, 1/√price; all strategies are stateless and pool-relative — the bell curve centres on the pool's median).
 
-**Per-xenotype filtering (derived state):** `XenotypeEligibility` is the only place that decides whether a xenotype is sellable; both the generator and the settings grid read it. Inputs are the three category toggles (archite / inheritable / player-scenario) and the per-xenotype blacklist on settings (`excludedXenotypes` by defName, `excludedCustomXenotypes` by `CustomXenotype.name`). The UI presents a whitelist (checked = sold) but stores a blacklist so defaults are "everything on" and xenotypes added/removed by other mods need no migration. A category toggle overrides the per-xenotype choice (cell greys out, unchecked, inert; tooltip still shows) without touching the stored entry, so re-enabling the category restores it. Never read the blacklist directly from generation code.
+**Per-xenotype filtering (sold ledger):** `XenotypeEligibility` is the only place that decides whether a xenotype is sellable; both the generator and the settings grid read it. The state is an explicit per-xenotype sold ledger on settings (`soldXenotypes` by defName, `soldCustomXenotypes` by `CustomXenotype.name`). A xenotype the ledger has never seen gets its entry from `SeedUnseen`: the majority sold state of its category peers (categories are DISJOINT, first match of player-scenario > archite > inheritable > plain), ties falling back to the shipped default — germline-rewriting xenotypes (`GatesAsInheritable`) unsold, everything else sold. An empty ledger makes every vote tie, which is exactly the shipped defaults; `ResetToDefaults` just clears the ledger and lets the next seed pass do the rest. Seeding runs at startup (`XenotypeLedgerStartup`; once per process is deliberate — entries are name-keyed, so an in-process play-data reload can't invalidate them, see the comment there), from the settings grid and from stock generation (the custom pool is per-game). Entries for xenotypes no longer loaded stay dormant — never consulted, never voting, never pruned — so a temporarily disabled mod keeps its choices. The category rows above the grid are pure derivations of the ledger: a tri-state `Widgets.CheckboxMulti` summary (on = all sold / partial = mixed / off = none) that bulk-writes its whole group on click; grid cells are always interactive, drawing dimmed when unsold. Never read the ledger directly from generation code.
 
 **Non-organic genelines (`GeneExtension`):** vanilla has no "organic humanlike" concept — `canGenerateInGeneSet=false` sits on Core hair-colour endogenes (Impid/Waster/Highmate would vanish) and `selectionWeight=0` on Hemogenic (Sanguophage) — so exclusion is an explicit gene-level marker. Any xenotype, preset or custom, containing a gene whose `GeneExtension.excludeFromXenogermStock` is true fails `IsCandidate` and is hidden from the grid outright (not greyed: no setting can restore it). Gene-level because Vanilla Races Expanded - Android's custom "android projects" land in `Current.Game.customXenotypeDatabase` at game start with no Def to patch. `Patches_VREAndroid.xml` flags VREA's two abstract gene bases (XML inheritance appends child `<li>` lists onto the parent's, so every derived gene inherits it, including other mods' `VREA_HardwareBase` children). Other mods opt out with the same `<modExtensions>` snippet.
 

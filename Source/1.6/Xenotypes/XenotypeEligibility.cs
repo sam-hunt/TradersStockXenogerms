@@ -5,65 +5,147 @@ using Verse;
 
 namespace XenogermTraderStock
 {
-    // Single source of truth for "may traders sell this xenotype?". Both the
-    // stock generator and the settings grid read the *derived* state here, so
-    // a category toggle (archite / inheritable / player-scenario) really does
-    // override a per-xenotype opt-in rather than merely greying it out, and the
-    // per-xenotype blacklist entry survives untouched underneath for when the
-    // category is re-enabled.
+    // Single source of truth for "may traders sell this xenotype?". The answer
+    // lives in the settings' per-xenotype sold ledger; this class owns
+    // candidacy (which xenotypes can appear at all), the category partition the
+    // filter rows and the seeding share, and the seeding itself - the majority
+    // vote that writes a ledger entry the first time a xenotype is seen. The
+    // stock generator and the settings grid both read through here; the filter
+    // rows above the grid are pure derivations of the ledger (a tri-state
+    // summary plus bulk edits), never separate state.
     public static class XenotypeEligibility
     {
         private static XenogermTraderStockSettings Settings => XenogermTraderStockMod.Settings;
 
-        // Which category toggle, if any, is currently suppressing a xenotype
-        // with these traits. None means the per-xenotype toggle is live.
-        public enum CategoryBlock
+        // Disjoint grouping: every candidate lands in exactly ONE category, the
+        // first that applies, so the filter rows partition the grid and the
+        // seeding vote has an unambiguous peer group. The precedence mirrors
+        // the retired category toggles': a scenario xenotype groups by origin
+        // over gene content, an archite one by its price-defining genes over
+        // inheritability.
+        public enum XenotypeCategory
         {
-            None,
+            PlayerScenario,
             Archite,
             Inheritable,
-            PlayerScenario,
+            Plain,
         }
 
-        // Pure, settings-driven category check shared by presets and custom
-        // xenotypes. Archite wins over inheritable when both apply, matching the
-        // order the toggles appear in the settings window.
-        public static CategoryBlock GetCategoryBlock(XenogermTraderStockSettings settings,
-            bool archite, bool inheritable, bool playerScenario)
+        // Pure so it is testable headless; the Def/CustomXenotype overloads
+        // below are thin adapters (XenotypeDef.Archite needs live
+        // GeneCategoryDefOf).
+        public static XenotypeCategory Categorize(bool archite, bool inheritable, bool playerScenario)
         {
-            if (playerScenario && !settings.includePlayerScenarioXenotypes)
+            if (playerScenario)
             {
-                return CategoryBlock.PlayerScenario;
+                return XenotypeCategory.PlayerScenario;
             }
-            if (archite && !settings.includeArchiteXenotypes)
+            if (archite)
             {
-                return CategoryBlock.Archite;
+                return XenotypeCategory.Archite;
             }
-            if (inheritable && !settings.includeInheritableXenotypes)
+            if (inheritable)
             {
-                return CategoryBlock.Inheritable;
+                return XenotypeCategory.Inheritable;
             }
-            return CategoryBlock.None;
+            return XenotypeCategory.Plain;
         }
 
-        // Derived sellable state from the raw inputs; the Def/CustomXenotype
-        // overloads below are thin adapters over this so the logic is testable
-        // headless (XenotypeDef.Archite needs live GeneCategoryDefOf).
-        public static bool IsSellable(XenogermTraderStockSettings settings,
-            bool archite, bool inheritable, bool playerScenario, bool excluded)
+        public static XenotypeCategory Categorize(XenotypeDef xenotype)
         {
-            return !excluded
-                && GetCategoryBlock(settings, archite, inheritable, playerScenario) == CategoryBlock.None;
+            return Categorize(xenotype.Archite, GatesAsInheritable(xenotype), playerScenario: false);
+        }
+
+        public static XenotypeCategory Categorize(CustomXenotype xenotype)
+        {
+            return Categorize(IsArchite(xenotype), xenotype.inheritable, playerScenario: true);
+        }
+
+        // Seed value for a xenotype the ledger has never seen: the majority
+        // sold state of its category peers, because the player's own pattern
+        // is a better guess than any fixed default - a player who ticked every
+        // archite xenotype wants a new archite mod's on sale too, and one who
+        // cleared the group wants it kept out. Ties (the empty first-run
+        // ledger included) fall back to the shipped default: germline-
+        // rewriting xenotypes start unsold - implanting one converts the pawn
+        // outright - and everything else starts sold.
+        public static bool SeedValue(XenotypeCategory category, bool gatesAsInheritable,
+            IEnumerable<(XenotypeCategory category, bool sold)> ledger)
+        {
+            int balance = 0;
+            foreach ((XenotypeCategory peerCategory, bool sold) in ledger)
+            {
+                if (peerCategory == category)
+                {
+                    balance += sold ? 1 : -1;
+                }
+            }
+            return balance != 0 ? balance > 0 : !gatesAsInheritable;
+        }
+
+        // Ledger reconciliation: every live candidate without an entry gets
+        // one, voted against the PRE-pass ledger so simultaneous newcomers (a
+        // new mod's whole roster) all get the same answer instead of voting on
+        // each other. Only live candidates vote: entries whose xenotype is no
+        // longer loaded stay dormant - never consulted, never voting, never
+        // pruned - so a temporarily disabled mod gets its choices back on
+        // re-enable. Idempotent and cheap once seeded; runs at startup
+        // (XenotypeLedgerStartup), from the settings grid and from stock
+        // generation - the custom pool is per-game, so startup alone cannot
+        // cover it.
+        public static void SeedUnseen()
+        {
+            XenogermTraderStockSettings settings = Settings;
+            var snapshot = new List<(XenotypeCategory category, bool sold)>();
+            var unseenPresets = new List<XenotypeDef>();
+            var unseenCustoms = new List<CustomXenotype>();
+
+            foreach (XenotypeDef xenotype in CandidateXenotypes())
+            {
+                bool? sold = settings.GetXenotypeSold(xenotype.defName);
+                if (sold.HasValue)
+                {
+                    snapshot.Add((Categorize(xenotype), sold.Value));
+                }
+                else
+                {
+                    unseenPresets.Add(xenotype);
+                }
+            }
+            foreach (CustomXenotype custom in CandidateCustomXenotypes())
+            {
+                bool? sold = settings.GetCustomXenotypeSold(custom.name);
+                if (sold.HasValue)
+                {
+                    snapshot.Add((Categorize(custom), sold.Value));
+                }
+                else
+                {
+                    unseenCustoms.Add(custom);
+                }
+            }
+
+            foreach (XenotypeDef xenotype in unseenPresets)
+            {
+                settings.SetXenotypeSold(xenotype.defName,
+                    SeedValue(Categorize(xenotype), GatesAsInheritable(xenotype), snapshot));
+            }
+            foreach (CustomXenotype custom in unseenCustoms)
+            {
+                settings.SetCustomXenotypeSold(custom.name,
+                    SeedValue(Categorize(custom), custom.inheritable, snapshot));
+            }
         }
 
         // Xenotypes that can never appear in stock regardless of settings:
         // gene-less xenotypes and anything carrying a gene opted out via
-        // GeneExtension (VREA androids). These are hidden from the grid outright
-        // rather than greyed like a category block, since no setting can bring
-        // them back. Baseliner is the deliberate exception to the gene-less
-        // rule: its empty xenogerm is the "make this pawn a baseliner" item -
-        // vanilla implantation wipes all xenogenes before consulting the germ's
-        // (empty) gene list, and the implant patch clears the germline too.
+        // GeneExtension (VREA androids). These are hidden from the grid
+        // outright rather than shown unticked, since no setting can bring them
+        // back. Baseliner is the deliberate exception to the gene-less rule:
+        // its empty xenogerm is the "make this pawn a baseliner" item -
+        // vanilla implantation wipes all xenogenes before consulting the
+        // germ's (empty) gene list, and the implant patch clears the germline
+        // too.
         public static bool IsCandidate(XenotypeDef xenotype)
         {
             return xenotype == XenotypeDefOf.Baseliner
@@ -84,36 +166,45 @@ namespace XenogermTraderStock
 
         // Baseliner's def is not inheritable (there are no genes to inherit),
         // but its xenogerm always rewrites the germline - the implant patch's
-        // unconditional retarget - so for category gating it counts as
-        // inheritable: a player who switched germline xenogerms out of stock
-        // keeps germline-wiping items out too.
-        private static bool GatesAsInheritable(XenotypeDef xenotype)
+        // unconditional retarget - so it categorizes and seed-defaults as
+        // inheritable: the conservative unsold default is about germline
+        // rewriting, not gene inheritance per se.
+        public static bool GatesAsInheritable(XenotypeDef xenotype)
         {
             return xenotype.inheritable || xenotype == XenotypeDefOf.Baseliner;
         }
 
-        public static CategoryBlock GetCategoryBlock(XenotypeDef xenotype)
-        {
-            return GetCategoryBlock(Settings, xenotype.Archite, GatesAsInheritable(xenotype), playerScenario: false);
-        }
-
-        public static CategoryBlock GetCategoryBlock(CustomXenotype xenotype)
-        {
-            return GetCategoryBlock(Settings, IsArchite(xenotype), xenotype.inheritable, playerScenario: true);
-        }
-
         public static bool IsSellable(XenotypeDef xenotype)
         {
-            return IsCandidate(xenotype)
-                && IsSellable(Settings, xenotype.Archite, GatesAsInheritable(xenotype), playerScenario: false,
-                    excluded: Settings.IsXenotypeExcluded(xenotype.defName));
+            if (!IsCandidate(xenotype))
+            {
+                return false;
+            }
+            bool? sold = Settings.GetXenotypeSold(xenotype.defName);
+            if (!sold.HasValue)
+            {
+                // Belt and braces: the grid, the generator and startup all
+                // seed before reading, so a miss here means a call path that
+                // forgot to - seed everything rather than guess one entry.
+                SeedUnseen();
+                sold = Settings.GetXenotypeSold(xenotype.defName);
+            }
+            return sold ?? false;
         }
 
         public static bool IsSellable(CustomXenotype xenotype)
         {
-            return IsCandidate(xenotype)
-                && IsSellable(Settings, IsArchite(xenotype), xenotype.inheritable, playerScenario: true,
-                    excluded: Settings.IsCustomXenotypeExcluded(xenotype.name));
+            if (!IsCandidate(xenotype))
+            {
+                return false;
+            }
+            bool? sold = Settings.GetCustomXenotypeSold(xenotype.name);
+            if (!sold.HasValue)
+            {
+                SeedUnseen();
+                sold = Settings.GetCustomXenotypeSold(xenotype.name);
+            }
+            return sold ?? false;
         }
 
         // CustomXenotype has no Archite property; mirror XenotypeDef.Archite's
