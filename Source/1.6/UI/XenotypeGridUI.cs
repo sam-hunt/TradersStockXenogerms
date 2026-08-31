@@ -223,37 +223,44 @@ namespace XenogermTraderStock
 
         // Vanilla tooltips are a single rich-text label and IMGUI markup has no
         // alignment or tab stops, so the money column is right-aligned the only
-        // way text allows: each line padded with spaces measured against the
-        // widest row. Space-width quantization can wobble an edge by a pixel or
-        // two. ActiveTip.DrawTooltip sets GameFont.Small before resolving the
-        // tip text, so CalcSize here measures the font the tooltip draws with;
-        // the font is still pinned locally because BuildTooltip's other callers
+        // way text allows: space padding. The column sits on the tooltip's own
+        // right edge rather than the widest price row, and each candidate line
+        // is measured COMPOSED - fragment widths summed separately drift from
+        // the renderer's layout of the whole line, which showed up as visibly
+        // ragged edges. Residual quantization is under one space width.
+        // ActiveTip.DrawTooltip sets GameFont.Small before resolving the tip
+        // text, so CalcSize here measures the font the tooltip draws with; the
+        // font is still pinned locally because BuildTooltip's other callers
         // (none today) owe no such guarantee.
         private static List<string> AlignPriceColumn(List<(string label, string money)> rows)
         {
-            // The tooltip box caps content at 260px minus 4px padding a side;
-            // rows aligned past that would word-wrap, which reads worse than a
-            // shorter column, so the widest rows just keep the minimum gap.
-            const float maxColumnWidth = 252f;
+            // ActiveTip.TipRect wraps text wider than 260px, and the 4px box
+            // padding rides outside that (ContractedBy(-4), undone at draw
+            // time) - so 260 is the true content width the description wraps
+            // to, and a line padded up to it lands flush without wrapping.
+            const float tipContentWidth = 260f;
             const int minGapSpaces = 2;
 
             GameFont prevFont = Text.Font;
             Text.Font = GameFont.Small;
 
             float spaceWidth = Text.CalcSize("$ $").x - Text.CalcSize("$$").x;
-            float rightEdge = 0f;
-            foreach ((string label, string money) in rows)
-            {
-                rightEdge = Mathf.Max(rightEdge,
-                    Text.CalcSize(label).x + (minGapSpaces * spaceWidth) + Text.CalcSize(money).x);
-            }
-            rightEdge = Mathf.Min(rightEdge, maxColumnWidth);
-
             var lines = new List<string>(rows.Count);
             foreach ((string label, string money) in rows)
             {
-                float pad = rightEdge - Text.CalcSize(label).x - Text.CalcSize(money).x;
-                int spaces = Mathf.Max(minGapSpaces, Mathf.RoundToInt(pad / spaceWidth));
+                // First guess from fragment widths, then settle on the widest
+                // composed line that still fits the content width.
+                int spaces = Mathf.Max(minGapSpaces, Mathf.FloorToInt(
+                    (tipContentWidth - Text.CalcSize(label).x - Text.CalcSize(money).x) / spaceWidth));
+                while (spaces > minGapSpaces
+                    && Text.CalcSize(label + new string(' ', spaces) + money).x > tipContentWidth)
+                {
+                    spaces--;
+                }
+                while (Text.CalcSize(label + new string(' ', spaces + 1) + money).x <= tipContentWidth)
+                {
+                    spaces++;
+                }
                 lines.Add(label + new string(' ', spaces) + money);
             }
 
