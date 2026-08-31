@@ -10,9 +10,10 @@ namespace XenogermTraderStock
     // Settings-window grid of every xenotype the generator could sell, four per
     // row so a heavily modded xenotype list stays scannable, headed by one
     // tri-state filter row per xenotype category. Each cell reads and writes
-    // the per-xenotype sold ledger directly and is always interactive; an
-    // unsold cell dims its icon and label so the set actually on sale pops
-    // from the full roster at a glance.
+    // the per-xenotype sold ledger directly and is always interactive - click
+    // to toggle, or drag to paint one state across many cells, vanilla's
+    // checkbox drag-painting; an unsold cell dims its icon and label so the
+    // set actually on sale pops from the full roster at a glance.
     public static class XenotypeGridUI
     {
         public const int Columns = 4;
@@ -146,7 +147,10 @@ namespace XenogermTraderStock
 
             Rect checkboxRect = new Rect(rect.xMax - CheckboxSize,
                 rect.y + ((rect.height - CheckboxSize) / 2f), CheckboxSize, CheckboxSize);
-            MultiCheckboxState newState = Widgets.CheckboxMulti(checkboxRect, state);
+            // paintable, like the thing-filter tree's category rows: a paint
+            // stroke crossing the checkbox snaps the whole category to the
+            // stroke's on/off state (the same globals the grid cells share).
+            MultiCheckboxState newState = Widgets.CheckboxMulti(checkboxRect, state, paintable: true);
             // The label half of the row is a click target too, the way vanilla
             // CheckboxLabeled spans its whole row: same binary cycle CheckboxMulti
             // applies on a click (on/partial -> off, off -> on), same sounds.
@@ -184,18 +188,21 @@ namespace XenogermTraderStock
                 TooltipHandler.TipRegion(rect, new TipSignal(() => BuildTooltip(cell), cell.TooltipId));
             }
 
+            // The whole cell is one click-and-paint target, the shape vanilla
+            // CheckboxLabeled(paintable: true) takes: a press toggles, a drag
+            // paints the first toggle's state across every cell the stroke
+            // crosses (the trade dialog's checkbox-column behaviour - vanilla
+            // hangs the painted state off the cursor and ends the stroke on
+            // mouse-up in WidgetsOnGUI). ToggleInvisibleDraggable owns the
+            // turned-on/off sounds, so no manual click sound here.
             bool sold = cell.Sold;
             bool checkOn = sold;
-            Widgets.Checkbox(checkboxRect.position, ref checkOn, CheckboxSize);
-            if (Widgets.ButtonInvisible(new Rect(iconRect.x, rect.y, rect.xMax - iconRect.x, rect.height)))
-            {
-                checkOn = !checkOn;
-                SoundDefOf.Click.PlayOneShotOnCamera();
-            }
+            Widgets.ToggleInvisibleDraggable(rect, ref checkOn, doMouseoverSound: true, paintable: true);
             if (checkOn != sold)
             {
                 cell.SetSold(checkOn);
             }
+            Widgets.CheckboxDraw(checkboxRect.x, checkboxRect.y, checkOn, disabled: false, CheckboxSize);
 
             // Dim by the post-click state so the cell follows the click in the
             // same frame.
