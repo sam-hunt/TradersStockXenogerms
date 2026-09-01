@@ -9,16 +9,16 @@ namespace XenogermTraderStock
     // xenogerms thereafter.
     public partial class XenogermTraderStockSettings
     {
-        public const float DefaultBasePresetValue = 1300f;
+        public const float DefaultBasePresetValue = 800f;
         public float basePresetValue = DefaultBasePresetValue;
 
         public const float DefaultValuePerMetabolism = 10f;
         public float valuePerMetabolism = DefaultValuePerMetabolism;
 
-        public const float DefaultValuePerComplexity = 15f;
+        public const float DefaultValuePerComplexity = 10f;
         public float valuePerComplexity = DefaultValuePerComplexity;
 
-        public const float DefaultValuePerArchite = 100f;
+        public const float DefaultValuePerArchite = 75f;
         public float valuePerArchite = DefaultValuePerArchite;
 
         // Slider ranges and snap steps. Steps are sized to the silver a single
@@ -36,8 +36,8 @@ namespace XenogermTraderStock
         public const float MaxValuePerComplexity = 100f;
         public const float StepValuePerComplexity = 5f;
         public const float MinValuePerArchite = 0f;
-        public const float MaxValuePerArchite = 1000f;
-        public const float StepValuePerArchite = 25f;
+        public const float MaxValuePerArchite = 750f;
+        public const float StepValuePerArchite = 5f;
 
         private void ExposePricingSettings()
         {

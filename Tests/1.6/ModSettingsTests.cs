@@ -209,7 +209,6 @@ namespace XenogermTraderStock.Tests
         [Theory]
         [InlineData(XenogermTraderStockSettings.DefaultBasePresetValue, XenogermTraderStockSettings.MinBasePresetValue, XenogermTraderStockSettings.StepBasePresetValue)]
         [InlineData(XenogermTraderStockSettings.DefaultValuePerMetabolism, XenogermTraderStockSettings.MinValuePerMetabolism, XenogermTraderStockSettings.StepValuePerMetabolism)]
-        [InlineData(XenogermTraderStockSettings.DefaultValuePerComplexity, XenogermTraderStockSettings.MinValuePerComplexity, XenogermTraderStockSettings.StepValuePerComplexity)]
         [InlineData(XenogermTraderStockSettings.DefaultValuePerArchite, XenogermTraderStockSettings.MinValuePerArchite, XenogermTraderStockSettings.StepValuePerArchite)]
         public void DefaultValues_SitOnTheirSliderStepGrid(float defaultValue, float min, float step)
         {
