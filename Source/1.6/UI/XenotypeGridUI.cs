@@ -238,9 +238,11 @@ namespace XenogermTraderStock
 
             // Formula transparency: one line per pricing component, its silver
             // amount hung off a right-aligned column. The list closes with the
-            // market-value subtotal, vanilla's x1.40 buying markup and the
-            // final asking price, worded with the same vanilla keys the trade
-            // dialog's own price tooltip uses (MarketValue stat label,
+            // market-value subtotal, vanilla's buying markup (shown as the
+            // silver it adds, "+40%", so every uncolored row stays additive
+            // and only the yellow rows total) and the final asking price,
+            // worded with the same vanilla keys the trade dialog's own price
+            // tooltip uses (MarketValue stat label,
             // "Buying", "FinalPrice") so the two hovers visibly agree - and
             // needing no XTS strings of their own. The two summary rows are
             // the accents, in bright yellow, colorized after alignment so
@@ -266,9 +268,9 @@ namespace XenogermTraderStock
                         breakdown.Archites, settings.valuePerArchite.ToString("F0")).ToString(),
                     (breakdown.Archites * settings.valuePerArchite).ToStringMoney(), false),
                 (StatDefOf.MarketValue.LabelCap.ToString(), marketValue.ToStringMoney(), true),
-                ("x " + XenogermPricing.VanillaBuyMarkup.ToString("F2")
+                ("+" + (XenogermPricing.VanillaBuyMarkup - 1f).ToStringPercent()
                         + " (" + "Buying".Translate().ToString() + ")",
-                    buyPrice.ToStringMoney(), false),
+                    (buyPrice - marketValue).ToStringMoney(), false),
                 ("FinalPrice".Translate().ToString(), buyPrice.ToStringMoney(), true),
             };
             List<string> priceLines = AlignPriceColumn(priceRows.ConvertAll(row => (row.label, row.money)));

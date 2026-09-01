@@ -161,7 +161,7 @@ Default pricing settings:
 - `valuePerComplexity`: 15 (range: 0-100)
 - `valuePerArchite`: 100 (range: 0-1000)
 
-The settings grid previews the *shelf price*, `MarketValue × 1.4` (`XenogermPricing.VanillaBuyMarkup` — vanilla's flat buying markup, hardcoded in `TradeUtility.GetPricePlayerBuy`), because in a trader-stock context players read the preview as what they'll pay; the info card keeps raw MarketValue. The cell tooltip's breakdown closes with market value → ×1.40 (buying) → final price, reusing the vanilla trade-tooltip language keys (no XTS strings). Negotiator/settlement bonuses only ever discount from there; faction goodwill never affects vanilla prices.
+The settings grid previews the *shelf price*, `MarketValue × 1.4` (`XenogermPricing.VanillaBuyMarkup` — vanilla's flat buying markup, hardcoded in `TradeUtility.GetPricePlayerBuy`), because in a trader-stock context players read the preview as what they'll pay; the info card keeps raw MarketValue. The cell tooltip's breakdown closes with market value → +40% (buying, shown as the silver it adds so white rows stay additive and yellow rows are the subtotals) → final price, reusing the vanilla trade-tooltip language keys (no XTS strings). Negotiator/settlement bonuses only ever discount from there; faction goodwill never affects vanilla prices.
 
 ## Testing
 
