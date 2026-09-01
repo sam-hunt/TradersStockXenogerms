@@ -26,9 +26,25 @@ namespace XenogermTraderStock.Patches
     // XenotypeIconDefOf.Basic on load, which is how the "custom xenotype" icon leaked onto
     // pawns implanted from a xenogerm that had been through a save/load cycle.
     //
-    // Not touched: Pawn_GeneTracker.hybrid. It describes the pawn's germline (set by
-    // PregnancyUtility for a child of two inheritable xenotypes, read only for inheritance),
-    // which a xenogerm implant does not change - vanilla leaves it alone too.
+    // One exception to the stamp: identity follows the gene layer it was keyed to. Vanilla's
+    // displayed xenotype describes whichever layer last claimed it - a generated sanguophage
+    // with impid endogenes (doubleXenotypeChances) is still labeled Sanguophage, because the
+    // xenogene layer owns its identity. A germline retarget rewrites only the endogene layer,
+    // so when the pawn's pre-implant identity was XENOGENE-keyed (a non-inheritable preset
+    // like Sanguophage/Hussar, or a custom name that isn't a known inheritable template) and
+    // its xenogenes survive the rewrite, that identity is restored rather than overwritten:
+    // a sanguophage given an impid germline stays a sanguophage, exactly like its vanilla-
+    // born hybrid counterpart. The restore is a snapshot from the prefix, not a skip -
+    // vanilla has already destroyed the fields (SetXenotype(Baseliner), then the item's
+    // name/icon) by the time the postfix runs. A GERMLINE-keyed identity (inheritable preset,
+    // plain Baseliner, a "Hybrid" baby, an inheritable custom template) is stamped as usual
+    // even when stray xenogenes survive: the layer that owned the identity was replaced.
+    //
+    // Pawn_GeneTracker.hybrid (set by PregnancyUtility for a child of two incompatible
+    // xenotypes; read for gene inheritance and by the CustomXenotype matcher, never for the
+    // label - "Hybrid" babies are labeled via xenotypeName) is cleared by the retarget,
+    // whose whole point is leaving the germline uniformly one xenotype. Vanilla implants -
+    // and every non-retarget path here - leave it alone, since they don't touch the germline.
     //
     // This enables:
     // - Ideology recognition (preferred xenotypes)
@@ -58,6 +74,15 @@ namespace XenogermTraderStock.Patches
             // Pre-implant xenogene defs to rebuild after a germline retarget; null
             // when no retarget is coming or the pawn had none.
             public List<GeneDef> preservedXenogenes;
+
+            // Pre-implant identity to restore after a germline retarget, captured only
+            // when that identity was xenogene-keyed AND xenogenes survive the rewrite
+            // (preservedXenogenes is set). identityXenotype == null means no restore:
+            // stamp the implant's xenotype as usual. (The Xenotype property never
+            // returns null - it coalesces to Baseliner - so null is a safe sentinel.)
+            public XenotypeDef identityXenotype;
+            public string identityName;
+            public XenotypeIconDef identityIcon;
 
             // Pre-implant deathrest capacity; 0 when the pawn had no deathrest gene.
             public int deathrestCapacity;
@@ -92,6 +117,7 @@ namespace XenogermTraderStock.Patches
                 : 0;
 
             List<GeneDef> preservedXenogenes = null;
+            bool restoreIdentity = false;
             var comp = xenogerm.TryGetComp<CompXenotypeSource>();
             if (comp?.sourceXenotype != null
                 && comp.sourceXenotype.inheritable
@@ -106,6 +132,10 @@ namespace XenogermTraderStock.Patches
                     {
                         preservedXenogenes.Add(gene.def);
                     }
+
+                    // The surviving xenogenes keep owning the pawn's identity when they
+                    // owned it before; a germline-keyed identity dies with the germline.
+                    restoreIdentity = !IdentityIsGermlineKeyed(pawn.genes);
                 }
             }
 
@@ -116,6 +146,12 @@ namespace XenogermTraderStock.Patches
                     preservedXenogenes = preservedXenogenes,
                     deathrestCapacity = deathrestCapacity,
                 };
+                if (restoreIdentity)
+                {
+                    __state.identityXenotype = pawn.genes.Xenotype;
+                    __state.identityName = pawn.genes.xenotypeName;
+                    __state.identityIcon = pawn.genes.iconDef;
+                }
             }
         }
 
@@ -134,11 +170,6 @@ namespace XenogermTraderStock.Patches
                 return;
             }
 
-            // Mirrors GeneUtility.ReimplantXenogerm's field handling: set the xenotype, then
-            // assign the identity fields explicitly. Genes stay as the xenogenes vanilla added.
-            pawn.genes.SetXenotypeDirect(comp.sourceXenotype);
-            pawn.genes.iconDef = null;
-
             // Baseliner bypasses the germline setting: its gene-less xenogerm has
             // exactly one honest meaning - make this pawn a baseliner - and with
             // no genes to add there is no "keep it as xenogenes" alternative for
@@ -150,9 +181,29 @@ namespace XenogermTraderStock.Patches
             // be relabeled Baseliner while keeping every Impid germline gene.
             // The prefix never snapshots for Baseliner either: the conversion
             // wipes both layers, so a Hussar comes out a plain baseliner.
-            if (GermlineIsRewritable(pawn)
+            bool retarget = GermlineIsRewritable(pawn)
                 && (comp.sourceXenotype == XenotypeDefOf.Baseliner
-                    || (comp.sourceXenotype.inheritable && XenogermTraderStockMod.Settings.implantGermlineAsEndogenes)))
+                    || (comp.sourceXenotype.inheritable && XenogermTraderStockMod.Settings.implantGermlineAsEndogenes));
+
+            // Both branches mirror GeneUtility.ReimplantXenogerm's field handling: set the
+            // xenotype, then assign the remaining identity fields explicitly (SetXenotypeDirect
+            // nulls xenotypeName and invalidates the custom-xenotype cache, but not iconDef).
+            if (retarget && __state?.identityXenotype != null)
+            {
+                // The retarget rewrites only the germline, and the prefix determined the
+                // pawn's identity is owned by xenogenes that survive it - put the identity
+                // back the way vanilla's wipe found it (see the class comment).
+                pawn.genes.SetXenotypeDirect(__state.identityXenotype);
+                pawn.genes.xenotypeName = __state.identityName;
+                pawn.genes.iconDef = __state.identityIcon;
+            }
+            else
+            {
+                pawn.genes.SetXenotypeDirect(comp.sourceXenotype);
+                pawn.genes.iconDef = null;
+            }
+
+            if (retarget)
             {
                 RetargetToEndogenes(pawn, xenogerm, __state?.preservedXenogenes);
             }
@@ -188,6 +239,55 @@ namespace XenogermTraderStock.Patches
         private static bool GermlineIsRewritable(Pawn pawn)
         {
             return !XenotypeEligibility.ContainsExcludedGene(pawn.genes.Endogenes.Select(g => g.def));
+        }
+
+        // Whether the pawn's displayed identity describes its germline (endogene layer)
+        // rather than its xenogene layer. Germline-keyed identities die with the germline
+        // rewrite and are stamped over; xenogene-keyed ones are restored when their
+        // xenogenes survive. Same "inheritable, plus Baseliner" shape as
+        // XenotypeEligibility.GatesAsInheritable - both answer "does this xenotype live
+        // in the germline?" - but written locally: that helper carries shop-gating
+        // semantics, this one classifies a pawn's current identity.
+        private static bool IdentityIsGermlineKeyed(Pawn_GeneTracker genes)
+        {
+            if (!genes.UniqueXenotype)
+            {
+                // Preset identity: inheritable xenotypes are born into the germline;
+                // plain Baseliner (no name, no xenogene xenotype ever claimed the pawn)
+                // likewise describes nothing but the germline.
+                return genes.Xenotype.inheritable || genes.Xenotype == XenotypeDefOf.Baseliner;
+            }
+
+            // "Hybrid" babies: PregnancyUtility sets hybrid=true plus the literal
+            // translated name for a child of two incompatible xenotypes - an
+            // endogene-only identity. The name check matters: hybrid alone survives a
+            // later vanilla xenogerm implant, which overwrites xenotypeName with the
+            // item's - THAT identity is xenogene-keyed despite the stale flag. (The
+            // comparison is against the same runtime translation PregnancyUtility
+            // stored; a save carrying another language's word restores conservatively.)
+            if (genes.hybrid && genes.xenotypeName == (string)"Hybrid".Translate())
+            {
+                return true;
+            }
+
+            // Any other unique name is a custom identity, and the tracker doesn't record
+            // which layer earned it. A name matching a player-scenario custom template
+            // uses that template's own inheritable flag; on a miss, assume xenogene-keyed
+            // (restore) - the overwhelmingly common source of an unmatched custom name is
+            // a vanilla xenogerm implant, which writes xenogenes by construction.
+            List<CustomXenotype> customs = Current.Game?.customXenotypeDatabase?.customXenotypes;
+            if (customs != null)
+            {
+                foreach (CustomXenotype custom in customs)
+                {
+                    if (custom.name == genes.xenotypeName)
+                    {
+                        return custom.inheritable;
+                    }
+                }
+            }
+
+            return false;
         }
 
         // Rebuilds the pawn's germline as the implant's genes. Vanilla has just
@@ -256,6 +356,14 @@ namespace XenogermTraderStock.Patches
                     genes.AddGene(gene, xenogene: true);
                 }
             }
+
+            // The germline is now uniformly the implant's xenotype (or empty, for the
+            // Baseliner conversion), so the pawn is no longer a germline hybrid. hybrid
+            // is read for gene inheritance (PregnancyUtility treats a hybrid germline
+            // as inheritable) and by the CustomXenotype matcher, so leaving a stale
+            // flag has real effects; vanilla implants never touch it only because they
+            // never touch the germline.
+            genes.hybrid = false;
         }
     }
 }
