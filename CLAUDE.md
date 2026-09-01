@@ -130,7 +130,7 @@ The mod stores a `XenotypeDef` reference on trader-sold xenogerms via `CompXenot
 | `StockGenerator_Xenogerms` | Generates xenogerms for traders with weighted spawn rates |
 | `XenotypeEligibility` | Single source of truth for sellable state: candidacy, category partition, sold-ledger seeding |
 | `GeneExtension` | `DefModExtension` for GeneDefs; `excludeFromXenogermStock` bars any xenotype containing the gene |
-| `XenotypeGridUI` | 4-column settings grid of xenotype toggles (icon, name, live price, description tooltip) + tri-state category filter rows |
+| `XenotypeGridUI` | 4-column settings grid of xenotype toggles (icon, name, live shelf price, description tooltip) + tri-state category filter rows |
 | `XenogermFactory` | Creates xenogerm Things from XenotypeDef or CustomXenotype |
 | `XenogermPricing` | Centralized pricing calculations (used by StockGenerator and StatPart) |
 | `StatPart_XenogermValue` | Calculates MarketValue based on genes |
@@ -160,6 +160,8 @@ Default pricing settings:
 - `valuePerMetabolism`: 10 (range: 0-100)
 - `valuePerComplexity`: 15 (range: 0-100)
 - `valuePerArchite`: 100 (range: 0-1000)
+
+The settings grid previews the *shelf price*, `MarketValue × 1.4` (`XenogermPricing.VanillaBuyMarkup` — vanilla's flat buying markup, hardcoded in `TradeUtility.GetPricePlayerBuy`), because in a trader-stock context players read the preview as what they'll pay; the info card keeps raw MarketValue. The cell tooltip's breakdown closes with market value → ×1.40 (buying) → final price, reusing the vanilla trade-tooltip language keys (no XTS strings). Negotiator/settlement bonuses only ever discount from there; faction goodwill never affects vanilla prices.
 
 ## Testing
 

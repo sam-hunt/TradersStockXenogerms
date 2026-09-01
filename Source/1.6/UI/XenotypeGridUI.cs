@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using Verse.Sound;
 using UnityEngine;
@@ -32,10 +31,11 @@ namespace XenogermTraderStock
         private static readonly Color XenogeneColor = new Color(0.55f, 0.85f, 0.95f);
         private static Color PlayerScenarioColor => FactionDefOf.PlayerColony.DefaultColor;
 
-        // Accent on the price list's closing total row: full bright cyan, so
-        // the one line the list builds to pops from the uncolored component
-        // rows above it.
-        private static readonly Color TotalPriceColor = Color.cyan;
+        // Accent on the price list's two summary rows - the market-value
+        // subtotal the components build to, and the final asking price after
+        // vanilla's buying markup: full bright cyan, so both pop from the
+        // uncolored component rows.
+        private static readonly Color PriceAccentColor = Color.cyan;
 
         private static XenogermTraderStockSettings Settings => XenogermTraderStockMod.Settings;
 
@@ -219,11 +219,12 @@ namespace XenogermTraderStock
             // Mirrors the pawn bio's xenotype hover: coloured title, short
             // description, subtle grey footnotes.
             var breakdown = XenogermPricing.Calculate(cell.Genes);
-            float price = XenogermPricing.BaseXenogermValue + breakdown.Premium;
+            float marketValue = XenogermPricing.BaseXenogermValue + breakdown.Premium;
+            float buyPrice = marketValue * XenogermPricing.VanillaBuyMarkup;
             var settings = Settings;
 
             // Title carries the parenthesized price, same shape as the cell text.
-            string text = (cell.LabelCap + " (" + price.ToStringMoney() + ")")
+            string text = (cell.LabelCap + " (" + buyPrice.ToStringMoney() + ")")
                 .Colorize(ColoredText.TipSectionTitleColor)
                 + "\n\n" + cell.Description;
 
@@ -236,34 +237,49 @@ namespace XenogermTraderStock
             }
 
             // Formula transparency: one line per pricing component, its silver
-            // amount hung off a right-aligned column, the total closing the
-            // list as the one accent - its full row in bright cyan, colorized
-            // after alignment so padding is measured on plain text. Component
-            // rows stay entirely uncolored, which rules out Resolve(): its
-            // CurrencyRegex gold-tints every $ amount. Each Translate is
-            // ToString()d (RawText, tags kept) rather than left to ride the +
-            // chain as a bare TaggedString, whose implicit string conversion
-            // is RawText.StripTags() - one leak decolorizes the entire tooltip.
-            var priceRows = new List<(string label, string money)>
+            // amount hung off a right-aligned column. The list closes with the
+            // market-value subtotal, vanilla's x1.40 buying markup and the
+            // final asking price, worded with the same vanilla keys the trade
+            // dialog's own price tooltip uses (MarketValue stat label,
+            // "Buying", "FinalPrice") so the two hovers visibly agree - and
+            // needing no XTS strings of their own. The two summary rows are
+            // the accents, in bright cyan, colorized after alignment so
+            // padding is measured on plain text. Component rows stay entirely
+            // uncolored, which rules out Resolve(): its CurrencyRegex
+            // gold-tints every $ amount. Each Translate is ToString()d
+            // (RawText, tags kept) rather than left to ride the + chain as a
+            // bare TaggedString, whose implicit string conversion is
+            // RawText.StripTags() - one leak decolorizes the entire tooltip.
+            var priceRows = new List<(string label, string money, bool accent)>
             {
                 ("XTS_PriceBase".Translate().ToString(),
-                    XenogermPricing.BaseXenogermValue.ToStringMoney()),
+                    XenogermPricing.BaseXenogermValue.ToStringMoney(), false),
                 ("XTS_PricePreset".Translate().ToString(),
-                    settings.basePresetValue.ToStringMoney()),
+                    settings.basePresetValue.ToStringMoney(), false),
                 ("XTS_PriceMetabolism".Translate(
                         breakdown.AbsoluteMetabolism, settings.valuePerMetabolism.ToString("F0")).ToString(),
-                    (breakdown.AbsoluteMetabolism * settings.valuePerMetabolism).ToStringMoney()),
+                    (breakdown.AbsoluteMetabolism * settings.valuePerMetabolism).ToStringMoney(), false),
                 ("XTS_PriceComplexity".Translate(
                         breakdown.Complexity, settings.valuePerComplexity.ToString("F0")).ToString(),
-                    (breakdown.Complexity * settings.valuePerComplexity).ToStringMoney()),
+                    (breakdown.Complexity * settings.valuePerComplexity).ToStringMoney(), false),
                 ("XTS_PriceArchite".Translate(
                         breakdown.Archites, settings.valuePerArchite.ToString("F0")).ToString(),
-                    (breakdown.Archites * settings.valuePerArchite).ToStringMoney()),
-                ("XTS_PriceTotal".Translate().ToString(), price.ToStringMoney()),
+                    (breakdown.Archites * settings.valuePerArchite).ToStringMoney(), false),
+                (StatDefOf.MarketValue.LabelCap.ToString(), marketValue.ToStringMoney(), true),
+                ("x " + XenogermPricing.VanillaBuyMarkup.ToString("F2")
+                        + " (" + "Buying".Translate().ToString() + ")",
+                    buyPrice.ToStringMoney(), false),
+                ("FinalPrice".Translate().ToString(), buyPrice.ToStringMoney(), true),
             };
-            List<string> priceLines = AlignPriceColumn(priceRows);
-            text += "\n\n" + string.Join("\n", priceLines.Take(priceLines.Count - 1))
-                + "\n" + priceLines[priceLines.Count - 1].Colorize(TotalPriceColor);
+            List<string> priceLines = AlignPriceColumn(priceRows.ConvertAll(row => (row.label, row.money)));
+            for (int i = 0; i < priceLines.Count; i++)
+            {
+                if (priceRows[i].accent)
+                {
+                    priceLines[i] = priceLines[i].Colorize(PriceAccentColor);
+                }
+            }
+            text += "\n\n" + string.Join("\n", priceLines);
 
             // Last line: where the xenotype comes from, as the info card's Source
             // row shows it (vanilla's Stat_Source_Label + the content pack name).
@@ -403,10 +419,15 @@ namespace XenogermTraderStock
             }
 
             // Price is recomputed per frame from the live slider values so the
-            // grid tracks the pricing sliders above it as they move.
+            // grid tracks the pricing sliders above it as they move. It is the
+            // shelf price (market value x vanilla's flat buying markup), not
+            // raw market value: in a trader-stock context players read this
+            // number as what they will pay, and the markup part is constant -
+            // the trade session's own modifiers (negotiator, difficulty) only
+            // ever discount it.
             public string Label()
             {
-                return LabelCap + " (" + XenogermPricing.EstimateMarketValue(Genes).ToStringMoney() + ")";
+                return LabelCap + " (" + XenogermPricing.EstimateBuyPrice(Genes).ToStringMoney() + ")";
             }
         }
     }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using RimWorld;
 using Verse;
 
 namespace XenogermTraderStock
@@ -11,6 +10,12 @@ namespace XenogermTraderStock
     {
         // Base xenogerm value from vanilla ThingDef.
         public const float BaseXenogermValue = 20f;
+
+        // Vanilla's flat buying markup: TradeUtility.GetPricePlayerBuy charges
+        // MarketValue x 1.4 on everything the player buys, before the
+        // negotiator/settlement discounts (which only ever lower it). Faction
+        // relations never touch prices.
+        public const float VanillaBuyMarkup = 1.4f;
 
         // Breakdown of pricing components for a xenogerm.
         public struct PricingBreakdown
@@ -52,6 +57,15 @@ namespace XenogermTraderStock
         public static float EstimateMarketValue(IEnumerable<GeneDef> genes)
         {
             return BaseXenogermValue + Calculate(genes).Premium;
+        }
+
+        // Estimates what a trader will actually ask for the xenogerm: market
+        // value under the vanilla buying markup. The settings grid shows this
+        // shelf price rather than raw market value, since the shop context
+        // makes players read the preview as the price they will pay.
+        public static float EstimateBuyPrice(IEnumerable<GeneDef> genes)
+        {
+            return EstimateMarketValue(genes) * VanillaBuyMarkup;
         }
     }
 }

@@ -155,5 +155,22 @@ namespace XenogermTraderStock.Tests
             // 20 (base) + 1300 + (5x10) + (4x15) + (1x100) = 20 + 1300 + 50 + 60 + 100 = 1530.
             Assert.Equal(1530f, value);
         }
+
+        // ---- EstimateBuyPrice: market value under vanilla's buying markup ------
+
+        [Fact]
+        public void EstimateBuyPrice_AppliesVanillaBuyMarkup()
+        {
+            var settings = TestHelpers.InstallDefaultSettings();
+            settings.basePresetValue = 1280f;
+            settings.valuePerMetabolism = 0f;
+            settings.valuePerComplexity = 0f;
+            settings.valuePerArchite = 0f;
+
+            float price = XenogermPricing.EstimateBuyPrice(null);
+
+            // (20 base + 1280 preset) x 1.4 vanilla buying markup = 1820.
+            Assert.Equal(1820.0, price, 2);
+        }
     }
 }
