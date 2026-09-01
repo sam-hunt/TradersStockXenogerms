@@ -164,21 +164,6 @@ namespace XenogermTraderStock
             return genes.Any(g => g.GetModExtension<GeneExtension>()?.excludeFromXenogermStock == true);
         }
 
-        // Whether any of these genes forbids the wholesale germline rewrite of
-        // a pawn carrying it as an endogene (the implant patch's retarget).
-        // excludeFromXenogermStock implies the block - germline machinery too
-        // alien to sell is also too alien to overwrite - while
-        // blocksGermlineRetarget alone leaves the xenotype sellable: IsCandidate
-        // deliberately never reads it. Pure like ContainsExcludedGene.
-        public static bool BlocksGermlineRetarget(IEnumerable<GeneDef> genes)
-        {
-            return genes.Any(g =>
-            {
-                GeneExtension ext = g.GetModExtension<GeneExtension>();
-                return ext != null && (ext.excludeFromXenogermStock || ext.blocksGermlineRetarget);
-            });
-        }
-
         // Baseliner's def is not inheritable (there are no genes to inherit),
         // but its xenogerm always rewrites the germline - the implant patch's
         // unconditional retarget - so it categorizes and seed-defaults as

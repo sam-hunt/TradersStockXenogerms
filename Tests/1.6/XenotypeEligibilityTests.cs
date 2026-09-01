@@ -177,64 +177,6 @@ namespace XenogermTraderStock.Tests
         }
 
         [Fact]
-        public void BlocksGermlineRetarget_NoExtensions_IsFalse()
-        {
-            var genes = new List<GeneDef> { TestHelpers.MakeGene(), TestHelpers.MakeGene() };
-
-            Assert.False(XenotypeEligibility.BlocksGermlineRetarget(genes));
-        }
-
-        [Fact]
-        public void BlocksGermlineRetarget_BothFlagsOff_IsFalse()
-        {
-            var genes = new List<GeneDef> { TestHelpers.MakeGene(exclude: false, blockRetarget: false) };
-
-            Assert.False(XenotypeEligibility.BlocksGermlineRetarget(genes));
-        }
-
-        [Fact]
-        public void BlocksGermlineRetarget_OneBlockingGeneAmongMany_IsTrue()
-        {
-            var genes = new List<GeneDef>
-            {
-                TestHelpers.MakeGene(),
-                TestHelpers.MakeGene(blockRetarget: true),
-                TestHelpers.MakeGene(),
-            };
-
-            Assert.True(XenotypeEligibility.BlocksGermlineRetarget(genes));
-        }
-
-        // excludeFromXenogermStock implies the retarget block: germline
-        // machinery too alien to sell is also too alien to overwrite.
-        [Fact]
-        public void BlocksGermlineRetarget_ExcludedGene_AlsoBlocks()
-        {
-            var genes = new List<GeneDef> { TestHelpers.MakeGene(exclude: true) };
-
-            Assert.True(XenotypeEligibility.BlocksGermlineRetarget(genes));
-        }
-
-        // The implication does not run the other way: a retarget-blocking gene
-        // (VRE Lycanthrope's morph family) leaves its xenotypes fully sellable.
-        [Fact]
-        public void ContainsExcludedGene_RetargetBlockedGene_IsFalse()
-        {
-            var genes = new List<GeneDef> { TestHelpers.MakeGene(blockRetarget: true) };
-
-            Assert.False(XenotypeEligibility.ContainsExcludedGene(genes));
-        }
-
-        [Fact]
-        public void IsCandidate_CustomXenotypeWithRetargetBlockedGene_IsTrue()
-        {
-            var custom = new CustomXenotype { name = "Lycanthrope project" };
-            custom.genes.Add(TestHelpers.MakeGene(blockRetarget: true));
-
-            Assert.True(XenotypeEligibility.IsCandidate(custom));
-        }
-
-        [Fact]
         public void IsCandidate_CustomXenotypeWithFlaggedGene_IsFalse()
         {
             var custom = new CustomXenotype { name = "Android project" };

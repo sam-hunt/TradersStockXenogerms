@@ -17,27 +17,22 @@ namespace XenogermTraderStock.Tests
         // running any constructor, matching the pattern UWU's TestHelpers
         // uses for ThingDef.
         //
-        // exclude / blockRetarget: both null leaves modExtensions null (the
-        // common case for a gene no mod has patched); setting either attaches
-        // a GeneExtension carrying the given excludeFromXenogermStock /
-        // blocksGermlineRetarget values.
+        // exclude: null leaves modExtensions null (the common case for a gene
+        // no mod has patched); true/false attaches a GeneExtension with that
+        // excludeFromXenogermStock value.
         public static GeneDef MakeGene(int metabolism = 0, int complexity = 0, int archites = 0,
-            string defName = null, bool? exclude = null, bool? blockRetarget = null)
+            string defName = null, bool? exclude = null)
         {
             var gene = (GeneDef)FormatterServices.GetUninitializedObject(typeof(GeneDef));
             gene.defName = defName ?? "TestGene";
             gene.biostatMet = metabolism;
             gene.biostatCpx = complexity;
             gene.biostatArc = archites;
-            if (exclude.HasValue || blockRetarget.HasValue)
+            if (exclude.HasValue)
             {
                 gene.modExtensions = new List<DefModExtension>
                 {
-                    new GeneExtension
-                    {
-                        excludeFromXenogermStock = exclude ?? false,
-                        blocksGermlineRetarget = blockRetarget ?? false,
-                    },
+                    new GeneExtension { excludeFromXenogermStock = exclude.Value },
                 };
             }
             return gene;
