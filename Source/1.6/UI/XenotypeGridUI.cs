@@ -33,9 +33,9 @@ namespace XenogermTraderStock
 
         // Accent on the price list's two summary rows - the market-value
         // subtotal the components build to, and the final asking price after
-        // vanilla's buying markup: full bright cyan, so both pop from the
+        // vanilla's buying markup: full bright yellow, so both pop from the
         // uncolored component rows.
-        private static readonly Color PriceAccentColor = Color.cyan;
+        private static readonly Color PriceAccentColor = Color.yellow;
 
         private static XenogermTraderStockSettings Settings => XenogermTraderStockMod.Settings;
 
@@ -243,7 +243,7 @@ namespace XenogermTraderStock
             // dialog's own price tooltip uses (MarketValue stat label,
             // "Buying", "FinalPrice") so the two hovers visibly agree - and
             // needing no XTS strings of their own. The two summary rows are
-            // the accents, in bright cyan, colorized after alignment so
+            // the accents, in bright yellow, colorized after alignment so
             // padding is measured on plain text. Component rows stay entirely
             // uncolored, which rules out Resolve(): its CurrencyRegex
             // gold-tints every $ amount. Each Translate is ToString()d
