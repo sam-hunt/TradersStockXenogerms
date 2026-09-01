@@ -117,11 +117,15 @@ namespace XenogermTraderStock.Patches
         // genes are germline machinery no organic xenogerm accounts for - VREA android
         // hardware lives as endogenes (androids are inheritable XenotypeDefs) and
         // carries per-instance state (reactor charge, stored name, decay timers), so
-        // the wholesale endogene replace would destroy the pawn outright. VREA gates
-        // androids out of all three vanilla implant entry points, but one gate is a
-        // player-editable recipe list and another a label-string match, so this path
-        // is reachable. Such a pawn gets vanilla implant behaviour plus the identity
-        // stamp, nothing more - the Baseliner conversion included.
+        // the wholesale endogene replace would destroy the pawn outright. Defense in
+        // depth, not a live hole: VREA closes every shipped entry point (the xenogerm
+        // float-menu option is disabled for androids, and an AvailableOnNow postfix
+        // over every RecipeWorker subclass blocks the surgery - its disallowedRecipes
+        // list is an XML Def, not something a player can toggle in game). This guard
+        // makes the extension's promise hold anyway, for implant paths nobody audited:
+        // another mod calling ImplantXenogermItem directly, or a non-VREA geneline
+        // flagged with the same extension. Such a pawn gets vanilla implant behaviour
+        // plus the identity stamp, nothing more - the Baseliner conversion included.
         private static bool GermlineIsRewritable(Pawn pawn)
         {
             return !XenotypeEligibility.ContainsExcludedGene(pawn.genes.Endogenes.Select(g => g.def));
