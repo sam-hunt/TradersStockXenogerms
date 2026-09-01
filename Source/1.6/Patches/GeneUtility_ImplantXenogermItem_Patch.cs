@@ -222,23 +222,40 @@ namespace XenogermTraderStock.Patches
             }
         }
 
-        // Never rewrite the germline of a pawn whose endogenes include a gene opted
-        // out of the xenogerm trade (GeneExtension.excludeFromXenogermStock). Those
-        // genes are germline machinery no organic xenogerm accounts for - VREA android
-        // hardware lives as endogenes (androids are inheritable XenotypeDefs) and
-        // carries per-instance state (reactor charge, stored name, decay timers), so
-        // the wholesale endogene replace would destroy the pawn outright. Defense in
+        // Never rewrite the germline of a pawn whose endogenes include a gene flagged
+        // against it (GeneExtension: excludeFromXenogermStock, or the weaker
+        // blocksGermlineRetarget). Those genes are germline machinery no organic
+        // xenogerm accounts for. Two shipped clients:
+        //
+        // VREA android hardware (excludeFromXenogermStock, Patches_VREAndroid.xml):
+        // lives as endogenes (androids are inheritable XenotypeDefs) and carries
+        // per-instance state (reactor charge, stored name, decay timers), so the
+        // wholesale endogene replace would destroy the pawn outright. Defense in
         // depth, not a live hole: VREA closes every shipped entry point (the xenogerm
         // float-menu option is disabled for androids, and an AvailableOnNow postfix
         // over every RecipeWorker subclass blocks the surgery - its disallowedRecipes
         // list is an XML Def, not something a player can toggle in game). This guard
         // makes the extension's promise hold anyway, for implant paths nobody audited:
         // another mod calling ImplantXenogermItem directly, or a non-VREA geneline
-        // flagged with the same extension. Such a pawn gets vanilla implant behaviour
-        // plus the identity stamp, nothing more - the Baseliner conversion included.
+        // flagged with the same extension.
+        //
+        // VRE Lycanthrope morph genes (blocksGermlineRetarget, stamped at load by
+        // StaticConstructorOnStartupUtility_CallAll_Patch): the VRE_Morph ability is
+        // marked dontModifyAbilityOnGeneRemoval, so wiping its gene leaves the live
+        // gizmo - and its CompAbilityEffect_Morph stash of the pre-implant germline -
+        // on the pawn. Casting it after a retarget resurrects the old form over the
+        // freshly purchased germline, or NREs when the comp never cached a target
+        // form. Unlike the android case this one IS a live hole without the guard:
+        // nothing gates the implant surgery on lycanthropes. The block acts on the
+        // pawn's own endogenes only - Wolfman/Lycan xenogerms stay sellable, and
+        // implanting one into an unflagged pawn still retargets (a fresh morph gene
+        // grants a fresh ability: a born lycanthrope).
+        //
+        // Such a pawn gets vanilla implant behaviour plus the identity stamp, nothing
+        // more - the Baseliner conversion included.
         private static bool GermlineIsRewritable(Pawn pawn)
         {
-            return !XenotypeEligibility.ContainsExcludedGene(pawn.genes.Endogenes.Select(g => g.def));
+            return !XenotypeEligibility.BlocksGermlineRetarget(pawn.genes.Endogenes.Select(g => g.def));
         }
 
         // Whether the pawn's displayed identity describes its germline (endogene layer)
