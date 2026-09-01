@@ -35,6 +35,12 @@ namespace XenogermTraderStock.Patches
     // - Proper xenotype display in social/info panels (label, icon, info-card link)
     // - "Naturalized" members of germline xenotypes (e.g., Impid) for social purposes
     //
+    // Independently of all of the above (settings.preserveDeathrestCapacity, and unlike
+    // everything else here not gated on the item being trader-sold), the pawn's
+    // deathrest capacity is captured before and restored after the implant - see
+    // DeathrestCapacityCarryover; GeneUtility_ReimplantXenogerm_Patch covers the
+    // sanguophage reimplant ability the same way.
+    //
     // Optionally (settings.implantGermlineAsEndogenes), a germline xenotype's genes
     // replace the pawn's endogenes - what PawnGenerator produces for a born member of an
     // inheritable xenotype (SetXenotype adds them as endogenes) - so children inherit them
@@ -45,46 +51,86 @@ namespace XenogermTraderStock.Patches
     [HarmonyPatch(typeof(GeneUtility), nameof(GeneUtility.ImplantXenogermItem))]
     public static class GeneUtility_ImplantXenogermItem_Patch
     {
-        // A germline implant acts on the germline layer only, so the xenogenes the pawn
-        // carried before the implant must survive it - but vanilla wipes them before the
-        // postfix can see them (SetXenotype(Baseliner) clears the xenogene list). This
-        // prefix snapshots their defs whenever the retarget is going to run, so the
-        // postfix can rebuild them. Defs, not Gene instances: vanilla has already
-        // destroyed the instances (RemoveGene/PostRemove) by the time the postfix runs,
-        // so per-gene state (resource levels, cooldowns) resets - exactly what a vanilla
-        // implant does to every xenogene it re-creates.
-        public static void Prefix(Pawn pawn, Xenogerm xenogerm, out List<GeneDef> __state)
+        // Cross-call state handed from Prefix to Postfix: what the pawn carried
+        // before vanilla's wipe that must be rebuilt afterwards.
+        public class ImplantState
+        {
+            // Pre-implant xenogene defs to rebuild after a germline retarget; null
+            // when no retarget is coming or the pawn had none.
+            public List<GeneDef> preservedXenogenes;
+
+            // Pre-implant deathrest capacity; 0 when the pawn had no deathrest gene.
+            public int deathrestCapacity;
+        }
+
+        // Two captures, both of state vanilla destroys before the postfix can see it:
+        //
+        // Xenogenes: a germline implant acts on the germline layer only, so the
+        // xenogenes the pawn carried before the implant must survive it - but vanilla
+        // wipes them first (SetXenotype(Baseliner) clears the xenogene list). Their
+        // defs are snapshotted whenever the retarget is going to run. Defs, not Gene
+        // instances: vanilla has already destroyed the instances (RemoveGene/
+        // PostRemove) by the time the postfix runs, so per-gene state (resource
+        // levels, cooldowns) resets - exactly what a vanilla implant does to every
+        // xenogene it re-creates. Baseliner never snapshots (inheritable is false on
+        // its def): its conversion item deliberately wipes both layers.
+        //
+        // Deathrest capacity: the one per-instance value worth more than that rule -
+        // see DeathrestCapacityCarryover. Captured for EVERY implant, trader-sold or
+        // not, so a bought and a crafted xenogerm treat the same pawn the same way.
+        public static void Prefix(Pawn pawn, Xenogerm xenogerm, out ImplantState __state)
         {
             __state = null;
-            var comp = xenogerm.TryGetComp<CompXenotypeSource>();
-            if (comp?.sourceXenotype == null || pawn.genes == null)
+            if (pawn.genes == null)
             {
                 return;
             }
 
-            // Baseliner never enters here (inheritable is false on its def): its
-            // conversion item deliberately wipes both layers, so nothing is preserved.
-            if (GermlineIsRewritable(pawn)
+            XenogermTraderStockSettings settings = XenogermTraderStockMod.Settings;
+            int deathrestCapacity = settings.preserveDeathrestCapacity
+                ? DeathrestCapacityCarryover.Snapshot(pawn)
+                : 0;
+
+            List<GeneDef> preservedXenogenes = null;
+            var comp = xenogerm.TryGetComp<CompXenotypeSource>();
+            if (comp?.sourceXenotype != null
                 && comp.sourceXenotype.inheritable
-                && XenogermTraderStockMod.Settings.implantGermlineAsEndogenes)
+                && settings.implantGermlineAsEndogenes
+                && GermlineIsRewritable(pawn))
             {
                 List<Gene> xenogenes = pawn.genes.Xenogenes;
                 if (xenogenes.Count > 0)
                 {
-                    __state = new List<GeneDef>(xenogenes.Count);
+                    preservedXenogenes = new List<GeneDef>(xenogenes.Count);
                     foreach (Gene gene in xenogenes)
                     {
-                        __state.Add(gene.def);
+                        preservedXenogenes.Add(gene.def);
                     }
                 }
             }
+
+            if (deathrestCapacity > 0 || preservedXenogenes != null)
+            {
+                __state = new ImplantState
+                {
+                    preservedXenogenes = preservedXenogenes,
+                    deathrestCapacity = deathrestCapacity,
+                };
+            }
         }
 
-        public static void Postfix(Pawn pawn, Xenogerm xenogerm, List<GeneDef> __state)
+        public static void Postfix(Pawn pawn, Xenogerm xenogerm, ImplantState __state)
         {
-            var comp = xenogerm.TryGetComp<CompXenotypeSource>();
-            if (comp?.sourceXenotype == null || pawn.genes == null)
+            if (pawn.genes == null)
             {
+                return;
+            }
+
+            var comp = xenogerm.TryGetComp<CompXenotypeSource>();
+            if (comp?.sourceXenotype == null)
+            {
+                // Not one of ours; only the deathrest carryover applies.
+                RestoreDeathrestCapacity(pawn, __state);
                 return;
             }
 
@@ -108,7 +154,20 @@ namespace XenogermTraderStock.Patches
                 && (comp.sourceXenotype == XenotypeDefOf.Baseliner
                     || (comp.sourceXenotype.inheritable && XenogermTraderStockMod.Settings.implantGermlineAsEndogenes)))
             {
-                RetargetToEndogenes(pawn, xenogerm, __state);
+                RetargetToEndogenes(pawn, xenogerm, __state?.preservedXenogenes);
+            }
+
+            // Last, once the final gene set exists: if a deathrest gene came through
+            // (as a fresh endogene from the retarget, a restored xenogene, or vanilla's
+            // own re-add), its capacity has been PostAdd-reset to 1 - put it back.
+            RestoreDeathrestCapacity(pawn, __state);
+        }
+
+        private static void RestoreDeathrestCapacity(Pawn pawn, ImplantState state)
+        {
+            if (state != null)
+            {
+                DeathrestCapacityCarryover.Restore(pawn, state.deathrestCapacity);
             }
         }
 
