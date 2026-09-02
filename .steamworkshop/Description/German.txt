@@ -1,7 +1,9 @@
 Xenokeime im Händlerbestand
 
 [h1]Über den Mod[/h1]
-In Vanilla-RimWorld mit Biotech ist der einzige Weg zu einem bestimmten Xenotyp, einzelne Gene zu sammeln und selbst einen Xenokeim zusammenzustellen, ein langsamer und teurer Prozess. Xenokeime existieren als Gegenstände, aber Händler verkaufen nie fertige Exemplare für vordefinierte Xenotypen. Dieser Mod ändert das: Er fügt vollständige Xenokeime zum Bestand der Händler hinzu, sodass du ein fertiges Xenotyp-Paket kaufen kannst, statt jedes Gen einzeln aufzuspüren.
+In Vanilla-RimWorld mit Biotech gibt es nur zwei Wege zu einem vordefinierten Xenotyp: einen Charakter rekrutieren, der ihn bereits besitzt, oder alle Gene sammeln und den Xenokeim selbst zusammenstellen. Händler verkaufen nie die Xenokeime, deren Existenz die Spielwelt eigentlich voraussetzt.
+
+Dieser Mod fügt vollständige Xenokeime für vordefinierte Xenotypen zum Bestand der Händler hinzu, sodass du dich schon früh mit dem Gensystem befassen kannst, statt das ganze Spiel über Gene zu suchen.
 
 [hr][/hr]
 [h2]Xenokeim-Handel[/h2]

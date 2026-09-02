@@ -1,7 +1,9 @@
 Xénogermes des commerçants
 
 [h1]À propos[/h1]
-Dans RimWorld vanilla avec Biotech, la seule façon d'obtenir un xénotype précis est de collecter des gènes un par un et d'assembler soi-même un xénogerme, un processus lent et coûteux. Les xénogermes existent en tant qu'objets, mais les commerçants n'en vendent jamais de tout prêts pour les xénotypes prédéfinis. Ce mod corrige cela en ajoutant des xénogermes complets aux stocks des commerçants, vous permettant d'acheter un xénotype prêt à l'emploi plutôt que de traquer chaque gène individuellement.
+Dans RimWorld vanilla avec Biotech, les seuls moyens d'obtenir un xénotype prédéfini sont de recruter un personnage qui l'est déjà, ou de collecter tous les gènes pour assembler soi-même un xénogerme. Les commerçants ne vendent jamais les xénogermes que l'univers du jeu laisse pourtant supposer exister.
+
+Ce mod ajoute des xénogermes complets pour les xénotypes prédéfinis aux stocks des commerçants, pour que vous puissiez profiter du système génétique dès le début plutôt que de passer toute la partie à traquer des gènes.
 
 [hr][/hr]
 [h2]Commerce de xénogermes[/h2]

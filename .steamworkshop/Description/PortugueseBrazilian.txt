@@ -1,7 +1,9 @@
 Estoque de Xenogerminadores de Comerciantes
 
 [h1]Sobre[/h1]
-No RimWorld padrão com Biotech, a única forma de obter um xenótipo específico é coletar genes individuais e montar um xenogerminador você mesmo, um processo lento e caro. Xenogerminadores existem como itens, mas os comerciantes nunca vendem versões prontas para xenótipos predefinidos. Este mod corrige isso adicionando xenogerminadores completos aos inventários dos comerciantes, permitindo que você compre um pacote de xenótipo pronto em vez de caçar cada gene individualmente.
+No RimWorld padrão com Biotech, as únicas formas de conseguir um xenótipo predefinido são recrutar um personagem que já seja desse xenótipo ou coletar todos os genes e montar o xenogerminador você mesmo. Os comerciantes nunca vendem os xenogerminadores que, segundo a história do jogo, deveriam existir.
+
+Este mod adiciona xenogerminadores completos de xenótipos predefinidos aos inventários dos comerciantes, para que você possa explorar o sistema genético desde cedo em vez de passar o jogo todo caçando genes.
 
 [hr][/hr]
 [h2]Comércio de Xenogerminadores[/h2]

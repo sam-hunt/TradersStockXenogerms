@@ -1,7 +1,9 @@
 Xenogérmenes para comerciantes
 
 [h1]Acerca de[/h1]
-En RimWorld vanilla con Biotech, la única forma de conseguir un xenotipo específico es reunir genes individuales y ensamblar un xenogermen tú mismo, un proceso lento y caro. Los xenogérmenes existen como objetos, pero los comerciantes nunca venden versiones ya hechas de los xenotipos preestablecidos. Este mod soluciona eso añadiendo xenogérmenes completos al inventario de los comerciantes, permitiéndote comprar un paquete de xenotipo ya preparado en lugar de buscar cada gen por separado.
+En RimWorld vanilla con Biotech, las únicas formas de conseguir un xenotipo preestablecido son reclutar a alguien que ya lo sea o reunir todos los genes y ensamblar el xenogermen tú mismo. Los comerciantes nunca venden los xenogérmenes que, según la ambientación del juego, deberían existir.
+
+Este mod añade xenogérmenes completos de xenotipos preestablecidos al inventario de los comerciantes, para que puedas disfrutar del sistema genético desde el principio en lugar de pasarte toda la partida buscando genes.
 
 [hr][/hr]
 [h2]Comercio de xenogérmenes[/h2]
