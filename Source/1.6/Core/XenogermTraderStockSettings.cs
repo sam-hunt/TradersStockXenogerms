@@ -135,7 +135,7 @@ namespace XenogermTraderStock
             {
                 label += "XTS_DefaultSuffix".Translate();
             }
-            listing.Label(label, tooltip: descKey.Translate(defaultValue.ToString("F0")));
+            listing.Label(label, tooltip: descKey.Translate());
             return Mathf.Round((listing.Slider(value, min, max) - min) / step) * step + min;
         }
     }

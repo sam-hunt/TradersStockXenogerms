@@ -24,12 +24,10 @@ namespace XenogermTraderStock
         // Tooltip descriptor colours. Archite: the tip-title yellow nudged toward
         // ColorLibrary.Lime, so it reads as "special" without repeating the title.
         // Endogenes: the palette's very light brown, warm like the germline it
-        // joins. Xenogenes: a pale cyan to contrast it. Player-scenario: the
-        // player faction's own colour, straight from its def so it tracks any retint.
+        // joins. Xenogenes: a pale cyan to contrast it.
         private static readonly Color ArchiteColor = new Color(0.8f, 0.95f, 0.35f);
         private static readonly Color GermlineColor = ColorLibrary.Beige;
         private static readonly Color XenogeneColor = new Color(0.55f, 0.85f, 0.95f);
-        private static Color PlayerScenarioColor => FactionDefOf.PlayerColony.DefaultColor;
 
         // Accent on the price list's two summary rows - the market-value
         // subtotal the components build to, and the final asking price after
@@ -316,10 +314,6 @@ namespace XenogermTraderStock
                     ? "XTS_XenotypeEndogenes".Translate().Colorize(GermlineColor)
                     : "XTS_XenotypeXenogenes".Translate().Colorize(XenogeneColor));
             }
-            if (cell.IsPlayerScenario)
-            {
-                lines.Add("XTS_XenotypePlayerScenario".Translate().Colorize(PlayerScenarioColor));
-            }
             return string.Join("\n", lines);
         }
 
@@ -389,7 +383,6 @@ namespace XenogermTraderStock
             public List<GeneDef> Genes => def != null ? def.genes : custom.genes;
             public bool Archite => def != null ? def.Archite : XenotypeEligibility.IsArchite(custom);
             public bool Inheritable => def != null ? def.inheritable : custom.inheritable;
-            public bool IsPlayerScenario => def == null;
             public string SourceName => def != null
                 ? def.modContentPack?.Name
                 : "XTS_XenotypeSourceScenario".Translate().ToString();

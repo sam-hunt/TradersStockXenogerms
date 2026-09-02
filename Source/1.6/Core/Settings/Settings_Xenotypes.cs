@@ -78,7 +78,7 @@ namespace XenogermTraderStock
 
         private static void DrawXenotypesSection(Listing_Standard listing)
         {
-            SectionHeader(listing, "XTS_XenotypesSection".Translate(), "XTS_XenotypesSectionDesc".Translate());
+            SectionHeader(listing, "XTS_XenotypesSection".Translate());
             XenotypeGridUI.Draw(listing);
             listing.Gap(SectionGap);
         }
