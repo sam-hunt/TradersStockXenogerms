@@ -16,6 +16,14 @@ namespace XenogermTraderStock
     // texture, click-grabs-the-nearer-end, the throttled drag sound. The drag
     // state has to be ours (vanilla's statics are private), which also keeps a
     // drag here from being confused with one on a vanilla slider.
+    //
+    // The attribute is load-bearing, not decoration: dev mode's
+    // StaticConstructorOnStartupUtility.ReportProbablyMissingAttributes warns
+    // about ANY static Texture field on a type without it (the smoke gate
+    // counts that warning against us), and CallAll runs this cctor after
+    // content is loaded, so the texture can be resolved eagerly like
+    // vanilla's own Widgets does.
+    [StaticConstructorOnStartup]
     public static class CompactIntRange
     {
         // Room for the handles - 16px tall, centred on a rail sitting 8px up
@@ -40,10 +48,7 @@ namespace XenogermTraderStock
         private static DragEnd curDragEnd;
         private static float lastDragSoundTime = -1f;
 
-        // Resolved on first draw, not in a static initializer: content isn't
-        // loaded yet when this class is first touched.
-        private static Texture2D handleTex;
-        private static Texture2D HandleTex => handleTex ??= ContentFinder<Texture2D>.Get("UI/Widgets/RangeSlider");
+        private static readonly Texture2D HandleTex = ContentFinder<Texture2D>.Get("UI/Widgets/RangeSlider");
 
         public static void Draw(Listing_Standard listing, ref IntRange range, int min, int max)
         {
