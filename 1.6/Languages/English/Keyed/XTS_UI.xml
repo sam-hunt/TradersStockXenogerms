@@ -4,13 +4,13 @@
   <XTS_SettingsCategory>Xenogerm Trader Stock</XTS_SettingsCategory>
 
   <XTS_XenotypesSection>Xenotypes for sale</XTS_XenotypesSection>
-  <XTS_XenotypesSectionDesc>Tick the xenotypes traders may sell xenogerms for. Unticked xenotypes stay in the list, greyed, so the ones on sale stand out. The category rows above the list switch whole groups at once and show a partial mark while a group is mixed. A xenotype loaded for the first time starts out matching the majority of its group. Hover a xenotype for its description and price breakdown.</XTS_XenotypesSectionDesc>
+  <XTS_XenotypesSectionDesc>Tick the xenotypes traders may sell xenogerms for. The category rows switch whole groups at once; a newly loaded xenotype starts out matching its group's majority. Hover a xenotype for its description and price.</XTS_XenotypesSectionDesc>
   <XTS_FilterArchite>Archite xenotypes</XTS_FilterArchite>
-  <XTS_FilterArchiteDesc>Every preset xenotype containing archite genes (e.g., Sanguophage). These are typically more expensive. Custom xenotypes from your scenario are grouped under the scenario row instead, whatever genes they contain.</XTS_FilterArchiteDesc>
+  <XTS_FilterArchiteDesc>Preset xenotypes containing archite genes (e.g., Sanguophage). Scenario xenotypes are grouped under the scenario row instead.</XTS_FilterArchiteDesc>
   <XTS_FilterInheritable>Germline xenotypes</XTS_FilterInheritable>
-  <XTS_FilterInheritableDesc>Every preset xenotype whose xenogerm rewrites the pawn's germline: inheritable xenotypes (e.g., Impid, Yttakin), whose implanted members are 'naturalized' and recognized by ideology, and Baseliner, whose empty xenogerm converts the pawn back to a baseliner outright. Sold nowhere unless enabled.</XTS_FilterInheritableDesc>
+  <XTS_FilterInheritableDesc>Preset xenotypes whose xenogerm rewrites the pawn's germline: inheritable xenotypes (e.g., Impid, Yttakin) and Baseliner, whose empty xenogerm converts the pawn back to a baseliner. Unsold by default.</XTS_FilterInheritableDesc>
   <XTS_FilterPlayerScenario>Player-scenario xenotypes</XTS_FilterPlayerScenario>
-  <XTS_FilterPlayerScenarioDesc>The custom xenotypes your scenario's starting colonists were created with, whatever genes they contain. Xenotypes assembled in-game at the gene assembler are never sold.</XTS_FilterPlayerScenarioDesc>
+  <XTS_FilterPlayerScenarioDesc>The custom xenotypes your scenario's starting colonists were created with. Xenotypes assembled in-game are never sold.</XTS_FilterPlayerScenarioDesc>
   <XTS_NoXenotypes>No sellable xenotypes are loaded.</XTS_NoXenotypes>
   <!-- Price breakdown labels: one line per formula component. The rows closing the list (market-value
        subtotal, vanilla's x1.40 buying markup, final asking price) reuse the vanilla trade-tooltip keys
@@ -30,7 +30,7 @@
   <XTS_XenotypeSourceScenario>Scenario</XTS_XenotypeSourceScenario>
 
   <XTS_PricingSection>Xenogerm pricing</XTS_PricingSection>
-  <XTS_PricingSectionDesc>Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only.</XTS_PricingSectionDesc>
+  <XTS_PricingSectionDesc>Market value formula for trader-sold xenogerms. Affects new xenogerms only.</XTS_PricingSectionDesc>
   <XTS_BasePresetValue>Base preset value: {0}</XTS_BasePresetValue>
   <XTS_BasePresetValueDesc>Base silver value added to all preset xenotype xenogerms. Default: {0}</XTS_BasePresetValueDesc>
   <XTS_ValuePerMetabolism>Value per metabolism: {0}</XTS_ValuePerMetabolism>
@@ -41,30 +41,30 @@
   <XTS_ValuePerArchiteDesc>Silver value added per archite gene. Default: {0}</XTS_ValuePerArchiteDesc>
 
   <XTS_QuantitySection>Stock quantity</XTS_QuantitySection>
-  <XTS_QuantitySectionDesc>How many xenogerms each trader kind carries, rolled from the range for every new trader. Changes affect newly generated traders only.</XTS_QuantitySectionDesc>
+  <XTS_QuantitySectionDesc>How many xenogerms each trader kind carries, rolled from its range on every visit. Affects new traders only.</XTS_QuantitySectionDesc>
   <!-- {0}: trader kind label, {1}/{2}: current minimum/maximum count -->
   <XTS_TraderCount>{0}: {1}~{2}</XTS_TraderCount>
-  <XTS_TraderCountDesc>The number of xenogerms this trader arrives with, rolled from this range each visit. Default: {0}~{1}</XTS_TraderCountDesc>
+  <XTS_TraderCountDesc>Xenogerms this trader arrives with, rolled from this range each visit</XTS_TraderCountDesc>
 
   <XTS_ImplantationSection>Implantation</XTS_ImplantationSection>
   <XTS_ImplantationSectionDesc>How trader-sold xenogerms behave when implanted.</XTS_ImplantationSectionDesc>
   <XTS_ImplantGermlineAsEndogenes>Implant germline xenotypes as endogenes</XTS_ImplantGermlineAsEndogenes>
   <XTS_PreserveDeathrestCapacity>Preserve deathrest capacity through implantation</XTS_PreserveDeathrestCapacity>
-  <XTS_PreserveDeathrestCapacityDesc>Deathrest capacity (increased with deathrest capacity serums) is stored on the pawn's deathrest gene, and implantation always recreates genes, so any xenogerm implant or sanguophage reimplant that grants deathrest again silently resets the capacity to one. With this on, the pawn's capacity from before the operation is restored whenever the pawn still has a deathrest gene afterwards. Applies to every xenogerm implantation and reimplantation, not just trader-sold xenogerms; bound deathrest buildings still need rebinding, as in vanilla.</XTS_PreserveDeathrestCapacityDesc>
-  <XTS_ImplantGermlineAsEndogenesDesc>When a trader-sold xenogerm for a germline xenotype is implanted, write its genes into the pawn's germline as endogenes instead of as xenogenes, replacing the previous germline genes (skin and hair colour are kept when the new xenotype doesn't set them). Any xenogenes the pawn already carries are kept: a germline implant rewrites only the germline. A pawn whose displayed xenotype comes from those kept xenogenes (a sanguophage, say) keeps its name and icon too; only a pawn named for its old germline is relabeled. The pawn becomes a born member of that xenotype: children inherit the genes, and a later xenogerm implant adds to them instead of overwriting them. As with a born member, a pawn left with no xenogenes offers no xenogerm to extract.</XTS_ImplantGermlineAsEndogenesDesc>
+  <XTS_PreserveDeathrestCapacityDesc>Vanilla recreates the deathrest gene on every xenogerm implant or sanguophage reimplant, resetting serum-bought deathrest capacity to one. With this on, the pawn's previous capacity is restored whenever it still has a deathrest gene afterwards. Applies to all xenogerms, not just trader-sold ones.</XTS_PreserveDeathrestCapacityDesc>
+  <XTS_ImplantGermlineAsEndogenesDesc>When a trader-sold xenogerm for a germline xenotype is implanted, its genes replace the pawn's endogenes instead of becoming xenogenes, making the pawn a born member of that xenotype: children inherit the genes, and later xenogerm implants add to them instead of overwriting them. Xenogenes the pawn already carries are kept, and a pawn named for them (a sanguophage, say) keeps its name and icon.</XTS_ImplantGermlineAsEndogenesDesc>
 
   <XTS_CommonalitySection>Xenotype commonality by price</XTS_CommonalitySection>
-  <XTS_CommonalitySectionDesc>How a trader picks which xenotypes its xenogerms are for. Chances are recomputed from the prices of everything currently sellable, so the choice applies to newly generated stock only.</XTS_CommonalitySectionDesc>
+  <XTS_CommonalitySectionDesc>How a trader picks which xenotypes to stock, weighted by the prices of everything currently sellable. Affects new stock only.</XTS_CommonalitySectionDesc>
   <XTS_StrategyInversePrice>Inverse</XTS_StrategyInversePrice>
-  <XTS_StrategyInversePriceDesc>Cheaper xenogerms are more common: each xenotype's chance is proportional to 1 divided by its price. Expensive archite xenogerms stay rare finds.</XTS_StrategyInversePriceDesc>
+  <XTS_StrategyInversePriceDesc>Cheaper xenogerms are more common: chance is proportional to 1 / price. Archite xenogerms stay rare.</XTS_StrategyInversePriceDesc>
   <XTS_StrategySoftInversePrice>Inverse root</XTS_StrategySoftInversePrice>
-  <XTS_StrategySoftInversePriceDesc>Cheaper xenogerms are still more common, but the bias is gentler: each xenotype's chance is proportional to 1 divided by the square root of its price.</XTS_StrategySoftInversePriceDesc>
+  <XTS_StrategySoftInversePriceDesc>Cheaper xenogerms are more common, with a gentler bias: chance is proportional to 1 / √price.</XTS_StrategySoftInversePriceDesc>
   <XTS_StrategyPrice>Linear</XTS_StrategyPrice>
-  <XTS_StrategyPriceDesc>Pricier xenogerms are more common: each xenotype's chance is proportional to its price.</XTS_StrategyPriceDesc>
+  <XTS_StrategyPriceDesc>Pricier xenogerms are more common: chance is proportional to price.</XTS_StrategyPriceDesc>
   <XTS_StrategySqrtPrice>Square root</XTS_StrategySqrtPrice>
-  <XTS_StrategySqrtPriceDesc>Pricier xenogerms are still more common, but the bias is gentler: each xenotype's chance is proportional to the square root of its price.</XTS_StrategySqrtPriceDesc>
+  <XTS_StrategySqrtPriceDesc>Pricier xenogerms are more common, with a gentler bias: chance is proportional to √price.</XTS_StrategySqrtPriceDesc>
   <XTS_StrategyBellCurve>Bell curve</XTS_StrategyBellCurve>
-  <XTS_StrategyBellCurveDesc>Mid-priced xenogerms are the most common: chances follow a bell curve centred on the median price of everything sellable, so the cheapest and the priciest are both rare.</XTS_StrategyBellCurveDesc>
+  <XTS_StrategyBellCurveDesc>Mid-priced xenogerms are most common: chances follow a bell curve centred on the median price, so the cheapest and priciest are both rare.</XTS_StrategyBellCurveDesc>
   <XTS_StrategyUniform>Uniform</XTS_StrategyUniform>
   <XTS_StrategyUniformDesc>Every sellable xenotype is equally likely, regardless of price.</XTS_StrategyUniformDesc>
 
