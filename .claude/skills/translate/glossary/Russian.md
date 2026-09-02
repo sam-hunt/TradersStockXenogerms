@@ -93,6 +93,17 @@ and searchable on the mod's core nouns.
   prose without a fraction bar takes the grammatical dative ("пропорционален
   цене/√цене") — a deliberate split, flagged here in case a future pass
   wants one convention throughout.
+- **2026-09-02 Workshop description refresh:** rewrote the body to match the
+  release English (dropped the removed "Параметры мода" settings-recap
+  section and the sell-price-factor sentence, no longer present upstream;
+  added the LLM/Combat Extended FAQ entries and the hero-art credit line).
+  "Hero art by X" rendered as "Главная иллюстрация: X" (no dash, per the
+  no-new-dashes rule — English has none there either). The GitHub link's
+  " - " kept as a literal hyphen, matching how the prior pass already
+  rendered it (not converted to a colon). "Was this made using LLMs!?"
+  answer fragment "Some of the grunt code, and most localizations." kept as
+  an elliptical noun phrase ("Часть рутинного кода и большинство
+  переводов.") rather than inventing a verb or a dash to bridge it.
 - **"Vanilla" (the base game, no mods) has no grounded Russian rendering**
   in either tar; `XTS_PreserveDeathrestCapacityDesc` avoids the word
   entirely ("Обычно игра..." / "the game normally...") rather than

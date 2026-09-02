@@ -32,5 +32,6 @@ differ: schinese, koreana, brazilian, latam, ...). The `release` skill diffs
 whenever it changed.
 
 All nine roster languages (see CONTRIBUTING.md) have a description file as of
-the 2026-08-26 machine-assisted pass; every non-English file is a first pass
+the 2026-08-26 machine-assisted pass, refreshed 2026-09-02 against the release
+rewrite of `English.txt`; every non-English file is machine-assisted and
 pending native review.

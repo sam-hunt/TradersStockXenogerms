@@ -104,6 +104,20 @@ in a title.
   concept). Flagging for native review alongside the other strategy labels
   (反比/線性/鐘形曲線/均等), which are likewise plain maths/statistics terms
   with no closer vanilla analogue to ground against.
+- 2026-09-02 Workshop description refresh (release rewrite): Starjack grounded
+  as 星族 via Odyssey `XenotypeDef/Starjack.label` (tar-extracted from the
+  live install's Odyssey Languages pack). Section headers (`About`,
+  `Xenogerm Trading`, `Pricing`, `Compatibility`, `FAQ`, `Links`) were kept
+  as literal English in the prior pass of this file; reused that convention
+  rather than translating them, for internal consistency across the page.
+  "Hero art by X" (new Links line) rendered 主視覺美術由X繪製 (no vanilla
+  analogue; plain descriptive rendering). "Q:"/"A:" continue to render as
+  問：/答： per the prior pass. New pricing figures (1500~1700 / 1700~2000 /
+  ~3600 silver) formatted with the file's existing locale convention: comma
+  thousands separators, 至 for a two-value range, 約 for a single
+  approximate value — not the literal `~` glyph, since the earlier pass had
+  already committed to this locale form for the same slot. No new dashes
+  introduced.
 - Kept the brief's "1 / price" and "√price" literal-symbol forms as
   "1 / 價格" and "√價格" (translating the word, keeping the symbol and the
   ASCII slash's surrounding spaces) rather than converting to a full-width

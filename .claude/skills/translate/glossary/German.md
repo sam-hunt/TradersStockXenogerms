@@ -28,6 +28,7 @@ file holds only what is specific to Xenogerm Trader Stock.
 | Default | Standard | Core Keyed `Default` |
 | Reset to defaults | Auf Standard zurücksetzen | Core Keyed `ResetButton` = "Zurücksetzen"; l10n family table already has this exact phrase for "reset to defaults" |
 | Sanguophage / Impid / Yttakin / Hussar / Pigskin / Dirtmole / Highmate | Sanguophage / Impid / Yttakin / Husar / Schweinehaut / Dreckwühler / Überpartner | Biotech DefInjected `XenotypeDef` labels |
+| Starjack | Sternenblut | Odyssey DefInjected `XenotypeDef` `Starjack.label` (`Data/Odyssey/Languages/German (Deutsch).tar`) |
 | MarketValue | Marktwert | Core DefInjected `StatDef` `MarketValue.label` |
 | SellPriceFactor | Verkaufspreis-Faktor | Core DefInjected `StatDef` `SellPriceFactor.label` |
 | Silver | Silber | Core DefInjected `ThingDef` `Silver.label` |
@@ -92,3 +93,14 @@ without appending the English brand name.
   commonality-strategy sections), retranslated the 5 pricing-slider
   tooltip descriptions after the English dropped their "Default: {0}"
   clause, and removed the three retired `XTS_Include*` toggle keys.
+- 2026-09-02 Workshop description refresh (release rewrite): "Hero art by
+  {author}" (new Links-section credit line, no prior German rendering to
+  reuse) is rendered as **"Titelbild von {author}"** — "Titelbild"
+  (cover/title image) rather than a loaned "Artwork", no vanilla precedent
+  either way; flagged for native review. "grunt code" → "Routine-Code";
+  "first-class citizens" idiom rendered as same-treatment prose
+  ("werden genauso behandelt wie vordefinierte Xenotypen") per the
+  brief's render-the-idea guidance, not a literal metaphor. The
+  now-removed "Mod-Einstellungen" Workshop section (settings toggle list)
+  and its accompanying sell-price/formula paragraph have no equivalent in
+  the new English body and were dropped entirely, not reworded.

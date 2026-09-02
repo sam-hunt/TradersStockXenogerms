@@ -6,45 +6,44 @@ Dans RimWorld vanilla avec Biotech, la seule façon d'obtenir un xénotype préc
 [hr][/hr]
 [h2]Commerce de xénogermes[/h2]
 [list]
-[*]Les vendeurs de produits exotiques en orbite proposent des xénogermes pour tous les xénotypes prédéfinis (hussard, diabloïde, sanguophage, et bien d'autres)
-[*]Les xénogermes achetés attribuent le vrai xénotype lors de l'implantation, permettant la reconnaissance par l'idéologie et créant des membres "naturalisés" pour les xénotypes à gènes germinaux
-[*]Les xénogermes bon marché apparaissent plus souvent, tandis que les xénotypes archites coûteux comme le sanguophage sont des trouvailles plus rares
+[*]Les vendeurs de produits exotiques en orbite proposent des xénogermes pour les xénotypes prédéfinis ; les xénotypes ajoutés par d'autres mods sont détectés automatiquement
+[*]Les xénogermes achetés attribuent le vrai xénotype lors de l'implantation, permettant la reconnaissance par l'idéologie
+[*]Activez les xénotypes à gènes germinaux dans les paramètres du mod pour créer des membres "naturalisés" de la lignée germinale
+[*]Fréquence des xénotypes configurable selon le prix : les xénogermes coûteux sont plus rares par défaut, ou choisissez une autre pondération
+[*]Les xénotypes de scénario du joueur reçoivent le même traitement que les xénotypes prédéfinis et sont eux aussi inclus dans le stock des commerçants
 [/list]
 
 [h2]Prix[/h2]
-Le prix des xénogermes dépend de la complexité génétique, de l'impact métabolique et du nombre de gènes archites, par exemple :
+Le prix des xénogermes est configurable dans les paramètres, ou utilisez les valeurs par défaut :
 [list]
-[*]Homme-cochon, homme-taupe : environ 1 500 pièces d'argent
-[*]Hussard, psycharmeur : environ 1 600 à 1 850 pièces d'argent
-[*]Sanguophage : environ 3 200 pièces d'argent
-[/list]
-Les prix de vente sont volontairement bas (5 %) pour éviter les abus d'achat-revente, avec un bonus pour les xénogermes archites. La formule complète est configurable dans les paramètres du mod.
-
-[h2]Paramètres du mod[/h2]
-[list]
-[*][b]Inclure les xénotypes archites[/b] - Active ou non les xénogermes contenant des gènes archites (activé par défaut)
-[*][b]Inclure les xénotypes héréditaires[/b] - Active ou non les xénotypes à gènes germinaux comme le diabloïde et le yttakin (activé par défaut)
-[*][b]Inclure les xénotypes créés par le joueur[/b] - Active ou non les xénotypes issus de l'éditeur de scénario (désactivé par défaut)
-[*][b]Prix des xénogermes[/b] - Personnalisez la formule de prix en ajustant la valeur de base prédéfinie et les multiplicateurs pour le métabolisme, la complexité et les gènes archites
+[*]Homme-cochon, diabloïde, homme-taupe : de 1 500 à 1 700 pièces d'argent
+[*]Hussard, spaciens, psycharmeur : de 1 700 à 2 000 pièces d'argent
+[*]Sanguophage : environ 3 600 pièces d'argent
 [/list]
 
 [hr][/hr]
 [h1]Compatibilité[/h1]
 [list]
 [*]Nécessite le DLC Biotech
-[*]Prend entièrement en charge le mod Gene Trader : s'il est installé, son commerçant orbital de gènes proposera aussi des xénogermes
-[*]Peut être ajouté ou retiré sans risque en cours de partie
-[*]Inclut automatiquement les xénotypes ajoutés par d'autres mods
+[*]Peut être ajouté sans risque en cours de partie
+[*]Peut être retiré sans risque en cours de partie !
+[*]Le commerçant orbital [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886375137]Gene Trader[/url] proposera aussi des xénogermes
+[*]Détecte automatiquement les xénotypes ajoutés par d'autres mods
+[*]Les xénotypes de [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2975771801]VRE Android[/url] sont volontairement exclus
 [/list]
 
 [hr][/hr]
 [h1]FAQ[/h1]
 [b]Q : Ai-je besoin du DLC Biotech ?[/b]
-R : Oui. Ce mod ajoute des xénogermes pour le système de xénotypes de Biotech.
+R : Oui. Ce mod utilise directement le ThingDef xénogerme et le système de gènes de Biotech.
 
-[b]Q : Est-ce compatible avec mes autres mods de xénotypes ?[/b]
-R : Oui, les xénotypes des autres mods sont automatiquement inclus.
+[b]Q : Ce mod a-t-il été réalisé à l'aide de LLM(s) !?[/b]
+R : Une partie du code répétitif, et la plupart des localisations. Je suis ingénieur logiciel de métier, et j'écris du code depuis 25 ans. Tout le code est relu et testé manuellement ; tous les rapports de bugs et conflits de mods sont suivis personnellement, dans la mesure du temps et des détails disponibles. Toutes les illustrations sont soit commandées à des artistes humains, soit réalisées à la main dans Krita, soit les deux.
+
+[b]Q : Combat Extended ?[/b]
+R : [noparse]ദ്ദി(ㆆ_ㆆꐦ)ദ്ദി[/noparse]
 
 [hr][/hr]
 [h2]Liens[/h2]
 [url=https://github.com/sam-hunt/XenogermTraderStock]GitHub[/url] - Code source, rapports de bugs et demandes de fonctionnalités
+Illustration principale par [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url]

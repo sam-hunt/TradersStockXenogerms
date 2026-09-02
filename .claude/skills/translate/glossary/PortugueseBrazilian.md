@@ -73,6 +73,17 @@ appending any English brand text.
   "Vanilla recreates the deathrest gene...") is ungrounded as a standalone
   term; rendered as "o jogo base" (the base game), a natural and unambiguous
   phrase, not a literal vanilla string. **Needs native review.**
+  **2026-09-02 Workshop refresh:** rewrote the Workshop description body to
+  match the new English release copy. "Starjack" grounded from Odyssey
+  `DefInjected/XenotypeDef/XenotypeDefs.xml` `Starjack.label` = "starjack"
+  (vanilla lowercase); capitalized here to match the Title Case already used
+  for the other five preset xenotype names in this file. Numbers use the
+  dot thousands separator with the English's own `~` range/prefix notation
+  throughout (`1.500~1.700`, `~3.600`), superseding the earlier pass's mixed
+  `~`/`a`-range styles since the new English list is uniformly tilde-ranged.
+  Kept "naturalizados" (quoted) per the prior flagged decision. New "Hero
+  art by" line rendered as "Arte principal por" (no vanilla precedent,
+  editorial choice).
   `XTS_ImplantGermlineAsEndogenes` reads as literally repetitive
   ("xenótipos de linha germinativa como genes de linha germinativa")
   because "endogenes" is grounded as "genes de linha germinativa" and the

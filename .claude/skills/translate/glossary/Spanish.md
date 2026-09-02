@@ -49,6 +49,21 @@ since it made the title noticeably longer without adding clarity.
 
 ## Phrasing decisions
 
+- **2026-09-02 Workshop description refresh**: rewrote the body against the
+  new English (release rewrite) section-for-section; the "About" paragraph
+  was unchanged in English and reused verbatim. Reused Keyed renderings:
+  "xenotipos de línea germinal" for germline xenotypes, "ideoligión" for
+  ideology recognition, and kept "naturalizados" (ASCII-quoted) for the
+  still-ungrounded "naturalized" per the flag below. New Odyssey xenotype
+  Starjack grounded as `estelárido` from the Odyssey Spanish tar
+  (`XenotypeDef/*` → `Starjack.label`). Price ranges: the file's existing
+  convention renders an explicit range as "`X` a `Y` de plata" (word "a",
+  no `~`) and a single approximate figure as "`~X` de plata" — followed
+  consistently for the new 1500~1700/1700~2000 ranges and the ~3600 figure,
+  with period thousands separators (1.500, 1.700, 2.000, 3.600). "treated
+  as first-class citizens" rendered as "reciben el mismo trato que los
+  preestablecidos" (idea, not metaphor). No new dashes: the English " - "
+  after the GitHub link stays a colon, matching the file's prior handling.
 - **2026-09-02 update pass**: settings window overhaul (per-xenotype sold
   ledger grid, price-breakdown tooltip, quantity/implantation/commonality
   sections). Deleted the three retired `Include*` toggles; added 42 new

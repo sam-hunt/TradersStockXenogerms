@@ -6,45 +6,44 @@ En RimWorld vanilla con Biotech, la única forma de conseguir un xenotipo espec�
 [hr][/hr]
 [h2]Comercio de xenogérmenes[/h2]
 [list]
-[*]Los comerciantes orbitales de productos exóticos tienen xenogérmenes de todos los xenotipos preestablecidos (húsar, diablillo, sanguífago y más)
-[*]Los xenogérmenes comprados asignan el xenotipo real al implantarse, lo que permite el reconocimiento por parte de la ideoligión y crea miembros "naturalizados" en xenotipos de solo genes de línea germinal
-[*]Los xenogérmenes más baratos aparecen con más frecuencia, mientras que los xenotipos arquita caros como el sanguífago son hallazgos más raros
+[*]Los comerciantes orbitales de productos exóticos tienen xenogérmenes de xenotipos preestablecidos; los xenotipos añadidos por mods se detectan automáticamente
+[*]Los xenogérmenes comprados asignan el xenotipo real al implantarse, lo que permite el reconocimiento por parte de la ideoligión
+[*]Activa en los ajustes del mod los xenotipos de línea germinal para crear miembros "naturalizados"
+[*]Frecuencia configurable según el precio: por defecto, los xenogérmenes caros son más raros, o elige otra escala
+[*]Los xenotipos del escenario del jugador reciben el mismo trato que los preestablecidos, y también se incluyen en las existencias de los comerciantes
 [/list]
 
 [h2]Precios[/h2]
-Los precios de los xenogérmenes se basan en la complejidad genética, el impacto en la eficiencia metabólica y la cantidad de genes arquita, por ejemplo:
+Los precios de los xenogérmenes se pueden configurar en los ajustes, o usar los valores por defecto:
 [list]
-[*]Pielcerdo, terra-topo: ~1.500 de plata
-[*]Húsar, súcubo: ~1.600 a 1.850 de plata
-[*]Sanguífago: ~3.200 de plata
-[/list]
-Los precios de venta son intencionadamente bajos (5%) para evitar abusos de compraventa, con una bonificación para los xenogérmenes arquita. La fórmula completa se puede configurar en los ajustes del mod.
-
-[h2]Ajustes del mod[/h2]
-[list]
-[*][b]Incluir xenotipos arquita[/b]: activa los xenogérmenes que contienen genes arquita (por defecto: activado)
-[*][b]Incluir xenotipos hereditarios[/b]: activa los xenotipos de línea germinal como diablillo o yttakin (por defecto: activado)
-[*][b]Incluir xenotipos creados por el jugador[/b]: activa los xenotipos del editor de escenarios (por defecto: desactivado)
-[*][b]Precios de los xenogérmenes[/b]: personaliza la fórmula de precios ajustando el valor base preestablecido y los multiplicadores de eficiencia metabólica, complejidad y genes arquita
+[*]Pielcerdo, diablillo, terra-topo: 1.500 a 1.700 de plata
+[*]Húsar, estelárido, súcubo: 1.700 a 2.000 de plata
+[*]Sanguífago: ~3.600 de plata
 [/list]
 
 [hr][/hr]
 [h1]Compatibilidad[/h1]
 [list]
 [*]Requiere el DLC Biotech
-[*]Es totalmente compatible con el mod Gene Trader: si está instalado, su comerciante orbital de genes también tendrá xenogérmenes
-[*]Se puede añadir o quitar en mitad de la partida sin problemas
-[*]Incluye automáticamente los xenotipos añadidos por otros mods
+[*]Se puede añadir en mitad de la partida sin problemas
+[*]¡Se puede quitar en mitad de la partida sin problemas!
+[*]El comerciante orbital de [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886375137]Gene Trader[/url] también venderá xenogérmenes
+[*]Detecta automáticamente los xenotipos añadidos por otros mods
+[*]Los xenotipos de [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2975771801]VRE Android[/url] quedan excluidos intencionadamente
 [/list]
 
 [hr][/hr]
 [h1]Preguntas frecuentes[/h1]
 [b]P: ¿Necesito el DLC Biotech?[/b]
-R: Sí. Este mod añade xenogérmenes para el sistema de xenotipos de Biotech.
+R: Sí. Este mod utiliza directamente el ThingDef de xenogermen de Biotech y su sistema de genes.
 
-[b]P: ¿Funcionará con mis otros mods de xenotipos?[/b]
-R: Sí, los xenotipos de otros mods se incluyen automáticamente.
+[b]P: ¿Se ha hecho esto con LLM?[/b]
+R: Parte del código rutinario, y la mayoría de las localizaciones. Soy ingeniero de software de profesión, y llevo 25 años escribiendo código. Todo el código se revisa y se prueba manualmente; todos los informes de errores y conflictos entre mods se atienden personalmente según el tiempo y el detalle disponibles. Todo el arte está encargado a humanos, hecho a mano en Krita, o ambas cosas.
+
+[b]P: ¿Combat Extended?[/b]
+R: [noparse]ദ്ദി(ㆆ_ㆆꐦ)ദ്ദി[/noparse]
 
 [hr][/hr]
 [h2]Enlaces[/h2]
 [url=https://github.com/sam-hunt/XenogermTraderStock]GitHub[/url]: código fuente, informes de errores y solicitudes de funciones
+Arte principal de [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url]

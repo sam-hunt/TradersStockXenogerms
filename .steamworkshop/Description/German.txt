@@ -6,45 +6,44 @@ In Vanilla-RimWorld mit Biotech ist der einzige Weg zu einem bestimmten Xenotyp,
 [hr][/hr]
 [h2]Xenokeim-Handel[/h2]
 [list]
-[*]Händler exotischer Güter führen Xenokeime für alle vordefinierten Xenotypen (Husar, Impid, Sanguophage und mehr)
-[*]Gekaufte Xenokeime weisen bei der Implantation den tatsächlichen Xenotyp zu, wodurch die Ideologie ihn anerkennt und 'naturalisierte' Mitglieder von Xenotypen mit reinen Keimbahngenen entstehen
-[*]Günstigere Xenokeime tauchen häufiger auf, während teure Xenotypen mit Architgenen wie Sanguophage seltener zu finden sind
+[*]Händler exotischer Güter führen Xenokeime für vordefinierte Xenotypen, modifizierte Xenotypen werden automatisch erkannt
+[*]Gekaufte Xenokeime weisen bei der Implantation den tatsächlichen Xenotyp zu, wodurch die Ideologie ihn anerkennt
+[*]Aktiviere Keimbahn-Xenotypen in den Mod-Einstellungen, um 'naturalisierte' Mitglieder von Xenotypen mit reinen Keimbahngenen zu erschaffen
+[*]Konfigurierbare, preisabhängige Häufigkeit: Teure Xenokeime sind standardmäßig seltener, du kannst aber eine andere Skalierung wählen
+[*]Szenario-Xenotypen werden genauso behandelt wie vordefinierte Xenotypen und ebenfalls in den Handelsbestand aufgenommen
 [/list]
 
 [h2]Preisgestaltung[/h2]
-Die Preise der Xenokeime richten sich nach genetischer Komplexität, dem Einfluss auf die metabolische Effizienz und der Anzahl der Architgene, z. B.:
+Xenokeim-Preise lassen sich in den Einstellungen anpassen, oder du übernimmst die Standardwerte:
 [list]
-[*]Schweinehaut, Dreckwühler: ~1.500 Silber
-[*]Husar, Überpartner: ~1.600 bis 1.850 Silber
-[*]Sanguophage: ~3.200 Silber
-[/list]
-Verkaufspreise sind bewusst niedrig (5%), um Kauf-Verkauf-Exploits zu verhindern, mit einem Bonus für Xenokeime mit Architgenen. Die vollständige Formel lässt sich in den Mod-Einstellungen anpassen.
-
-[h2]Mod-Einstellungen[/h2]
-[list]
-[*][b]Architische Xenotypen einschließen[/b] - Xenokeime mit Architgenen umschalten (Standard: an)
-[*][b]Vererbbare Xenotypen einschließen[/b] - Xenotypen mit Keimbahngenen wie Impid und Yttakin umschalten (Standard: an)
-[*][b]Benutzerdefinierte Xenotypen einschließen[/b] - Xenotypen aus dem Szenario-Editor umschalten (Standard: aus)
-[*][b]Xenokeim-Preise[/b] - Die Preisformel anpassen, indem du den Basiswert und die Multiplikatoren für metabolische Effizienz, Komplexität und Architgene änderst
+[*]Schweinehaut, Impid, Dreckwühler: 1.500~1.700 Silber
+[*]Husar, Sternenblut, Überpartner: 1.700~2.000 Silber
+[*]Sanguophage: ~3.600 Silber
 [/list]
 
 [hr][/hr]
 [h1]Kompatibilität[/h1]
 [list]
 [*]Erfordert die Biotech-DLC
-[*]Unterstützt den Mod Gene Trader vollständig: Ist er installiert, führt dessen orbitaler Genhändler ebenfalls Xenokeime
-[*]Kann während eines laufenden Spiels sicher hinzugefügt oder entfernt werden
+[*]Kann sicher während des Spiels hinzugefügt werden
+[*]Kann sicher während des Spiels entfernt werden!
+[*]Der orbitale [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886375137]Gene Trader[/url] führt ebenfalls Xenokeime
 [*]Bezieht automatisch Xenotypen ein, die von anderen Mods hinzugefügt werden
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2975771801]VRE Android[/url]-Xenotypen werden absichtlich ausgeschlossen
 [/list]
 
 [hr][/hr]
 [h1]Häufige Fragen[/h1]
 [b]F: Brauche ich die Biotech-DLC?[/b]
-A: Ja. Dieser Mod fügt Xenokeime für Biotechs Xenotyp-System hinzu.
+A: Ja. Dieser Mod verwendet direkt Biotechs Xenokeim-ThingDef und dessen Gensystem.
 
-[b]F: Funktioniert das mit meinen anderen Xenotyp-Mods?[/b]
-A: Ja, Xenotypen aus anderen Mods werden automatisch einbezogen.
+[b]F: Wurde das mit LLMs erstellt!?[/b]
+A: Ein Teil des Routine-Codes und die meisten Übersetzungen. Ich bin von Beruf Softwareentwickler und schreibe seit 25 Jahren Code. Aller Code wird manuell überprüft und getestet; allen Fehlerberichten und Mod-Konflikten gehe ich persönlich nach, soweit Zeit und Details es zulassen. Alle Grafiken sind entweder bei Menschen in Auftrag gegeben, in Krita von Hand erstellt, oder beides.
+
+[b]F: Combat Extended?[/b]
+A: [noparse]ദ്ദി(ㆆ_ㆆꐦ)ദ്ദി[/noparse]
 
 [hr][/hr]
 [h2]Links[/h2]
 [url=https://github.com/sam-hunt/XenogermTraderStock]GitHub[/url] - Quellcode, Fehlerberichte und Funktionswünsche
+Titelbild von [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url]
