@@ -9,7 +9,8 @@ In vanilla RimWorld with Biotech, the only way to get a specific xenotype is to 
 [*]Exotic goods traders stock xenogerms for preset xenotypes, modded xenotypes detected automatically
 [*]Purchased xenogerms assign xenotype identity on implantation, enabling ideology recognition
 [*]Enable endogene-only xenotypes in mod settings to create naturalized germ-line members
-[*]Configurable price-driven commonality: expensive xenogerms are rarer by default, or choose a different scaling.
+[*]Configurable price-driven commonality: expensive xenogerms are rarer by default, or choose a different scaling
+[*]Player-scenario xenotypes are treated as first-class citizens and included in trade-stock too
 [/list]
 
 [h2]Pricing[/h2]
@@ -38,6 +39,9 @@ A: Yes. This mod directly uses Biotech's xenogerm ThingDef and gene system.
 
 [b]Q: Was this made using LLMs!?[/b]
 A: Some of the grunt code, and most localizations. I'm a software engineer by trade, and have been writing code for 25 years. All code is manually reviewed and tested; all bug reports and mod-conflicts followed up personally as time and detail allows. All art is either commissioned from humans, hand-authored in Krita, or both.
+
+[b]Q: Combat Extended?[/b]
+A: [noparse]ദ്ദി(ㆆ_ㆆꐦ)ദ്ദി[/noparse]
 
 [hr][/hr]
 [h2]Links[/h2]
