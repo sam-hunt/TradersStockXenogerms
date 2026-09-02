@@ -2,7 +2,10 @@
 
 [![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
 [![Biotech DLC](https://img.shields.io/badge/DLC-Biotech-red.svg)](https://store.steampowered.com/app/1826140/RimWorld__Biotech/)
-[![Development Status](https://img.shields.io/badge/Status-In%20Development-yellow.svg)](https://github.com/sam-hunt/XenogermTraderStock/releases)
+[![Subscribers](https://img.shields.io/steam/subscriptions/3794698080?logo=steam&label=subscribers)](https://steamcommunity.com/sharedfiles/filedetails/?id=3794698080)
+[![Downloads](https://img.shields.io/steam/downloads/3794698080?logo=steam&label=downloads)](https://steamcommunity.com/sharedfiles/filedetails/?id=3794698080)
+[![Favorites](https://img.shields.io/steam/favorites/3794698080?logo=steam&label=favorites)](https://steamcommunity.com/sharedfiles/filedetails/?id=3794698080)
+[![Views](https://img.shields.io/steam/views/3794698080?logo=steam&label=views)](https://steamcommunity.com/sharedfiles/filedetails/?id=3794698080)
 
 ![Preview](About/Preview.png)
 
@@ -47,7 +50,7 @@ Xenogerm prices are based on gene complexity, metabolism impact, and archite gen
 
 ### Steam Workshop (Recommended)
 
-Subscribe on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=TODO) and it will auto-download.
+Subscribe on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3794698080) and it will auto-download.
 
 ### Manual Installation
 
