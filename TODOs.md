@@ -1,8 +1,6 @@
 # TODOs
 
 - review pass of all player facing english strings
-- review pass of steam workshop description
-- confirm readme's claim of removal save-safety now we've added more features
 - README yellow "Status: In Development" badge -> Steam stat badge row: subscribers/downloads/favorites/views keyed on the PublishedFileId, per the siblings.
 - commit steam published file id to About/ post-release
 

@@ -6,47 +6,40 @@ In vanilla RimWorld with Biotech, the only way to get a specific xenotype is to 
 [hr][/hr]
 [h2]Xenogerm Trading[/h2]
 [list]
-[*]Orbital exotic goods traders stock xenogerms for all preset xenotypes (Hussar, Impid, Sanguophage, and more)
-[*]Purchased xenogerms assign the actual xenotype on implantation, enabling ideology recognition and creating "naturalized" members of endogene-only xenotypes
-[*]Cheaper xenogerms appear more frequently, while expensive archite xenotypes like Sanguophage are rarer finds
+[*]Exotic goods traders stock xenogerms for preset xenotypes, modded xenotypes detected automatically
+[*]Purchased xenogerms assign xenotype identity on implantation, enabling ideology recognition
+[*]Enable endogene-only xenotypes in mod settings to create naturalized germ-line members
+[*]Configurable price-driven commonality: expensive xenogerms are rarer by default, or choose a different scaling.
 [/list]
 
 [h2]Pricing[/h2]
-Xenogerm prices are based on gene complexity, metabolism impact, and archite gene count, e.g:
+Xenogerm prices configurable in settings, or take the defaults:
 [list]
-[*]Pigskin, Dirtmole: ~1,500 silver
-[*]Hussar, Highmate: ~1,600 to 1,850 silver
-[*]Sanguophage: ~3,200 silver
-[/list]
-Sell prices are intentionally low (5%) to prevent buy-sell exploits, with a bonus for archite xenogerms. The full formula is configurable in mod settings.
-
-[h2]Mod Settings[/h2]
-[list]
-[*][b]Include archite xenotypes[/b] - Toggle xenogerms containing archite genes (default: on)
-[*][b]Include inheritable xenotypes[/b] - Toggle germline xenotypes like Impid and Yttakin (default: off)
-[*][b]Implant germline xenotypes as endogenes[/b] - Write a germline xenogerm's genes into the pawn's germline, so children inherit them and later implants stack instead of overwriting (default: off; requires the setting above)
-[*][b]Include player-scenario xenotypes[/b] - Toggle the custom xenotypes your starting colonists were created with (default: on)
-[*][b]Xenogerm Pricing[/b] - Customize the price formula by adjusting the base preset value and multipliers for metabolism, complexity, and archite genes
+[*]Pigskin, Impid, Dirtmole: 1500~1700 silver
+[*]Hussar, Starjack, Highmate: 1700~2000 silver
+[*]Sanguophage: ~3600 silver
 [/list]
 
 [hr][/hr]
 [h1]Compatibility[/h1]
 [list]
-[*]Requires the Biotech DLC
-[*]Fully supports the Gene Trader mod: if installed, its orbital gene trader will also stock xenogerms
-[*]Safe to add or remove mid-game
-[*]Automatically includes xenotypes added by other mods
-[*]Vanilla Races Expanded - Android: android xenotypes are never sold (they are machines, not genelines) and stay out of the settings grid
+[*]Requires Biotech DLC
+[*]Safe to add mid-game
+[*]Safe to remove mid-game!
+[*]Orbital [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886375137]Gene Trader[/url] will also stock xenogerms
+[*]Automatically detects xenotypes added by other mods
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2975771801]VRE Android[/url] xenotypes intentionally excluded
 [/list]
 
 [hr][/hr]
 [h1]FAQ[/h1]
-[b]Q: Do I need the Biotech DLC?[/b]
-A: Yes. This mod adds xenogerms for Biotech's xenotype system.
+[b]Q: Do I need Biotech DLC?[/b]
+A: Yes. This mod directly uses Biotech's xenogerm ThingDef and gene system.
 
-[b]Q: Will this work with my other xenotype mods?[/b]
-A: Yes, xenotypes from other mods are automatically included.
+[b]Q: Was this made using LLMs!?[/b]
+A: Some of the grunt code, and most localizations. I'm a software engineer by trade, and have been writing code for 25 years. All code is manually reviewed and tested; all bug reports and mod-conflicts followed up personally as time and detail allows. All art is either commissioned from humans, hand-authored in Krita, or both.
 
 [hr][/hr]
 [h2]Links[/h2]
 [url=https://github.com/sam-hunt/XenogermTraderStock]GitHub[/url] - Source code, bug reports, and feature requests
+Hero art by [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url]
