@@ -72,7 +72,7 @@ namespace XenogermTraderStock
             DrawFilterRow(listing, XenotypeEligibility.XenotypeCategory.Inheritable,
                 "XTS_FilterInheritable", "XTS_FilterInheritableDesc", cells);
             DrawFilterRow(listing, XenotypeEligibility.XenotypeCategory.PlayerScenario,
-                "XTS_FilterPlayerScenario", "XTS_FilterPlayerScenarioDesc", cells);
+                "XTS_FilterPlayerScenario", "XTS_FilterPlayerScenarioDesc", cells, alwaysShow: true);
             listing.Gap(6f);
 
             GameFont prevFont = Text.Font;
@@ -101,11 +101,13 @@ namespace XenogermTraderStock
         // vanilla CheckboxMulti's cycle (on/partial -> off, off -> on) writing
         // every member's entry. There is no row for Plain xenotypes - they
         // partition into no group worth bulk-editing - and a category with no
-        // loaded members draws nothing. Note the categories are DISJOINT
-        // (XenotypeEligibility.Categorize picks one per xenotype), so the rows
-        // never fight over a cell.
+        // loaded members draws nothing, UNLESS alwaysShow (PlayerScenario:
+        // scenario-dependent, so its absence this game is itself information
+        // worth surfacing rather than hiding). Note the categories are
+        // DISJOINT (XenotypeEligibility.Categorize picks one per xenotype),
+        // so the rows never fight over a cell.
         private static void DrawFilterRow(Listing_Standard listing, XenotypeEligibility.XenotypeCategory category,
-            string labelKey, string descKey, List<Cell> cells)
+            string labelKey, string descKey, List<Cell> cells, bool alwaysShow = false)
         {
             int total = 0;
             int soldCount = 0;
@@ -121,12 +123,13 @@ namespace XenogermTraderStock
                     soldCount++;
                 }
             }
-            if (total == 0)
+            if (total == 0 && !alwaysShow)
             {
                 return;
             }
 
-            MultiCheckboxState state = soldCount == total ? MultiCheckboxState.On
+            MultiCheckboxState state = total == 0 ? MultiCheckboxState.Off
+                : soldCount == total ? MultiCheckboxState.On
                 : soldCount == 0 ? MultiCheckboxState.Off
                 : MultiCheckboxState.Partial;
 
