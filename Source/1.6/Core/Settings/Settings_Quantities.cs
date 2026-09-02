@@ -79,9 +79,23 @@ namespace XenogermTraderStock
             listing.Gap(SectionGap);
         }
 
+        // Left inset of the range slider under its full-width trader label, so
+        // the slider reads as belonging to the name above it. Only the left
+        // edge moves - ColumnWidth shrinks by the same amount so the right
+        // edge stays flush with every other row in the window.
+        private const float CountSliderIndent = 12f;
+
+        // The row's whole separation, spent below the slider instead of
+        // between label and slider: a range that sits tight under its own
+        // label and clear of the next trader can't be misread as belonging to
+        // the row below.
+        private const float CountRowGap = 14f;
+
         // One labelled range row in the SliderRow style: "Trader: min~max"
         // with the "(default)" suffix while the effective range matches the
-        // XML default, description as hover tooltip on the label.
+        // XML default, description as hover tooltip on the label. The label is
+        // the row's only readout - CompactIntRange drops the centred grey one
+        // vanilla's slider draws, which only repeated these same numbers.
         private void TraderCountRow(Listing_Standard listing, TraderKindDef trader, IntRange xmlDefault)
         {
             IntRange value = GetTraderCountRange(trader.defName) ?? xmlDefault;
@@ -90,10 +104,25 @@ namespace XenogermTraderStock
             {
                 label += "XTS_DefaultSuffix".Translate();
             }
+
+            // Zeroed for the two rows below, which each trail a Gap of it, so
+            // the label and the slider close up; the gap the row does want
+            // goes on after the spacing is restored.
+            float prevSpacing = listing.verticalSpacing;
+            listing.verticalSpacing = 0f;
+
             listing.Label(label, tooltip: "XTS_TraderCountDesc".Translate(xmlDefault.min, xmlDefault.max));
 
             IntRange edited = value;
-            listing.IntRange(ref edited, 0, MaxTraderCount);
+            listing.Indent(CountSliderIndent);
+            listing.ColumnWidth -= CountSliderIndent;
+            CompactIntRange.Draw(listing, ref edited, 0, MaxTraderCount);
+            listing.ColumnWidth += CountSliderIndent;
+            listing.Outdent(CountSliderIndent);
+
+            listing.verticalSpacing = prevSpacing;
+            listing.Gap(CountRowGap);
+
             if (edited != value)
             {
                 if (edited == xmlDefault)

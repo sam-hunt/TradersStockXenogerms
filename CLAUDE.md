@@ -89,6 +89,7 @@ Source/1.6/                         # Family layout: one folder per concern, roo
 │   ├── XenotypeLedgerStartup.cs        # Once-per-launch SeedUnseen pass (defName-keyed, reload-safe)
 │   └── GeneExtension.cs                # DefModExtension opt-out: genes that bar a xenotype from stock
 ├── UI/
+│   ├── CompactIntRange.cs              # Widgets.IntRange clone minus its centred grey readout (and its height)
 │   └── XenotypeGridUI.cs               # Settings-window xenotype toggle grid + tri-state category filter rows
 ├── Properties/
 │   └── AssemblyInfo.cs                 # Assembly version metadata
