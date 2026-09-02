@@ -19,6 +19,7 @@ This mod adds complete xenogerms to trader inventories, letting you purchase a r
 - **Preset xenogerms at traders**: Exotic goods traders stock xenogerms for preset xenotypes, modded xenotypes detected automatically
 - **Proper xenotype assignment**: Purchased xenogerms assign xenotype identity on implantation, enabling ideology recognition
 - **Naturalized germline members**: Enable endogene-only xenotypes in mod settings to create naturalized germ-line members
+- **Player-scenario xenotypes**: The custom xenotypes your starting colonists were created with are stocked too
 - **Configurable spawn weighting**: Price-driven commonality — expensive xenogerms are rarer by default, or choose a different scaling
 
 ### Pricing
@@ -31,11 +32,11 @@ Xenogerm prices are based on gene complexity, metabolism impact, and archite gen
 
 ### Mod Settings
 
-- **Include archite xenotypes** — Toggle xenogerms containing archite genes (default: on)
-- **Include inheritable xenotypes** — Toggle germline xenotypes like Impid and Yttakin (default: off)
-- **Implant germline xenotypes as endogenes** — Write a germline xenogerm's genes into the pawn's germline, so children inherit them and later implants stack instead of overwriting (default: on; requires "Include inheritable xenotypes" above)
-- **Include player-scenario xenotypes** — Toggle the custom xenotypes your starting colonists were created with (default: on)
-- **Xenogerm Pricing** — Customize the price formula by adjusting base preset value and multipliers for metabolism, complexity, and archite genes
+- **Xenotypes for sale** — A grid of every sellable xenotype, preset or player-scenario, with its shelf price. Tick what traders may stock; the Archite, Germline and Player-scenario rows switch whole groups at once. Germline xenotypes (Impid, Yttakin, Baseliner) start unsold since implanting one converts the pawn outright; everything else starts sold.
+- **Xenogerm pricing** — Sliders for the base preset value and the per-metabolism, per-complexity and per-archite-gene multipliers
+- **Stock quantity** — Per-trader-kind range for how many xenogerms a visit carries
+- **Implantation** — *Implant germline xenotypes as endogenes* writes a germline xenogerm's genes into the pawn's germline, so children inherit them and later implants stack instead of overwriting (default: on). *Preserve deathrest capacity through implantation* keeps serum-bought deathrest capacity through any xenogerm implant or reimplant, which vanilla resets to one (default: on)
+- **Xenotype commonality by price** — How price weights spawn chance: inverse, inverse root (default), linear, square root, bell curve or uniform
 
 ## Requirements
 
