@@ -16,25 +16,24 @@ This mod adds complete xenogerms to trader inventories, letting you purchase a r
 
 ### Xenogerm Trading
 
-- **Preset xenogerms at traders**: Orbital exotic goods traders stock xenogerms for all preset xenotypes (Hussar, Impid, Sanguophage, etc.)
-- **Proper xenotype assignment**: Purchased xenogerms assign the actual xenotype on implantation, enabling ideology recognition and creating "naturalized" members of endogene-only xenotypes
-- **Weighted spawn rates**: Cheaper xenogerms appear more frequently, while expensive archite xenotypes like Sanguophage are rarer finds
+- **Preset xenogerms at traders**: Exotic goods traders stock xenogerms for preset xenotypes, modded xenotypes detected automatically
+- **Proper xenotype assignment**: Purchased xenogerms assign xenotype identity on implantation, enabling ideology recognition
+- **Naturalized germline members**: Enable endogene-only xenotypes in mod settings to create naturalized germ-line members
+- **Configurable spawn weighting**: Price-driven commonality — expensive xenogerms are rarer by default, or choose a different scaling
 
 ### Pricing
 
 Xenogerm prices are based on gene complexity, metabolism impact, and archite gene count, e.g:
 
-- Pigskin, Dirtmole: ~1,500 silver
-- Hussar, Highmate: ~1,600-1,850 silver
-- Sanguophage: ~3,200 silver
-
-Sell prices are intentionally low (5%) to prevent buy-sell exploits, with a bonus for archite xenogerms.
+- Pigskin, Impid, Dirtmole: 1,500-1,700 silver
+- Hussar, Starjack, Highmate: 1,700-2,000 silver
+- Sanguophage: ~3,600 silver
 
 ### Mod Settings
 
 - **Include archite xenotypes** — Toggle xenogerms containing archite genes (default: on)
 - **Include inheritable xenotypes** — Toggle germline xenotypes like Impid and Yttakin (default: off)
-- **Implant germline xenotypes as endogenes** — Write a germline xenogerm's genes into the pawn's germline, so children inherit them and later implants stack instead of overwriting (default: off; requires the setting above)
+- **Implant germline xenotypes as endogenes** — Write a germline xenogerm's genes into the pawn's germline, so children inherit them and later implants stack instead of overwriting (default: on; requires "Include inheritable xenotypes" above)
 - **Include player-scenario xenotypes** — Toggle the custom xenotypes your starting colonists were created with (default: on)
 - **Xenogerm Pricing** — Customize the price formula by adjusting base preset value and multipliers for metabolism, complexity, and archite genes
 
@@ -85,3 +84,4 @@ For development setup, see [CLAUDE.md](CLAUDE.md).
 
 - [Ludeon Studios](https://ludeon.com) for RimWorld and modding API
 - [The RimWorld modding community](https://steamcommunity.com/app/294100/workshop/) for inspiration and working examples
+- Hero art by [IcingWithCheeseCake](https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100)
