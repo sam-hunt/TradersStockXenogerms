@@ -36,6 +36,15 @@ Xenogerm Trader Stock.
 | trader (plain noun) | торговец | family vocabulary table |
 | Scenario editor | редактор сценариев | Core Keyed `ScenarioEditor` |
 | Ideology (concept, ordinary word) | идеология | Core Keyed `Ideology.description`, Biotech Keyed `IdeoExposurePointsTooltip*Description` |
+| Baseliner | первозданный | Biotech DefInjected `XenotypeDef/XenotypeDefs.xml` `Baseliner.label` |
+| Deathrest | торпор | Biotech Keyed `Deathrest`/`Deathresting`; DefInjected `GeneDef` `Deathrest.label` |
+| Deathrest capacity | торпорная вместимость | Biotech Keyed `DeathrestCapacity` |
+| Deathrest capacity serum | сыворотка торпорной вместимости | Biotech DefInjected `ThingDef` `DeathrestCapacitySerum.label` |
+| Sanguophage reimplant (ability) | вживление генов | Biotech DefInjected `AbilityDef` `ReimplantXenogerm.label` |
+| Implant (verb, xenogerm) | вживить / вживление | Biotech Keyed `NoXenogermImplanted`, `SelectXenogerm`-adjacent strings; `ReimplantXenogerm.description` |
+| Germline (genes) | наследуемые гены | Biotech Keyed `Endogenes` ("germline genes"), `EndogenesDesc` |
+| Custom xenotype (player-created) | созданный ксенотип | Biotech Keyed `CreateXenotype` ("Создать ксенотип"); consistent with prior `XTS_IncludePlayerScenario` phrasing |
+| Scenario (custom xenotype source) | сценарий | Core Keyed `ScenarioTitle`/`ScenarioEditor` |
 
 ## Workshop title
 
@@ -70,3 +79,22 @@ and searchable on the mod's core nouns.
   1850, 3200). The "1,600 to 1,850" range is rendered "от ~1600 до 1850"
   (from ... to ...) rather than an en dash, per the brief's no-new-dash
   rule for the description file.
+- **2026-09-02 update pass:** refreshed the settings-window Keyed file for
+  the removal of the three coarse include-toggles (archite/inheritable/
+  player-scenario) in favour of the per-xenotype sold-ledger grid, its
+  category filter rows, price-breakdown tooltip, quantity/implantation/
+  commonality sections. "Commonality" strategy labels (Inverse, Inverse
+  root, Linear, Square root, Bell curve, Uniform) are mod-specific, not
+  vanilla terms; rendered with ordinary Russian maths vocabulary
+  (Обратная, Обратный корень, Линейная, Квадратный корень,
+  Колоколообразная кривая, Равномерная). The "1 / price" and "√price"
+  formula fragments keep "цена" uninflected after the fraction bar/root
+  (matching English's un-inflected "price"), but "proportional to price"
+  prose without a fraction bar takes the grammatical dative ("пропорционален
+  цене/√цене") — a deliberate split, flagged here in case a future pass
+  wants one convention throughout.
+- **"Vanilla" (the base game, no mods) has no grounded Russian rendering**
+  in either tar; `XTS_PreserveDeathrestCapacityDesc` avoids the word
+  entirely ("Обычно игра..." / "the game normally...") rather than
+  inventing a term. Flag for native review if a mod-family convention for
+  "vanilla" emerges later.

@@ -35,6 +35,15 @@ only what is specific to Xenogerm Trader Stock.
 | trader (plain noun) | 贸易商 | Core Keyed `TraderHasNoMore`, `TraderWillNotTrade`, etc. |
 | Reset to defaults / restore default settings | 还原默认设置 | Core Keyed `RestoreToDefaultSettings` |
 | Default | 默认 | Core Keyed `Default` |
+| Baseliner | 智人种 | Biotech `XenotypeDef Baseliner.label` |
+| Scenario | 剧本 | Core Keyed `ScenarioEditor`, `ScenarioTitle`, `ScenariosCustom` |
+| Custom (attributive) | 自定义 | Core Keyed `ScenariosCustom` |
+| Xenotype editor | 异种人编辑器 | Biotech Keyed `XenotypeEditor` |
+| Deathrest | 死眠 | Biotech Keyed `Deathrest`; GeneDef `Deathrest.label` |
+| Deathrest capacity | 死眠容量 | Biotech Keyed `DeathrestCapacity` |
+| Deathrest capacity serum | 死眠扩容血清 | Biotech DefInjected `ThingDef DeathrestCapacitySerum.label` |
+| Sanguophage reimplant (ability) | 植入基因 | Biotech DefInjected `AbilityDef ReimplantXenogerm.label` |
+| Custom xenotype | 自定义异种人 | composed from `ScenariosCustom`=自定义 + `Xenotype`=异种人 (no single vanilla string states this compound) |
 
 ## Workshop title
 
@@ -72,3 +81,19 @@ Short, searchable on either keyword, no English brand appended.
   slots (kept as literal ASCII ` - ` per the brief's exception).
 - No new dashes introduced beyond the two English-mirrored ` - ` slots
   (Mod Settings list, Links line) that the brief explicitly permits.
+- **"Scenario" corrected from 场景 to 剧本 (2026-09-02 pass).** The prior
+  (now-deleted) `XTS_IncludePlayerScenarioDesc` rendered scenario editor as
+  "场景编辑器", but the Biotech/Core vanilla tar grounds "scenario" as 剧本
+  throughout (`ScenarioEditor`=剧本编辑器, `ScenariosCustom`=自定义,
+  `ScenarioTitle`=标题). All new scenario-related keys in this pass
+  (`XTS_FilterPlayerScenario(Desc)`, `XTS_CustomXenotypeDesc`,
+  `XTS_XenotypeSourceScenario`) use 剧本; no lingering 场景 usages remain
+  after this pass since the only prior occurrences were in the deleted keys.
+- **2026-09-02 update pass:** added 42 new keys (xenotypes-for-sale filter
+  rows, price-breakdown tooltip lines, quantity/implantation/commonality
+  sections), retranslated the 4 pricing slider tooltips whose trailing
+  "Default: {0}" clause was dropped from English, and deleted the
+  Include-Archite/Inheritable/PlayerScenario keys (superseded by the
+  per-xenotype sold ledger and grid). "Custom xenotype" flagged as a
+  compositional coinage (no single vanilla string); everything else is
+  grounded 1:1 against the Biotech/Core zh tar.

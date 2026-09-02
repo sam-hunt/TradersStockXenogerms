@@ -37,6 +37,13 @@ to Xenogerm Trader Stock.
 | trader / orbital exotic goods trader | 상인 / 궤도 희귀품 상선 | Core Keyed trader vocab; `TraderKindDef` `Orbital_Exotic.label`=희귀품 상선 (family glossary: caravan traders=상인, orbital kinds=상선) |
 | scenario editor | 시나리오 편집 | Core Keyed `ScenarioEditor` |
 | ideology (the game mechanic) | 이념 | Biotech Keyed `ITabs.xml` (`IdeoExposurePoints*` strings use 이념 for the specific belief system a pawn joins) |
+| Baseliner | 일반인 | Biotech DefInjected `XenotypeDef/Baseliner.label` |
+| deathrest | 죽음안식 | Biotech Keyed `Deathrest`; GeneDef `Deathrest.label` |
+| deathrest capacity | 죽음안식 수용량 | Biotech Keyed `DeathrestCapacity` |
+| deathrest capacity serum | 죽음안식 수용 혈청 | Biotech DefInjected `ThingDef/DeathrestCapacitySerum.label` |
+| sanguophage reimplant (ability) | 유전자 이식 | Biotech DefInjected `AbilityDef/ReimplantXenogerm.label` |
+| scenario | 시나리오 | Core Keyed `ScenarioEditor` (시나리오 편집) |
+| custom (xenotype) | 사용자 지정 (인종형) | Biotech Keyed `Custom`, `MessageTooManyCustomXenotypes` |
 
 ## Workshop title
 
@@ -76,3 +83,26 @@ naturally as a Korean noun-phrase title (modifier-modifier-head), conveying
 - No dashes were introduced anywhere; the description's Mod Settings list
   items use ` - ` after each bold label, mirroring the exact English slot per
   the brief's allowance.
+- **2026-09-02 update pass:** added 42 new keys (xenotype filter grid, price
+  breakdown tooltip rows, stock quantity, implantation, and commonality
+  sections) and retranslated the five pricing-section descriptions after the
+  English dropped their trailing "Default: {0}" clause; removed the
+  superseded `XTS_IncludeArchite`/`IncludeInheritable`/`IncludePlayerScenario`
+  toggle keys (replaced by the per-xenotype sold ledger grid). No dashes
+  introduced (0 dashes in the file vs. vanilla ko Keyed's ~30/100k chars).
+- "Germline xenotypes" (`XTS_FilterInheritable`) rendered as 생식유전자
+  인종형 ("germline-gene xenotypes"), built on the grounded Endogenes
+  rendering (생식유전자) rather than coining a separate "germline" word; no
+  vanilla string uses this exact compound, so it needs native review.
+- "Xenotype commonality by price" (`XTS_CommonalitySection`) rendered as
+  가격별 인종형 출현 빈도 ("occurrence frequency of xenotype by price").
+  "Commonality" has no vanilla anchor; 출현 빈도 is the ordinary term for
+  spawn/appearance frequency in Korean RimWorld modding usage. Flagged for
+  native review.
+- Commonality strategy names (Inverse/Inverse root/Linear/Square
+  root/Bell curve/Uniform) use ordinary Korean math vocabulary (역비례,
+  역제곱근, 선형, 제곱근, 종형 곡선, 균등); none have a vanilla anchor, but
+  all are standard textbook terms, so risk is low.
+- "Sanguophage reimplant" reuses the `ReimplantXenogerm` ability's own label
+  verb (유전자 이식) per the update brief's instruction, rather than coining
+  a separate "재이식" word.

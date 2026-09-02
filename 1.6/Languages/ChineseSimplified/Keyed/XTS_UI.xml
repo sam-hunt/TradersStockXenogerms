@@ -4,39 +4,114 @@
   <!-- EN: Xenogerm Trader Stock -->
   <XTS_SettingsCategory>贸易商异种胚芽库存</XTS_SettingsCategory>
 
-  <!-- EN: Include archite xenotypes -->
-  <XTS_IncludeArchite>包含超凡异种人</XTS_IncludeArchite>
-  <!-- EN: Allow traders to sell xenogerms for xenotypes containing archite genes (e.g., Sanguophage). These are typically more expensive. -->
-  <XTS_IncludeArchiteDesc>允许贸易商出售含有超凡基因的异种人对应的异种胚芽（例如赫血种）。这类异种胚芽通常价格更高。</XTS_IncludeArchiteDesc>
-  <!-- EN: Include inheritable xenotypes -->
-  <XTS_IncludeInheritable>包含可遗传异种人</XTS_IncludeInheritable>
-  <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
-  <XTS_IncludeInheritableDesc>允许贸易商出售系谱异种人对应的异种胚芽（例如炎魔种、毛绒种）。植入这些异种胚芽会创建被文化认可的"归化"成员。</XTS_IncludeInheritableDesc>
-  <!-- EN: Include player-created xenotypes -->
-  <XTS_IncludePlayerScenario>包含玩家自建异种人</XTS_IncludePlayerScenario>
-  <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
-  <XTS_IncludePlayerScenarioDesc>允许贸易商出售你在场景编辑器中创建的异种人对应的异种胚芽。默认关闭，因为贸易商理论上不会获得你的自定义设计。</XTS_IncludePlayerScenarioDesc>
+  <!-- EN: Xenotypes for sale -->
+  <XTS_XenotypesSection>在售异种人</XTS_XenotypesSection>
+  <!-- EN: Archite xenotypes -->
+  <XTS_FilterArchite>超凡异种人</XTS_FilterArchite>
+  <!-- EN: Preset xenotypes containing archite genes (e.g., Sanguophage). Scenario xenotypes are grouped under the scenario row instead. -->
+  <XTS_FilterArchiteDesc>含有超凡基因的预设异种人（例如赫血种）。剧本异种人则归入剧本行。</XTS_FilterArchiteDesc>
+  <!-- EN: Germline xenotypes -->
+  <XTS_FilterInheritable>系谱异种人</XTS_FilterInheritable>
+  <!-- EN: Preset xenotypes whose xenogerm rewrites the pawn's germline: inheritable xenotypes (e.g., Impid, Yttakin) and Baseliner, whose empty xenogerm converts the pawn back to a baseliner. -->
+  <XTS_FilterInheritableDesc>异种胚芽会重写角色系谱基因的预设异种人：可遗传异种人（例如炎魔种、毛绒种），以及智人种，其空异种胚芽会将角色转化回智人种。</XTS_FilterInheritableDesc>
+  <!-- EN: Player-scenario xenotypes -->
+  <XTS_FilterPlayerScenario>玩家剧本异种人</XTS_FilterPlayerScenario>
+  <!-- EN: The custom xenotypes your scenario's starting colonists were created with. Xenotypes assembled in-game are never sold. -->
+  <XTS_FilterPlayerScenarioDesc>你的剧本中初始殖民者所使用的自定义异种人。游戏内组装的异种人不会被出售。</XTS_FilterPlayerScenarioDesc>
+  <!-- EN: No sellable xenotypes are loaded. -->
+  <XTS_NoXenotypes>未加载任何可出售的异种人。</XTS_NoXenotypes>
+  <!-- EN: Base xenogerm -->
+  <XTS_PriceBase>基础异种胚芽</XTS_PriceBase>
+  <!-- EN: Preset xenotype -->
+  <XTS_PricePreset>预设异种人</XTS_PricePreset>
+  <!-- EN: Metabolism {0} × {1} -->
+  <XTS_PriceMetabolism>代谢率 {0} × {1}</XTS_PriceMetabolism>
+  <!-- EN: Complexity {0} × {1} -->
+  <XTS_PriceComplexity>复杂度 {0} × {1}</XTS_PriceComplexity>
+  <!-- EN: Archite genes {0} × {1} -->
+  <XTS_PriceArchite>超凡基因 {0} × {1}</XTS_PriceArchite>
+  <!-- EN: Contains archite genes -->
+  <XTS_XenotypeArchite>含有超凡基因</XTS_XenotypeArchite>
+  <!-- EN: Contains endogenes -->
+  <XTS_XenotypeEndogenes>含有系谱基因</XTS_XenotypeEndogenes>
+  <!-- EN: Contains xenogenes -->
+  <XTS_XenotypeXenogenes>含有异种基因</XTS_XenotypeXenogenes>
+  <!-- EN: A custom xenotype your scenario's starting colonists were created with. -->
+  <XTS_CustomXenotypeDesc>你的剧本中初始殖民者所使用的自定义异种人。</XTS_CustomXenotypeDesc>
+  <!-- EN: Scenario -->
+  <XTS_XenotypeSourceScenario>剧本</XTS_XenotypeSourceScenario>
 
   <!-- EN: Xenogerm pricing -->
   <XTS_PricingSection>异种胚芽定价</XTS_PricingSection>
-  <!-- EN: Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only. -->
-  <XTS_PricingSectionDesc>调整贸易商出售异种胚芽的市场价值公式。更改仅影响新生成的异种胚芽。</XTS_PricingSectionDesc>
+  <!-- EN: Market value formula for trader-sold xenogerms. Affects new xenogerms only. -->
+  <XTS_PricingSectionDesc>贸易商出售的异种胚芽的市场价值公式。仅影响新生成的异种胚芽。</XTS_PricingSectionDesc>
   <!-- EN: Base preset value: {0} -->
   <XTS_BasePresetValue>预设基础价值: {0}</XTS_BasePresetValue>
-  <!-- EN: Base silver value added to all preset xenotype xenogerms. Default: {0} -->
-  <XTS_BasePresetValueDesc>为所有预设异种人异种胚芽增加的基础白银价值。默认: {0}</XTS_BasePresetValueDesc>
+  <!-- EN: Base silver value added to all preset xenotype xenogerms -->
+  <XTS_BasePresetValueDesc>为所有预设异种人异种胚芽增加的基础白银价值</XTS_BasePresetValueDesc>
   <!-- EN: Value per metabolism: {0} -->
   <XTS_ValuePerMetabolism>每点代谢率价值: {0}</XTS_ValuePerMetabolism>
-  <!-- EN: Silver value added per point of absolute metabolism. Default: {0} -->
-  <XTS_ValuePerMetabolismDesc>每点绝对代谢率增加的白银价值。默认: {0}</XTS_ValuePerMetabolismDesc>
+  <!-- EN: Silver value added per point of absolute metabolism -->
+  <XTS_ValuePerMetabolismDesc>每点绝对代谢率增加的白银价值</XTS_ValuePerMetabolismDesc>
   <!-- EN: Value per complexity: {0} -->
   <XTS_ValuePerComplexity>每点复杂度价值: {0}</XTS_ValuePerComplexity>
-  <!-- EN: Silver value added per point of genetic complexity. Default: {0} -->
-  <XTS_ValuePerComplexityDesc>每点基因复杂度增加的白银价值。默认: {0}</XTS_ValuePerComplexityDesc>
+  <!-- EN: Silver value added per point of genetic complexity -->
+  <XTS_ValuePerComplexityDesc>每点基因复杂度增加的白银价值</XTS_ValuePerComplexityDesc>
   <!-- EN: Value per archite gene: {0} -->
   <XTS_ValuePerArchite>每个超凡基因价值: {0}</XTS_ValuePerArchite>
-  <!-- EN: Silver value added per archite gene. Default: {0} -->
-  <XTS_ValuePerArchiteDesc>每个超凡基因增加的白银价值。默认: {0}</XTS_ValuePerArchiteDesc>
+  <!-- EN: Silver value added per archite gene -->
+  <XTS_ValuePerArchiteDesc>每个超凡基因增加的白银价值</XTS_ValuePerArchiteDesc>
+
+  <!-- EN: Stock quantity -->
+  <XTS_QuantitySection>库存数量</XTS_QuantitySection>
+  <!-- EN: How many xenogerms each trader kind carries, rolled from its range on every visit. Affects new traders only. -->
+  <XTS_QuantitySectionDesc>每种贸易商携带的异种胚芽数量，每次到访时都会在其范围内重新随机。仅影响新生成的贸易商。</XTS_QuantitySectionDesc>
+  <!-- EN: {0}: {1}~{2} -->
+  <XTS_TraderCount>{0}: {1}~{2}</XTS_TraderCount>
+  <!-- EN: Xenogerms this trader arrives with, rolled from this range each visit -->
+  <XTS_TraderCountDesc>该贸易商到访时携带的异种胚芽数量，每次到访都会在此范围内重新随机</XTS_TraderCountDesc>
+
+  <!-- EN: Implantation -->
+  <XTS_ImplantationSection>植入</XTS_ImplantationSection>
+  <!-- EN: How trader-sold xenogerms behave when implanted. -->
+  <XTS_ImplantationSectionDesc>贸易商出售的异种胚芽在植入时的行为方式。</XTS_ImplantationSectionDesc>
+  <!-- EN: Implant germline xenotypes as endogenes -->
+  <XTS_ImplantGermlineAsEndogenes>将系谱异种人作为系谱基因植入</XTS_ImplantGermlineAsEndogenes>
+  <!-- EN: Preserve deathrest capacity through implantation -->
+  <XTS_PreserveDeathrestCapacity>植入时保留死眠容量</XTS_PreserveDeathrestCapacity>
+  <!-- EN: Vanilla recreates the deathrest gene on every xenogerm implant or sanguophage reimplant, resetting serum-bought deathrest capacity to one. With this on, the pawn's previous capacity is restored whenever it still has a deathrest gene afterwards. Applies to all xenogerms, not just trader-sold ones. -->
+  <XTS_PreserveDeathrestCapacityDesc>原版游戏在每次植入异种胚芽，或使用赫血种的“植入基因”能力时，都会重建死眠基因，将用血清购买的死眠容量重置为1。开启此项后，只要角色植入后仍拥有死眠基因，其此前的容量就会被恢复。适用于所有异种胚芽，不仅限于贸易商出售的异种胚芽。</XTS_PreserveDeathrestCapacityDesc>
+  <!-- EN: When a trader-sold xenogerm for a germline xenotype is implanted, its genes replace the pawn's endogenes instead of becoming xenogenes, making the pawn a born member of that xenotype: children inherit the genes, and later xenogerm implants add to them instead of overwriting them. Xenogenes the pawn already carries are kept, and a pawn named for them (a sanguophage, say) keeps its name and icon. -->
+  <XTS_ImplantGermlineAsEndogenesDesc>植入贸易商出售的系谱异种人异种胚芽时，其基因会替换角色的系谱基因，而不是成为异种基因，使角色成为该异种人的天生成员：其子女将遗传这些基因，此后植入的异种胚芽会在此基础上叠加，而不是将其覆盖。角色原有的异种基因会被保留，若角色因这些异种基因而得名（例如赫血种），则会保留其名称与图标。</XTS_ImplantGermlineAsEndogenesDesc>
+
+  <!-- EN: Xenotype commonality by price -->
+  <XTS_CommonalitySection>按价格决定的异种人常见度</XTS_CommonalitySection>
+  <!-- EN: How a trader picks which xenotypes to stock, weighted by the prices of everything currently sellable. Affects new stock only. -->
+  <XTS_CommonalitySectionDesc>贸易商如何挑选要进货的异种人，权重取决于当前所有可出售异种人的价格。仅影响新生成的库存。</XTS_CommonalitySectionDesc>
+  <!-- EN: Inverse -->
+  <XTS_StrategyInversePrice>反比</XTS_StrategyInversePrice>
+  <!-- EN: Cheaper xenogerms are more common: chance is proportional to 1 / price. Archite xenogerms stay rare. -->
+  <XTS_StrategyInversePriceDesc>更便宜的异种胚芽更常见：概率与 1 / 价格 成正比。超凡异种胚芽依然罕见。</XTS_StrategyInversePriceDesc>
+  <!-- EN: Inverse root -->
+  <XTS_StrategySoftInversePrice>平方根反比</XTS_StrategySoftInversePrice>
+  <!-- EN: Cheaper xenogerms are more common, with a gentler bias: chance is proportional to 1 / √price. -->
+  <XTS_StrategySoftInversePriceDesc>更便宜的异种胚芽更常见，但偏向更为温和：概率与 1 / √价格 成正比。</XTS_StrategySoftInversePriceDesc>
+  <!-- EN: Linear -->
+  <XTS_StrategyPrice>线性</XTS_StrategyPrice>
+  <!-- EN: Pricier xenogerms are more common: chance is proportional to price. -->
+  <XTS_StrategyPriceDesc>更昂贵的异种胚芽更常见：概率与价格成正比。</XTS_StrategyPriceDesc>
+  <!-- EN: Square root -->
+  <XTS_StrategySqrtPrice>平方根</XTS_StrategySqrtPrice>
+  <!-- EN: Pricier xenogerms are more common, with a gentler bias: chance is proportional to √price. -->
+  <XTS_StrategySqrtPriceDesc>更昂贵的异种胚芽更常见，但偏向更为温和：概率与 √价格 成正比。</XTS_StrategySqrtPriceDesc>
+  <!-- EN: Bell curve -->
+  <XTS_StrategyBellCurve>钟形曲线</XTS_StrategyBellCurve>
+  <!-- EN: Mid-priced xenogerms are most common: chances follow a bell curve centred on the median price, so the cheapest and priciest are both rare. -->
+  <XTS_StrategyBellCurveDesc>中等价位的异种胚芽最为常见：概率遵循以价格中位数为中心的钟形曲线分布，因此最便宜和最昂贵的都很罕见。</XTS_StrategyBellCurveDesc>
+  <!-- EN: Uniform -->
+  <XTS_StrategyUniform>均匀</XTS_StrategyUniform>
+  <!-- EN: Every sellable xenotype is equally likely, regardless of price. -->
+  <XTS_StrategyUniformDesc>无论价格高低，每种可出售的异种人被选中的概率都相同。</XTS_StrategyUniformDesc>
 
   <!-- EN:  (default) -->
   <XTS_DefaultSuffix>（默认）</XTS_DefaultSuffix>

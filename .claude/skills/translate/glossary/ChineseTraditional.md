@@ -32,6 +32,12 @@ first before assuming a term is mod-specific.
 | Orbital exotic goods trader | 軌道外貿商 | Core TraderKindDef `Orbital_Exotic.label` |
 | Biotech (DLC brand) | 「生機」 | Core Keyed `SimulateNotOwningBiotech` |
 | Ideology / ideoligion | 理念 | shared vocab table (l10n `ChineseTraditional.md`), Ideology `CustomizeIdeoligion` |
+| Baseliner (xenotype label) | 一般人類 | Biotech DefInjected `XenotypeDef/Baseliner.label` |
+| Deathrest | 絕息 | Biotech Keyed `Deathrest`, GeneDef `Deathrest.label` |
+| Deathrest capacity | 絕息容量 | Biotech Keyed `DeathrestCapacity` |
+| Deathrest capacity serum | 絕息容量血清 | Biotech Keyed `DeathrestCapacityDesc` ("注射絕息容量血清可以增加絕息容量") |
+| Sanguophage reimplant (ability, verb "implant genes") | 移植基因 | Biotech DefInjected `AbilityDef/ReimplantXenogerm.label` |
+| Scenario (bare noun, source tag) | 腳本 | shared vocab table (l10n `ChineseTraditional.md`, orbital/trade table: storyteller/scenario/inventory row) |
 
 ## Workshop title
 
@@ -76,3 +82,30 @@ in a title.
 - Parentheses kept ASCII `( )` throughout, including `XTS_DefaultSuffix`
   (" (預設)"), per the shared file's measured 528:0 ASCII-vs-full-width
   finding — the one exception being full-width （）is never used here.
+- 2026-09-02 update pass: the settings window dropped the three
+  `XTS_Include*` toggles for a per-xenotype sold ledger and grid, added a
+  price-breakdown tooltip, quantity/implantation/commonality sections, and
+  dropped the "Default: {0}" clause from the four pricing sliders' tooltips.
+  Retranslated those four descs without the clause; deleted the three
+  removed toggle pairs; added the 42 new keys. Zero dashes introduced (ratio
+  0x against the documented 13.35/100k vanilla baseline).
+- "Germline xenotypes" (`XTS_FilterInheritable`, a filter-row label whose
+  English literally says "Germline", not "Inheritable") rendered as the
+  prose framing 種系異種人 rather than the label framing 可遺傳異種人, per
+  this file's existing "germline vs inheritable framing" note — English
+  itself picked the germline wording for this slot.
+- "Xenotypes for sale" (`XTS_XenotypesSection`, section header) rendered as
+  出售異種人. Not independently grounded (no vanilla section header matches
+  this shape); chosen for brevity and to mirror the existing section-header
+  compound-noun style (異種細胞定價, 庫存數量). Flagging for native review.
+- "Inverse root" / "Square root" strategy labels (`XTS_StrategySoftInversePrice`,
+  `XTS_StrategySqrtPrice`) rendered as 反平方根 / 平方根 — ordinary Chinese
+  maths vocabulary, not vanilla-grounded (no vanilla string names either
+  concept). Flagging for native review alongside the other strategy labels
+  (反比/線性/鐘形曲線/均等), which are likewise plain maths/statistics terms
+  with no closer vanilla analogue to ground against.
+- Kept the brief's "1 / price" and "√price" literal-symbol forms as
+  "1 / 價格" and "√價格" (translating the word, keeping the symbol and the
+  ASCII slash's surrounding spaces) rather than converting to a full-width
+  reading, since these sit inside otherwise-Chinese sentences as an inline
+  math expression.

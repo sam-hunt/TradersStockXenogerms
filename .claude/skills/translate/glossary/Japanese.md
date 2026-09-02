@@ -30,6 +30,11 @@ Xenogerm Trader Stock.
 | trader (plain noun) | トレーダー | Core Keyed (`TraderWillNotTrade`, `TraderCount`, `TraderHasNoMore`, etc.) — used pervasively over 商人/貿易商 for the generic game-mechanic sense |
 | Scenario editor | シナリオエディター | Core Keyed `Menus_Main.xml` `<ScenarioEditor>` |
 | Ideology (the DLC/mechanic) | Ideology (Latin script, unchanged) | Core Keyed `Menus_Main.xml` `<DifficultyIdeologySection>Ideology</DifficultyIdeologySection>`; matches the family rule that DLC names (Biotech, Royalty, Odyssey) stay in Latin script |
+| Deathrest / Deathrest capacity | 死眠 / 死眠容量 | Biotech Keyed `Dialogs_Various.xml` `<Deathrest>`, `<DeathrestCapacity>` |
+| Deathrest capacity serum | 死眠許容量シーラム | Biotech `ThingDef` `DeathrestCapacitySerum.label` (note: 許容量, not 容量, in this one compound — copy verbatim rather than reusing 死眠容量) |
+| Sanguophage reimplant (ability, verb) | 遺伝子移植 / 移植する | Biotech `AbilityDef` `ReimplantXenogerm.label` = "遺伝子移植"; used as the verb for "implant"/"reimplant" generally |
+| Baseliner | ベースライナー | Biotech `XenotypeDef` `Baseliner.label` |
+| Custom xenotype | カスタムゼノタイプ | Biotech Keyed `Misc_Gameplay.xml` `<MessageTooManyCustomXenotypes>` ("カスタムされたゼノタイプ"); shortened to the bare attributive カスタム+ゼノタイプ for label use |
 
 ## Workshop title
 
@@ -67,6 +72,22 @@ English title's "Trader Stock" structure without appending any English.
   trailing period (`XTS_IncludeArchite`, `XTS_PricingSection`,
   `XTS_ResetToDefaults`, etc.); descriptions/tooltips take polite です/ます
   phrasing and end in `.` (all `*Desc` keys).
+- **2026-09-02 update pass:** added the xenotype-filter/price-breakdown/
+  quantity/implantation/commonality key groups (42 new keys) and retranslated
+  the four pricing-slider Desc tooltips after their English dropped the
+  trailing "Default: {0}" clause; removed the retired
+  XTS_Include{Archite,Inheritable,PlayerScenario}(+Desc) keys.
+- **Commonality strategy names — ungrounded, coined from ordinary Japanese
+  math vocabulary (no vanilla precedent for a spawn-weighting UI).** Paired
+  as antonyms: 反比例/比例 (Inverse/Linear) and 逆平方根/平方根 (Inverse
+  root/Square root, the reciprocal-square-root pairing scientific and
+  engineering Japanese already uses, e.g. 高速逆平方根 "fast inverse square
+  root"). Bell curve rendered as the loanword ベルカーブ (no vanilla or
+  common native equivalent found); Uniform as 均等, echoing 一様分布
+  ("uniform distribution") without the statistics-textbook register.
+- **"Player-scenario xenotypes" -> シナリオゼノタイプ** (bare compound, no
+  の), matching the corpus's tight-attach compound pattern used elsewhere in
+  this glossary (アルカイトゼノタイプ) rather than a possessive phrase.
 - No dashes introduced anywhere in Keyed or the description; the English's
   bold-label ` - ` slots in the Mod Settings list and the Links line were
   reflowed with Japanese `:` colons instead (`[b]...[/b] - ` → `[b]...[/b] `

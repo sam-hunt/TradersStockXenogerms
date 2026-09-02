@@ -28,6 +28,15 @@ to Xenogerm Trader Stock.
 | silver | plata | Core DefInjected `ThingDef/Items_Resource_Stuff.xml` `Silver.label` |
 | orbital exotic goods trader | comerciante orbital de productos exóticos | Core DefInjected `TraderKindDef/TraderKinds_Orbital_Misc.xml` `Orbital_Exotic.label` |
 | ideology (recognition system) | ideoligión | family-shared vocab table in `l10n/languages/Spanish.md` (Ideology `Relic`/`RelicOf`/`IdeoligionOf` all coin "ideoligión"; not independently re-extracted this pass, applied per that table) |
+| xenogenes | xenogenes | Biotech Keyed `Dialogs_Various.xml` `<Xenogenes>` (unaccented, mirrors plain `genes`) |
+| endogenes / germline | genes de línea germinal / línea germinal | Biotech Keyed `Dialogs_Various.xml` `<Endogenes>` = "genes de línea germinal"; "germline" alone (e.g. "germline xenotypes") renders as "línea germinal" |
+| Baseliner | básico | Biotech DefInjected `XenotypeDef/XenotypeDefs.xml` `Baseliner.label` |
+| custom xenotype | xenotipo personalizado | Biotech Keyed `Dialogs_Various.xml` `MessageTooManyCustomXenotypes` ("xenotipos personalizados") |
+| scenario / scenario editor | escenario / editor de escenarios | Core Keyed `Menus_Main.xml` `<ScenarioEditor>` |
+| deathrest / deathrest capacity | mortisueño / capacidad de mortisueño | Biotech Keyed `Dialogs_Various.xml` `<Deathrest...>`, `<DeathrestCapacity>` |
+| deathrest capacity serum | suero de capacidad del mortisueño | Biotech DefInjected `ThingDef/Items_...xml` `DeathrestCapacitySerum.label` |
+| sanguophage reimplant ability (the act of implanting genes) | implantar genes | Biotech DefInjected `AbilityDef/Abilities_...xml` `ReimplantXenogerm.label` — vanilla has no noun form ("reimplant"/"reimplante"), only this verb phrase; description prose is built around the verb rather than coining a noun |
+| pawn (generic, not necessarily a colonist) | persona | Core Keyed `Misc.xml` `<Person>` |
 
 ## Workshop title
 
@@ -40,6 +49,17 @@ since it made the title noticeably longer without adding clarity.
 
 ## Phrasing decisions
 
+- **2026-09-02 update pass**: settings window overhaul (per-xenotype sold
+  ledger grid, price-breakdown tooltip, quantity/implantation/commonality
+  sections). Deleted the three retired `Include*` toggles; added 42 new
+  keys; retranslated the five pricing descriptions whose English dropped
+  the trailing "Default: {0}" clause.
+- **"Implant germline xenotypes as endogenes" repeats "línea germinal"
+  on both sides** (`Implantar xenotipos de línea germinal como genes de
+  línea germinal`) because Spanish's own grounded terms for "germline" and
+  "endogenes" are built from the same phrase — this mirrors the English's
+  own near-overlap (endogenes literally are the germline genes) rather than
+  being a translation artifact. Not flagged as an error.
 - **"naturalized" is ungrounded — needs native review.** No official
   Spanish rendering of "naturalized" (in the Biotech xenotype/ideology
   sense) turned up in the extracted Biotech or Core Keyed/DefInjected data.

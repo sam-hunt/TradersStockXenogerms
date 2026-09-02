@@ -30,6 +30,14 @@ to Xenogerm Trader Stock.
 | Default | Padrão | Core `Keyed/Misc.xml` `<Default>` |
 | Scenario editor | editor de cenário | Core `Keyed/Menus_Main.xml` `<ScenarioEditor>` = "Editor de Cenário" (Title Case as a menu name; lowercased here as an ordinary noun phrase inside prose, per pt-BR's per-def-type casing convention) |
 | Ideology | ideologia | Core `Keyed/Dialog_StatsReports.xml` `<StatsReport_Ideoligion>` |
+| Scenario (short tag) | cenário | Core `Keyed/Menus_Main.xml` `<ScenariosCustom>`/`<ScenarioEditor>` family, lowercased as an ordinary noun outside the menu-name context |
+| Custom xenotype | xenótipo personalizado | Biotech `Keyed/...` `<MessageTooManyCustomXenotypes>` = "xenótipos personalizados" |
+| Deathrest (gene) | descanso mortal | Biotech `DefInjected/GeneDef/*` `Deathrest.label` |
+| Deathrest capacity | capacidade do descanso mortal | Biotech `DefInjected/ThingDef/*` `DeathrestCasket.description` ("...depende da capacidade do descanso mortal da pessoa...") |
+| Deathrest capacity serum | soro de capacidade do descanso mortal | Biotech `DefInjected/ThingDef/*` `DeathrestCapacitySerum.label` |
+| Sanguophage reimplant (ability) | reimplante (verb: implantar) | Biotech `DefInjected/AbilityDef/*` `ReimplantXenogerm.label` = "implantar genes"; its description uses the verb "implantar" for the act, so "reimplante" is a natural derived noun rather than a literal vanilla label |
+| Baseliner (as a name, not the adjective sense) | Padrão | Biotech `DefInjected/XenotypeDef/*` `Baseliner.label` = "padrão" (vanilla lowercases it as a descriptive adjective; capitalized here to match the Title Case treatment given to other xenotype names like Diabrete, Yttakin) |
+| Pawn (generic, in mod prose) | colono | Core `Keyed` usage throughout (`ColonistNeedsRescue`, `BreakRiskMinorDesc`, etc.) consistently renders "pawn"-in-context as "colono" |
 
 ## Workshop title
 
@@ -58,3 +66,19 @@ appending any English brand text.
   question labels `P:` (Pergunta) — no vanilla precedent for this Q&A shape
   exists in the mod-domain data, so this is an editorial choice, not a
   grounded term.
+- **2026-09-02 update pass:** added 42 new keys (implantation, quantity,
+  commonality-strategy and price-breakdown sections) and retranslated the 5
+  pricing-slider tooltips whose English dropped the trailing "Default: {0}"
+  clause; removed the three retired Include* toggle keys. "Vanilla" (as in
+  "Vanilla recreates the deathrest gene...") is ungrounded as a standalone
+  term; rendered as "o jogo base" (the base game), a natural and unambiguous
+  phrase, not a literal vanilla string. **Needs native review.**
+  `XTS_ImplantGermlineAsEndogenes` reads as literally repetitive
+  ("xenótipos de linha germinativa como genes de linha germinativa")
+  because "endogenes" is grounded as "genes de linha germinativa" and the
+  label already says "xenótipos de linha germinativa" — kept as-is for
+  terminological accuracy rather than shortened, since no shorter grounded
+  synonym for "endogenes" exists. The six math-strategy labels (Inverso,
+  Raiz inversa, Linear, Raiz quadrada, Curva em sino, Uniforme) are ordinary
+  Portuguese mathematical vocabulary, not vanilla-grounded (no RimWorld
+  Keyed source uses them), per the brief's allowance.

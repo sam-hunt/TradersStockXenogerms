@@ -4,39 +4,114 @@
   <!-- EN: Xenogerm Trader Stock -->
   <XTS_SettingsCategory>상인 변형이식체 재고</XTS_SettingsCategory>
 
-  <!-- EN: Include archite xenotypes -->
-  <XTS_IncludeArchite>초월입자 인종형 포함</XTS_IncludeArchite>
-  <!-- EN: Allow traders to sell xenogerms for xenotypes containing archite genes (e.g., Sanguophage). These are typically more expensive. -->
-  <XTS_IncludeArchiteDesc>초월입자 유전자가 포함된 인종형(예: 생귀오파지)의 변형이식체를 상인이 판매하도록 허용합니다. 이런 변형이식체는 대체로 더 비쌉니다.</XTS_IncludeArchiteDesc>
-  <!-- EN: Include inheritable xenotypes -->
-  <XTS_IncludeInheritable>유전 가능한 인종형 포함</XTS_IncludeInheritable>
-  <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
-  <XTS_IncludeInheritableDesc>생식유전자 인종형(예: 임피드, 이타킨)의 변형이식체를 상인이 판매하도록 허용합니다. 이를 이식하면 이념에서 인정하는 '귀화' 구성원이 됩니다.</XTS_IncludeInheritableDesc>
-  <!-- EN: Include player-created xenotypes -->
-  <XTS_IncludePlayerScenario>직접 생성한 인종형 포함</XTS_IncludePlayerScenario>
-  <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
-  <XTS_IncludePlayerScenarioDesc>시나리오 편집에서 직접 생성한 인종형의 변형이식체를 상인이 판매하도록 허용합니다. 상인이 당신이 만든 인종형에 접근할 논리적 이유가 없으므로 기본값은 비활성화입니다.</XTS_IncludePlayerScenarioDesc>
+  <!-- EN: Xenotypes for sale -->
+  <XTS_XenotypesSection>판매할 인종형</XTS_XenotypesSection>
+  <!-- EN: Archite xenotypes -->
+  <XTS_FilterArchite>초월입자 인종형</XTS_FilterArchite>
+  <!-- EN: Preset xenotypes containing archite genes (e.g., Sanguophage). Scenario xenotypes are grouped under the scenario row instead. -->
+  <XTS_FilterArchiteDesc>초월입자 유전자가 포함된 프리셋 인종형입니다(예: 생귀오파지). 시나리오 인종형은 대신 시나리오 항목으로 분류됩니다.</XTS_FilterArchiteDesc>
+  <!-- EN: Germline xenotypes -->
+  <XTS_FilterInheritable>생식유전자 인종형</XTS_FilterInheritable>
+  <!-- EN: Preset xenotypes whose xenogerm rewrites the pawn's germline: inheritable xenotypes (e.g., Impid, Yttakin) and Baseliner, whose empty xenogerm converts the pawn back to a baseliner. -->
+  <XTS_FilterInheritableDesc>변형이식체를 이식하면 사람의 생식유전자를 새로 쓰는 프리셋 인종형입니다. 유전 가능한 인종형(예: 임피드, 이타킨)과, 빈 변형이식체로 대상을 일반인으로 되돌리는 일반인이 여기에 포함됩니다.</XTS_FilterInheritableDesc>
+  <!-- EN: Player-scenario xenotypes -->
+  <XTS_FilterPlayerScenario>시나리오 인종형</XTS_FilterPlayerScenario>
+  <!-- EN: The custom xenotypes your scenario's starting colonists were created with. Xenotypes assembled in-game are never sold. -->
+  <XTS_FilterPlayerScenarioDesc>시나리오 시작 정착민이 가지고 있던 사용자 지정 인종형입니다. 게임 중 직접 조합한 인종형은 판매되지 않습니다.</XTS_FilterPlayerScenarioDesc>
+  <!-- EN: No sellable xenotypes are loaded. -->
+  <XTS_NoXenotypes>판매 가능한 인종형이 로드되지 않았습니다.</XTS_NoXenotypes>
+  <!-- EN: Base xenogerm -->
+  <XTS_PriceBase>기본 변형이식체</XTS_PriceBase>
+  <!-- EN: Preset xenotype -->
+  <XTS_PricePreset>프리셋 인종형</XTS_PricePreset>
+  <!-- EN: Metabolism {0} × {1} -->
+  <XTS_PriceMetabolism>대사 효율 {0} × {1}</XTS_PriceMetabolism>
+  <!-- EN: Complexity {0} × {1} -->
+  <XTS_PriceComplexity>복잡도 {0} × {1}</XTS_PriceComplexity>
+  <!-- EN: Archite genes {0} × {1} -->
+  <XTS_PriceArchite>초월입자 유전자 {0} × {1}</XTS_PriceArchite>
+  <!-- EN: Contains archite genes -->
+  <XTS_XenotypeArchite>초월입자 유전자 포함</XTS_XenotypeArchite>
+  <!-- EN: Contains endogenes -->
+  <XTS_XenotypeEndogenes>생식유전자 포함</XTS_XenotypeEndogenes>
+  <!-- EN: Contains xenogenes -->
+  <XTS_XenotypeXenogenes>변형인자 포함</XTS_XenotypeXenogenes>
+  <!-- EN: A custom xenotype your scenario's starting colonists were created with. -->
+  <XTS_CustomXenotypeDesc>시나리오 시작 정착민이 가지고 있던 사용자 지정 인종형입니다.</XTS_CustomXenotypeDesc>
+  <!-- EN: Scenario -->
+  <XTS_XenotypeSourceScenario>시나리오</XTS_XenotypeSourceScenario>
 
   <!-- EN: Xenogerm pricing -->
   <XTS_PricingSection>변형이식체 가격</XTS_PricingSection>
-  <!-- EN: Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only. -->
-  <XTS_PricingSectionDesc>상인이 판매하는 변형이식체의 시장 가치 계산식을 조정합니다. 변경 사항은 새로 생성되는 변형이식체에만 적용됩니다.</XTS_PricingSectionDesc>
+  <!-- EN: Market value formula for trader-sold xenogerms. Affects new xenogerms only. -->
+  <XTS_PricingSectionDesc>상인이 판매하는 변형이식체의 시장 가치 계산식입니다. 새로 생성되는 변형이식체에만 적용됩니다.</XTS_PricingSectionDesc>
   <!-- EN: Base preset value: {0} -->
   <XTS_BasePresetValue>기본 프리셋 가치: {0}</XTS_BasePresetValue>
-  <!-- EN: Base silver value added to all preset xenotype xenogerms. Default: {0} -->
-  <XTS_BasePresetValueDesc>모든 프리셋 인종형 변형이식체에 추가되는 기본 은 가치입니다. 기본값: {0}</XTS_BasePresetValueDesc>
+  <!-- EN: Base silver value added to all preset xenotype xenogerms -->
+  <XTS_BasePresetValueDesc>모든 프리셋 인종형 변형이식체에 추가되는 기본 은 가치입니다.</XTS_BasePresetValueDesc>
   <!-- EN: Value per metabolism: {0} -->
   <XTS_ValuePerMetabolism>대사 효율당 가치: {0}</XTS_ValuePerMetabolism>
-  <!-- EN: Silver value added per point of absolute metabolism. Default: {0} -->
-  <XTS_ValuePerMetabolismDesc>절대 대사 효율 1당 추가되는 은 가치입니다. 기본값: {0}</XTS_ValuePerMetabolismDesc>
+  <!-- EN: Silver value added per point of absolute metabolism -->
+  <XTS_ValuePerMetabolismDesc>절대 대사 효율 1당 추가되는 은 가치입니다.</XTS_ValuePerMetabolismDesc>
   <!-- EN: Value per complexity: {0} -->
   <XTS_ValuePerComplexity>복잡도당 가치: {0}</XTS_ValuePerComplexity>
-  <!-- EN: Silver value added per point of genetic complexity. Default: {0} -->
-  <XTS_ValuePerComplexityDesc>유전적 복잡도 1당 추가되는 은 가치입니다. 기본값: {0}</XTS_ValuePerComplexityDesc>
+  <!-- EN: Silver value added per point of genetic complexity -->
+  <XTS_ValuePerComplexityDesc>유전적 복잡도 1당 추가되는 은 가치입니다.</XTS_ValuePerComplexityDesc>
   <!-- EN: Value per archite gene: {0} -->
   <XTS_ValuePerArchite>초월입자 유전자당 가치: {0}</XTS_ValuePerArchite>
-  <!-- EN: Silver value added per archite gene. Default: {0} -->
-  <XTS_ValuePerArchiteDesc>초월입자 유전자 1개당 추가되는 은 가치입니다. 기본값: {0}</XTS_ValuePerArchiteDesc>
+  <!-- EN: Silver value added per archite gene -->
+  <XTS_ValuePerArchiteDesc>초월입자 유전자 1개당 추가되는 은 가치입니다.</XTS_ValuePerArchiteDesc>
+
+  <!-- EN: Stock quantity -->
+  <XTS_QuantitySection>재고 수량</XTS_QuantitySection>
+  <!-- EN: How many xenogerms each trader kind carries, rolled from its range on every visit. Affects new traders only. -->
+  <XTS_QuantitySectionDesc>각 상인 종류가 보유하는 변형이식체 수로, 방문할 때마다 지정된 범위에서 무작위로 정해집니다. 새로 생성되는 상인에게만 적용됩니다.</XTS_QuantitySectionDesc>
+  <!-- EN: {0}: {1}~{2} -->
+  <XTS_TraderCount>{0}: {1}~{2}</XTS_TraderCount>
+  <!-- EN: Xenogerms this trader arrives with, rolled from this range each visit -->
+  <XTS_TraderCountDesc>이 상인이 방문할 때마다 이 범위에서 무작위로 정해진 수의 변형이식체를 가지고 옵니다.</XTS_TraderCountDesc>
+
+  <!-- EN: Implantation -->
+  <XTS_ImplantationSection>이식</XTS_ImplantationSection>
+  <!-- EN: How trader-sold xenogerms behave when implanted. -->
+  <XTS_ImplantationSectionDesc>상인이 판매하는 변형이식체를 이식했을 때의 동작 방식입니다.</XTS_ImplantationSectionDesc>
+  <!-- EN: Implant germline xenotypes as endogenes -->
+  <XTS_ImplantGermlineAsEndogenes>생식유전자 인종형을 생식유전자로 이식</XTS_ImplantGermlineAsEndogenes>
+  <!-- EN: Preserve deathrest capacity through implantation -->
+  <XTS_PreserveDeathrestCapacity>이식 후에도 죽음안식 수용량 유지</XTS_PreserveDeathrestCapacity>
+  <!-- EN: Vanilla recreates the deathrest gene on every xenogerm implant or sanguophage reimplant, resetting serum-bought deathrest capacity to one. With this on, the pawn's previous capacity is restored whenever it still has a deathrest gene afterwards. Applies to all xenogerms, not just trader-sold ones. -->
+  <XTS_PreserveDeathrestCapacityDesc>바닐라는 변형이식체를 이식하거나 생귀오파지가 유전자 이식 능력을 사용할 때마다 죽음안식 유전자를 다시 생성하여, 혈청으로 늘린 죽음안식 수용량을 1로 초기화합니다. 이 옵션을 켜면 이후에도 죽음안식 유전자가 남아 있는 경우 이전 수용량이 복구됩니다. 상인이 판매한 변형이식체뿐 아니라 모든 변형이식체에 적용됩니다.</XTS_PreserveDeathrestCapacityDesc>
+  <!-- EN: When a trader-sold xenogerm for a germline xenotype is implanted, its genes replace the pawn's endogenes instead of becoming xenogenes, making the pawn a born member of that xenotype: children inherit the genes, and later xenogerm implants add to them instead of overwriting them. Xenogenes the pawn already carries are kept, and a pawn named for them (a sanguophage, say) keeps its name and icon. -->
+  <XTS_ImplantGermlineAsEndogenesDesc>상인이 판매한 생식유전자 인종형의 변형이식체를 이식하면, 유전자가 변형인자가 아니라 생식유전자를 대체하여 그 인종형으로 태어난 것과 같은 상태가 됩니다. 자손은 이 유전자를 물려받으며, 이후에 이식하는 변형이식체는 기존 유전자를 덮어쓰지 않고 추가됩니다. 원래 가지고 있던 변형인자는 그대로 유지되며, 그 변형인자로 인해 이름이 정해졌던 사람(예: 생귀오파지)은 이름과 아이콘을 그대로 유지합니다.</XTS_ImplantGermlineAsEndogenesDesc>
+
+  <!-- EN: Xenotype commonality by price -->
+  <XTS_CommonalitySection>가격별 인종형 출현 빈도</XTS_CommonalitySection>
+  <!-- EN: How a trader picks which xenotypes to stock, weighted by the prices of everything currently sellable. Affects new stock only. -->
+  <XTS_CommonalitySectionDesc>상인이 재고로 어떤 인종형을 고를지 정하는 방식으로, 현재 판매 가능한 모든 인종형의 가격에 따라 가중치가 매겨집니다. 새로 생성되는 재고에만 적용됩니다.</XTS_CommonalitySectionDesc>
+  <!-- EN: Inverse -->
+  <XTS_StrategyInversePrice>역비례</XTS_StrategyInversePrice>
+  <!-- EN: Cheaper xenogerms are more common: chance is proportional to 1 / price. Archite xenogerms stay rare. -->
+  <XTS_StrategyInversePriceDesc>저렴한 변형이식체일수록 더 흔합니다. 확률은 1 / 가격에 비례합니다. 초월입자 변형이식체는 여전히 희귀합니다.</XTS_StrategyInversePriceDesc>
+  <!-- EN: Inverse root -->
+  <XTS_StrategySoftInversePrice>역제곱근</XTS_StrategySoftInversePrice>
+  <!-- EN: Cheaper xenogerms are more common, with a gentler bias: chance is proportional to 1 / √price. -->
+  <XTS_StrategySoftInversePriceDesc>저렴한 변형이식체일수록 더 흔하지만 그 편향은 더 완만합니다. 확률은 1 / √가격에 비례합니다.</XTS_StrategySoftInversePriceDesc>
+  <!-- EN: Linear -->
+  <XTS_StrategyPrice>선형</XTS_StrategyPrice>
+  <!-- EN: Pricier xenogerms are more common: chance is proportional to price. -->
+  <XTS_StrategyPriceDesc>비싼 변형이식체일수록 더 흔합니다. 확률은 가격에 비례합니다.</XTS_StrategyPriceDesc>
+  <!-- EN: Square root -->
+  <XTS_StrategySqrtPrice>제곱근</XTS_StrategySqrtPrice>
+  <!-- EN: Pricier xenogerms are more common, with a gentler bias: chance is proportional to √price. -->
+  <XTS_StrategySqrtPriceDesc>비싼 변형이식체일수록 더 흔하지만 그 편향은 더 완만합니다. 확률은 √가격에 비례합니다.</XTS_StrategySqrtPriceDesc>
+  <!-- EN: Bell curve -->
+  <XTS_StrategyBellCurve>종형 곡선</XTS_StrategyBellCurve>
+  <!-- EN: Mid-priced xenogerms are most common: chances follow a bell curve centred on the median price, so the cheapest and priciest are both rare. -->
+  <XTS_StrategyBellCurveDesc>중간 가격대의 변형이식체가 가장 흔합니다. 확률은 중앙값 가격을 중심으로 한 종형 곡선을 따르므로, 가장 저렴한 것과 가장 비싼 것 모두 희귀합니다.</XTS_StrategyBellCurveDesc>
+  <!-- EN: Uniform -->
+  <XTS_StrategyUniform>균등</XTS_StrategyUniform>
+  <!-- EN: Every sellable xenotype is equally likely, regardless of price. -->
+  <XTS_StrategyUniformDesc>가격과 관계없이 판매 가능한 모든 인종형이 동일한 확률을 가집니다.</XTS_StrategyUniformDesc>
 
   <!-- EN:  (default) -->
   <XTS_DefaultSuffix> (기본값)</XTS_DefaultSuffix>

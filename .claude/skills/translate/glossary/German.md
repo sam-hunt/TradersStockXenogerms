@@ -35,6 +35,13 @@ file holds only what is specific to Xenogerm Trader Stock.
 | scenario editor | Szenario-Editor | Core Keyed `ScenarioEditor` |
 | player-created / custom xenotype | benutzerdefinierter Xenotyp | Biotech Keyed `MessageTooManyCustomXenotypes` ("benutzerdef. Xenotypen") |
 | ideoligion / ideology | Ideologie | l10n family table (`l10n/languages/German.md`), not present in the extracted Core/Biotech data for this repo — Ideology DLC data wasn't pulled |
+| Baseliner (xenotype label) | Normal | Biotech DefInjected `XenotypeDef` `Baseliner.label` |
+| Deathrest | Todesschlaf | Biotech Keyed `Deathrest`, `Deathresting`; DefInjected `GeneDef` `Deathrest.label` |
+| Deathrest capacity | Todesschlafkapazität | Biotech Keyed `DeathrestCapacity`, `DeathrestCapacityDesc` |
+| Deathrest capacity serum | Todesschlafkapazitätsserum | Biotech DefInjected `ThingDef` `DeathrestCapacitySerum.label` |
+| Sanguophage reimplant (ability) | Gene implantieren (verb: implantieren) | Biotech DefInjected `AbilityDef` `ReimplantXenogerm.label`/`.description` |
+| scenario | Szenario | Core Keyed `ScenarioEditor`, `ScenarioTitle` |
+| trader kind (bulk goods / exotic goods trader) | Großhändler / Händler exotischer Güter | Core DefInjected `TraderKindDef` `Orbital_BulkGoods.label`, `Orbital_Exotic.label` |
 
 ## Workshop title
 
@@ -64,3 +71,24 @@ without appending the English brand name.
 - Percent in the description body is kept tight (`5%`), matching both the
   English source's own formatting and the upstream style file's note that
   vanilla de writes percentages tight (`{0}%`).
+- **"Germline xenotypes" (`XTS_FilterInheritable`, `XTS_ImplantGermlineAsEndogenes`)
+  is rendered as the compound "Keimbahn-Xenotypen"** rather than the earlier
+  "Xenotyp mit Keimbahngenen" phrasing — these are short radio/filter/toggle
+  labels (brief constraint), where English itself compounds ("Germline
+  xenotypes"). The longer expanded form is kept for prose contexts
+  (`XTS_FilterInheritableDesc` still spells out "vererbbare Xenotypen ...
+  und Normal"). Flagged since it partially revisits the earlier phrasing
+  decision below; the earlier decision's rationale (avoid an unattested
+  compound in a full sentence) still holds for prose, this is only for
+  short labels.
+- **Baseliner, when referred to generically ("a baseliner") rather than as
+  the proper `XenotypeDef` label, is rendered using its grounded label
+  "Normal"** (`XTS_FilterInheritableDesc`: "... und Normal, dessen leerer
+  Xenokeim den Träger wieder zu einem Normal macht") — needs native review to
+  confirm this reads naturally rather than ambiguous with the adjective
+  "normal".
+- 2026-09-02 update pass: added the 42 new Keyed keys (xenotype filter
+  grid, price breakdown tooltip, stock-quantity, implantation, and
+  commonality-strategy sections), retranslated the 5 pricing-slider
+  tooltip descriptions after the English dropped their "Default: {0}"
+  clause, and removed the three retired `XTS_Include*` toggle keys.

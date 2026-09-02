@@ -4,39 +4,114 @@
   <!-- EN: Xenogerm Trader Stock -->
   <XTS_SettingsCategory>トレーダーの異種胚在庫</XTS_SettingsCategory>
 
-  <!-- EN: Include archite xenotypes -->
-  <XTS_IncludeArchite>アルカイトゼノタイプを含める</XTS_IncludeArchite>
-  <!-- EN: Allow traders to sell xenogerms for xenotypes containing archite genes (e.g., Sanguophage). These are typically more expensive. -->
-  <XTS_IncludeArchiteDesc>トレーダーがアルカイト遺伝子を含むゼノタイプ(サングオファージなど)の異種胚を販売できるようにします.通常,これらは高価です.</XTS_IncludeArchiteDesc>
-  <!-- EN: Include inheritable xenotypes -->
-  <XTS_IncludeInheritable>遺伝するゼノタイプを含める</XTS_IncludeInheritable>
-  <!-- EN: Allow traders to sell xenogerms for germline xenotypes (e.g., Impid, Yttakin). Implanting these creates 'naturalized' members recognized by ideology. -->
-  <XTS_IncludeInheritableDesc>トレーダーが生殖系ゼノタイプ(インピッド,イータキンなど)の異種胚を販売できるようにします.これらを移植すると,Ideologyに認識される「帰化」メンバーが生まれます.</XTS_IncludeInheritableDesc>
-  <!-- EN: Include player-created xenotypes -->
-  <XTS_IncludePlayerScenario>プレイヤーが作成したゼノタイプを含める</XTS_IncludePlayerScenario>
-  <!-- EN: Allow traders to sell xenogerms for xenotypes you created in the scenario editor. Disabled by default since traders wouldn't logically have access to your custom designs. -->
-  <XTS_IncludePlayerScenarioDesc>トレーダーが,あなたがシナリオエディターで作成したゼノタイプの異種胚を販売できるようにします.トレーダーが独自デザインを入手できるとは考えにくいため,デフォルトでは無効になっています.</XTS_IncludePlayerScenarioDesc>
+  <!-- EN: Xenotypes for sale -->
+  <XTS_XenotypesSection>販売するゼノタイプ</XTS_XenotypesSection>
+  <!-- EN: Archite xenotypes -->
+  <XTS_FilterArchite>アルカイトゼノタイプ</XTS_FilterArchite>
+  <!-- EN: Preset xenotypes containing archite genes (e.g., Sanguophage). Scenario xenotypes are grouped under the scenario row instead. -->
+  <XTS_FilterArchiteDesc>アルカイト遺伝子を含むプリセットゼノタイプです(サングオファージなど).シナリオのゼノタイプは代わりにシナリオの行にまとめられます.</XTS_FilterArchiteDesc>
+  <!-- EN: Germline xenotypes -->
+  <XTS_FilterInheritable>生殖系ゼノタイプ</XTS_FilterInheritable>
+  <!-- EN: Preset xenotypes whose xenogerm rewrites the pawn's germline: inheritable xenotypes (e.g., Impid, Yttakin) and Baseliner, whose empty xenogerm converts the pawn back to a baseliner. -->
+  <XTS_FilterInheritableDesc>異種胚を移植するとポーンの生殖系遺伝子が書き換わるプリセットゼノタイプです.遺伝するゼノタイプ(インピッド,イータキンなど)と,空の異種胚でポーンをベースライナーに戻すベースライナーが含まれます.</XTS_FilterInheritableDesc>
+  <!-- EN: Player-scenario xenotypes -->
+  <XTS_FilterPlayerScenario>シナリオゼノタイプ</XTS_FilterPlayerScenario>
+  <!-- EN: The custom xenotypes your scenario's starting colonists were created with. Xenotypes assembled in-game are never sold. -->
+  <XTS_FilterPlayerScenarioDesc>あなたのシナリオの開始入植者が持つカスタムゼノタイプです.ゲーム内で作成したゼノタイプは販売されません.</XTS_FilterPlayerScenarioDesc>
+  <!-- EN: No sellable xenotypes are loaded. -->
+  <XTS_NoXenotypes>販売可能なゼノタイプが読み込まれていません.</XTS_NoXenotypes>
+  <!-- EN: Base xenogerm -->
+  <XTS_PriceBase>基本異種胚</XTS_PriceBase>
+  <!-- EN: Preset xenotype -->
+  <XTS_PricePreset>プリセットゼノタイプ</XTS_PricePreset>
+  <!-- EN: Metabolism {0} × {1} -->
+  <XTS_PriceMetabolism>代謝効率 {0} × {1}</XTS_PriceMetabolism>
+  <!-- EN: Complexity {0} × {1} -->
+  <XTS_PriceComplexity>複雑性 {0} × {1}</XTS_PriceComplexity>
+  <!-- EN: Archite genes {0} × {1} -->
+  <XTS_PriceArchite>アルカイト遺伝子 {0} × {1}</XTS_PriceArchite>
+  <!-- EN: Contains archite genes -->
+  <XTS_XenotypeArchite>アルカイト遺伝子を含む</XTS_XenotypeArchite>
+  <!-- EN: Contains endogenes -->
+  <XTS_XenotypeEndogenes>生殖系遺伝子を含む</XTS_XenotypeEndogenes>
+  <!-- EN: Contains xenogenes -->
+  <XTS_XenotypeXenogenes>異種遺伝子を含む</XTS_XenotypeXenogenes>
+  <!-- EN: A custom xenotype your scenario's starting colonists were created with. -->
+  <XTS_CustomXenotypeDesc>あなたのシナリオの開始入植者が持つカスタムゼノタイプです.</XTS_CustomXenotypeDesc>
+  <!-- EN: Scenario -->
+  <XTS_XenotypeSourceScenario>シナリオ</XTS_XenotypeSourceScenario>
 
   <!-- EN: Xenogerm pricing -->
   <XTS_PricingSection>異種胚の価格</XTS_PricingSection>
-  <!-- EN: Adjust the market value formula for trader-sold xenogerms. Changes affect new xenogerms only. -->
-  <XTS_PricingSectionDesc>トレーダーが販売する異種胚の標準小売価格の計算式を調整します.変更は新しく生成される異種胚にのみ適用されます.</XTS_PricingSectionDesc>
+  <!-- EN: Market value formula for trader-sold xenogerms. Affects new xenogerms only. -->
+  <XTS_PricingSectionDesc>トレーダーが販売する異種胚の標準小売価格の計算式です.新しく生成される異種胚にのみ適用されます.</XTS_PricingSectionDesc>
   <!-- EN: Base preset value: {0} -->
   <XTS_BasePresetValue>基本プリセット価格: {0}</XTS_BasePresetValue>
-  <!-- EN: Base silver value added to all preset xenotype xenogerms. Default: {0} -->
-  <XTS_BasePresetValueDesc>すべてのプリセットゼノタイプの異種胚に加算される基本シルバー価格です.デフォルト: {0}</XTS_BasePresetValueDesc>
+  <!-- EN: Base silver value added to all preset xenotype xenogerms -->
+  <XTS_BasePresetValueDesc>すべてのプリセットゼノタイプの異種胚に加算される基本シルバー価格です.</XTS_BasePresetValueDesc>
   <!-- EN: Value per metabolism: {0} -->
   <XTS_ValuePerMetabolism>代謝効率ごとの価格: {0}</XTS_ValuePerMetabolism>
-  <!-- EN: Silver value added per point of absolute metabolism. Default: {0} -->
-  <XTS_ValuePerMetabolismDesc>代謝効率の絶対値1につき加算されるシルバー価格です.デフォルト: {0}</XTS_ValuePerMetabolismDesc>
+  <!-- EN: Silver value added per point of absolute metabolism -->
+  <XTS_ValuePerMetabolismDesc>代謝効率の絶対値1につき加算されるシルバー価格です.</XTS_ValuePerMetabolismDesc>
   <!-- EN: Value per complexity: {0} -->
   <XTS_ValuePerComplexity>複雑性ごとの価格: {0}</XTS_ValuePerComplexity>
-  <!-- EN: Silver value added per point of genetic complexity. Default: {0} -->
-  <XTS_ValuePerComplexityDesc>遺伝的複雑性1につき加算されるシルバー価格です.デフォルト: {0}</XTS_ValuePerComplexityDesc>
+  <!-- EN: Silver value added per point of genetic complexity -->
+  <XTS_ValuePerComplexityDesc>遺伝的複雑性1につき加算されるシルバー価格です.</XTS_ValuePerComplexityDesc>
   <!-- EN: Value per archite gene: {0} -->
   <XTS_ValuePerArchite>アルカイト遺伝子ごとの価格: {0}</XTS_ValuePerArchite>
-  <!-- EN: Silver value added per archite gene. Default: {0} -->
-  <XTS_ValuePerArchiteDesc>アルカイト遺伝子1つにつき加算されるシルバー価格です.デフォルト: {0}</XTS_ValuePerArchiteDesc>
+  <!-- EN: Silver value added per archite gene -->
+  <XTS_ValuePerArchiteDesc>アルカイト遺伝子1つにつき加算されるシルバー価格です.</XTS_ValuePerArchiteDesc>
+
+  <!-- EN: Stock quantity -->
+  <XTS_QuantitySection>在庫数</XTS_QuantitySection>
+  <!-- EN: How many xenogerms each trader kind carries, rolled from its range on every visit. Affects new traders only. -->
+  <XTS_QuantitySectionDesc>各トレーダー種別が持つ異種胚の数です.訪問のたびに設定範囲からランダムに決まります.新しく生成されるトレーダーにのみ適用されます.</XTS_QuantitySectionDesc>
+  <!-- EN: {0}: {1}~{2} -->
+  <XTS_TraderCount>{0}: {1}~{2}</XTS_TraderCount>
+  <!-- EN: Xenogerms this trader arrives with, rolled from this range each visit -->
+  <XTS_TraderCountDesc>このトレーダーが訪問のたびに持ってくる異種胚の数で,この範囲からランダムに決まります.</XTS_TraderCountDesc>
+
+  <!-- EN: Implantation -->
+  <XTS_ImplantationSection>移植</XTS_ImplantationSection>
+  <!-- EN: How trader-sold xenogerms behave when implanted. -->
+  <XTS_ImplantationSectionDesc>トレーダーが販売する異種胚を移植したときの挙動です.</XTS_ImplantationSectionDesc>
+  <!-- EN: Implant germline xenotypes as endogenes -->
+  <XTS_ImplantGermlineAsEndogenes>生殖系ゼノタイプを生殖系遺伝子として移植する</XTS_ImplantGermlineAsEndogenes>
+  <!-- EN: Preserve deathrest capacity through implantation -->
+  <XTS_PreserveDeathrestCapacity>移植時に死眠容量を維持する</XTS_PreserveDeathrestCapacity>
+  <!-- EN: Vanilla recreates the deathrest gene on every xenogerm implant or sanguophage reimplant, resetting serum-bought deathrest capacity to one. With this on, the pawn's previous capacity is restored whenever it still has a deathrest gene afterwards. Applies to all xenogerms, not just trader-sold ones. -->
+  <XTS_PreserveDeathrestCapacityDesc>バニラでは,異種胚の移植やサングオファージの遺伝子移植のたびに死眠遺伝子が再生成され,シーラムで得た死眠容量が1にリセットされます.この設定を有効にすると,移植後もポーンが死眠遺伝子を持っている場合に限り,以前の容量が復元されます.トレーダー販売品に限らず,すべての異種胚に適用されます.</XTS_PreserveDeathrestCapacityDesc>
+  <!-- EN: When a trader-sold xenogerm for a germline xenotype is implanted, its genes replace the pawn's endogenes instead of becoming xenogenes, making the pawn a born member of that xenotype: children inherit the genes, and later xenogerm implants add to them instead of overwriting them. Xenogenes the pawn already carries are kept, and a pawn named for them (a sanguophage, say) keeps its name and icon. -->
+  <XTS_ImplantGermlineAsEndogenesDesc>トレーダーが販売する生殖系ゼノタイプの異種胚を移植すると,その遺伝子は異種遺伝子としてではなく,ポーンの生殖系遺伝子を置き換える形で追加されます.これにより,ポーンはそのゼノタイプの生まれながらのメンバーになります.子はその遺伝子を継承し,以降の異種胚移植は上書きではなく追加されます.ポーンがすでに持っていた異種遺伝子はそのまま保持され,それによって名付けられていたポーン(サングオファージなど)は名前とアイコンを保持します.</XTS_ImplantGermlineAsEndogenesDesc>
+
+  <!-- EN: Xenotype commonality by price -->
+  <XTS_CommonalitySection>価格によるゼノタイプ出現率</XTS_CommonalitySection>
+  <!-- EN: How a trader picks which xenotypes to stock, weighted by the prices of everything currently sellable. Affects new stock only. -->
+  <XTS_CommonalitySectionDesc>トレーダーが在庫に加えるゼノタイプを選ぶ方法で,現在販売可能なすべての価格に基づいて重み付けされます.新しく生成される在庫にのみ適用されます.</XTS_CommonalitySectionDesc>
+  <!-- EN: Inverse -->
+  <XTS_StrategyInversePrice>反比例</XTS_StrategyInversePrice>
+  <!-- EN: Cheaper xenogerms are more common: chance is proportional to 1 / price. Archite xenogerms stay rare. -->
+  <XTS_StrategyInversePriceDesc>安価な異種胚ほど出現しやすくなります.出現率は1 / 価格に比例します.アルカイトの異種胚は引き続き希少です.</XTS_StrategyInversePriceDesc>
+  <!-- EN: Inverse root -->
+  <XTS_StrategySoftInversePrice>逆平方根</XTS_StrategySoftInversePrice>
+  <!-- EN: Cheaper xenogerms are more common, with a gentler bias: chance is proportional to 1 / √price. -->
+  <XTS_StrategySoftInversePriceDesc>安価な異種胚ほど出現しやすくなりますが,偏りは穏やかです.出現率は1 / √価格に比例します.</XTS_StrategySoftInversePriceDesc>
+  <!-- EN: Linear -->
+  <XTS_StrategyPrice>比例</XTS_StrategyPrice>
+  <!-- EN: Pricier xenogerms are more common: chance is proportional to price. -->
+  <XTS_StrategyPriceDesc>高価な異種胚ほど出現しやすくなります.出現率は価格に比例します.</XTS_StrategyPriceDesc>
+  <!-- EN: Square root -->
+  <XTS_StrategySqrtPrice>平方根</XTS_StrategySqrtPrice>
+  <!-- EN: Pricier xenogerms are more common, with a gentler bias: chance is proportional to √price. -->
+  <XTS_StrategySqrtPriceDesc>高価な異種胚ほど出現しやすくなりますが,偏りは穏やかです.出現率は√価格に比例します.</XTS_StrategySqrtPriceDesc>
+  <!-- EN: Bell curve -->
+  <XTS_StrategyBellCurve>ベルカーブ</XTS_StrategyBellCurve>
+  <!-- EN: Mid-priced xenogerms are most common: chances follow a bell curve centred on the median price, so the cheapest and priciest are both rare. -->
+  <XTS_StrategyBellCurveDesc>中程度の価格の異種胚が最も出現しやすくなります.出現率は価格の中央値を中心としたベルカーブに従うため,最も安価なものと最も高価なものは両方とも希少になります.</XTS_StrategyBellCurveDesc>
+  <!-- EN: Uniform -->
+  <XTS_StrategyUniform>均等</XTS_StrategyUniform>
+  <!-- EN: Every sellable xenotype is equally likely, regardless of price. -->
+  <XTS_StrategyUniformDesc>販売可能なすべてのゼノタイプが,価格に関わらず均等な確率で出現します.</XTS_StrategyUniformDesc>
 
   <!-- EN:  (default) -->
   <XTS_DefaultSuffix>(デフォルト)</XTS_DefaultSuffix>
