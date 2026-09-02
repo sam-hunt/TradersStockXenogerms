@@ -72,7 +72,8 @@ namespace XenogermTraderStock.Tests
                 (XenotypeEligibility.XenotypeCategory.Archite, false),
             };
 
-            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Archite, ledger);
+            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Archite,
+                gatesAsInheritable: false, ledger: ledger);
 
             Assert.True(seeded);
         }
@@ -87,77 +88,63 @@ namespace XenogermTraderStock.Tests
                 (XenotypeEligibility.XenotypeCategory.Archite, true),
             };
 
-            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Archite, ledger);
+            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Archite,
+                gatesAsInheritable: false, ledger: ledger);
 
             Assert.False(seeded);
         }
 
         // Peers of a different category must not vote: a ledger stuffed with
-        // unsold Archite entries and no Plain entries at all is an exact tie
+        // sold Archite entries and no Plain entries at all is an exact tie
         // (zero same-category votes) for a Plain newcomer, so it falls back
-        // to the category default rather than being dragged along by Archite.
+        // to !gatesAsInheritable rather than being dragged along by Archite.
         [Fact]
         public void SeedValue_PeersOfOtherCategoriesDoNotVote()
         {
             var ledger = new List<(XenotypeEligibility.XenotypeCategory category, bool sold)>
             {
-                (XenotypeEligibility.XenotypeCategory.Archite, false),
-                (XenotypeEligibility.XenotypeCategory.Archite, false),
-                (XenotypeEligibility.XenotypeCategory.Archite, false),
+                (XenotypeEligibility.XenotypeCategory.Archite, true),
+                (XenotypeEligibility.XenotypeCategory.Archite, true),
+                (XenotypeEligibility.XenotypeCategory.Archite, true),
             };
 
-            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Plain, ledger);
+            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Plain,
+                gatesAsInheritable: false, ledger: ledger);
 
             Assert.True(seeded);
         }
 
         [Theory]
-        [InlineData(XenotypeEligibility.XenotypeCategory.PlayerScenario, true)]
-        [InlineData(XenotypeEligibility.XenotypeCategory.Archite, true)]
-        [InlineData(XenotypeEligibility.XenotypeCategory.Inheritable, false)]
-        [InlineData(XenotypeEligibility.XenotypeCategory.Plain, true)]
-        public void SeedValue_ExactTie_FallsBackToCategoryDefault(XenotypeEligibility.XenotypeCategory category,
-            bool expected)
+        [InlineData(false, true)]
+        [InlineData(true, false)]
+        public void SeedValue_ExactTie_FallsBackToNotGatesAsInheritable(bool gatesAsInheritable, bool expected)
         {
             var ledger = new List<(XenotypeEligibility.XenotypeCategory category, bool sold)>
             {
-                (category, true),
-                (category, false),
+                (XenotypeEligibility.XenotypeCategory.Inheritable, true),
+                (XenotypeEligibility.XenotypeCategory.Inheritable, false),
             };
 
-            bool seeded = XenotypeEligibility.SeedValue(category, ledger);
+            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Inheritable,
+                gatesAsInheritable, ledger);
 
             Assert.Equal(expected, seeded);
         }
 
         // The empty ledger is the shipped-defaults case: a fresh install has
-        // no votes at all, so every category falls back to its default - only
-        // the germline row seeds unsold; scenario, archite and plain seed sold.
-        // Inheritability alone never decides it: an inheritable scenario or
-        // archite xenotype categorizes out of the Inheritable row (Categorize
-        // precedence) and so starts sold.
+        // no votes at all, so every category falls back to !gatesAsInheritable
+        // - germline-rewriting xenotypes seed unsold, everything else sold.
         [Theory]
-        [InlineData(XenotypeEligibility.XenotypeCategory.PlayerScenario, true)]
-        [InlineData(XenotypeEligibility.XenotypeCategory.Archite, true)]
-        [InlineData(XenotypeEligibility.XenotypeCategory.Inheritable, false)]
-        [InlineData(XenotypeEligibility.XenotypeCategory.Plain, true)]
-        public void SeedValue_EmptyLedger_FallsBackToCategoryDefault(XenotypeEligibility.XenotypeCategory category,
-            bool expected)
+        [InlineData(false, true)]
+        [InlineData(true, false)]
+        public void SeedValue_EmptyLedger_FallsBackToNotGatesAsInheritable(bool gatesAsInheritable, bool expected)
         {
             var ledger = new List<(XenotypeEligibility.XenotypeCategory category, bool sold)>();
 
-            bool seeded = XenotypeEligibility.SeedValue(category, ledger);
+            bool seeded = XenotypeEligibility.SeedValue(XenotypeEligibility.XenotypeCategory.Plain,
+                gatesAsInheritable, ledger);
 
             Assert.Equal(expected, seeded);
-        }
-
-        [Fact]
-        public void SeedValue_InheritableScenarioXenotype_SeedsSoldOnEmptyLedger()
-        {
-            var category = XenotypeEligibility.Categorize(archite: false, inheritable: true, playerScenario: true);
-            var ledger = new List<(XenotypeEligibility.XenotypeCategory category, bool sold)>();
-
-            Assert.True(XenotypeEligibility.SeedValue(category, ledger));
         }
 
         [Fact]

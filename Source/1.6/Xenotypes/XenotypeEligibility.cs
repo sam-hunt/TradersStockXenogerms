@@ -66,16 +66,10 @@ namespace XenogermTraderStock
         // is a better guess than any fixed default - a player who ticked every
         // archite xenotype wants a new archite mod's on sale too, and one who
         // cleared the group wants it kept out. Ties (the empty first-run
-        // ledger included) fall back to the shipped default, which follows
-        // the CATEGORY so each filter row starts uniformly on or off: only the
-        // germline row starts unsold - implanting one of those converts the
-        // pawn outright - and every other row starts sold. Inheritability
-        // alone does not decide it: a player-scenario xenotype the player
-        // built for their own colonists is sold even when inheritable (buying
-        // its xenogerm to convert recruits is the point), and an archite
-        // xenotype's germline flag defers to its price-defining genes just as
-        // it does for grouping.
-        public static bool SeedValue(XenotypeCategory category,
+        // ledger included) fall back to the shipped default: germline-
+        // rewriting xenotypes start unsold - implanting one converts the pawn
+        // outright - and everything else starts sold.
+        public static bool SeedValue(XenotypeCategory category, bool gatesAsInheritable,
             IEnumerable<(XenotypeCategory category, bool sold)> ledger)
         {
             int balance = 0;
@@ -86,7 +80,7 @@ namespace XenogermTraderStock
                     balance += sold ? 1 : -1;
                 }
             }
-            return balance != 0 ? balance > 0 : category != XenotypeCategory.Inheritable;
+            return balance != 0 ? balance > 0 : !gatesAsInheritable;
         }
 
         // Ledger reconciliation: every live candidate without an entry gets
@@ -133,11 +127,13 @@ namespace XenogermTraderStock
 
             foreach (XenotypeDef xenotype in unseenPresets)
             {
-                settings.SetXenotypeSold(xenotype.defName, SeedValue(Categorize(xenotype), snapshot));
+                settings.SetXenotypeSold(xenotype.defName,
+                    SeedValue(Categorize(xenotype), GatesAsInheritable(xenotype), snapshot));
             }
             foreach (CustomXenotype custom in unseenCustoms)
             {
-                settings.SetCustomXenotypeSold(custom.name, SeedValue(Categorize(custom), snapshot));
+                settings.SetCustomXenotypeSold(custom.name,
+                    SeedValue(Categorize(custom), custom.inheritable, snapshot));
             }
         }
 
@@ -170,9 +166,9 @@ namespace XenogermTraderStock
 
         // Baseliner's def is not inheritable (there are no genes to inherit),
         // but its xenogerm always rewrites the germline - the implant patch's
-        // unconditional retarget - so it categorizes as inheritable and
-        // inherits the germline row's unsold default: that default is about
-        // germline rewriting, not gene inheritance per se.
+        // unconditional retarget - so it categorizes and seed-defaults as
+        // inheritable: the conservative unsold default is about germline
+        // rewriting, not gene inheritance per se.
         public static bool GatesAsInheritable(XenotypeDef xenotype)
         {
             return xenotype.inheritable || xenotype == XenotypeDefOf.Baseliner;
