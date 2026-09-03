@@ -21,6 +21,7 @@ This mod adds complete xenogerms to trader inventories, letting you purchase a r
 
 - **Preset xenogerms at traders**: Exotic goods traders stock xenogerms for preset xenotypes, modded xenotypes detected automatically
 - **Proper xenotype assignment**: Purchased xenogerms assign xenotype identity on implantation, enabling ideology recognition
+- **Ideology-aware implantation**: An ideoligion with a preferred xenotype accepts a xenogerm for that xenotype instead of vanilla's blanket "Ideoligion forbids" refusal (bloodfeeder refusals still apply)
 - **Naturalized germline members**: Enable endogene-only xenotypes in mod settings to create naturalized germ-line members
 - **Player-scenario xenotypes**: The custom xenotypes your starting colonists were created with are stocked too
 - **Configurable spawn weighting**: Price-driven commonality — expensive xenogerms are rarer by default, or choose a different scaling

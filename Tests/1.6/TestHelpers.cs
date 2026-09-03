@@ -20,11 +20,15 @@ namespace XenogermTraderStock.Tests
         // exclude: null leaves modExtensions null (the common case for a gene
         // no mod has patched); true/false attaches a GeneExtension with that
         // excludeFromXenogermStock value.
+        //
+        // passOnDirectly: GeneDef's field initializer defaults it to true, but
+        // GetUninitializedObject skips initializers, so it is set explicitly here.
         public static GeneDef MakeGene(int metabolism = 0, int complexity = 0, int archites = 0,
-            string defName = null, bool? exclude = null)
+            string defName = null, bool? exclude = null, bool passOnDirectly = true)
         {
             var gene = (GeneDef)FormatterServices.GetUninitializedObject(typeof(GeneDef));
             gene.defName = defName ?? "TestGene";
+            gene.passOnDirectly = passOnDirectly;
             gene.biostatMet = metabolism;
             gene.biostatCpx = complexity;
             gene.biostatArc = archites;
