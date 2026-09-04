@@ -6,10 +6,10 @@ using Xunit;
 
 namespace XenogermTraderStock.Tests
 {
-    // Unit coverage for XenogermIdentity.InferPreset and .GenesMatch - the pure
-    // gene-set inference behind a comp-less germ's identity (see the class
-    // comment on XenogermIdentity for why the comp can go missing). Resolve(Xenogerm)
-    // is out of scope: it touches DefDatabase and a live Thing.
+    // Unit coverage for XenogermIdentity.Infer and .GenesMatch - the pure gene-set
+    // inference behind a comp-less germ's identity (see the class comment on
+    // XenogermIdentity for why the comp can go missing). Resolve(Xenogerm) is out
+    // of scope: it touches DefDatabase and a live Thing.
     public class XenogermIdentityTests
     {
         private static XenotypeDef MakeXenotype(string defName, string label, List<GeneDef> genes)
@@ -27,10 +27,10 @@ namespace XenogermTraderStock.Tests
             GeneDef a = TestHelpers.MakeGene(defName: "A");
             XenotypeDef hussar = MakeXenotype("Hussar", "hussar", new List<GeneDef> { a });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "hussar3", new List<XenotypeDef> { hussar });
 
-            Assert.Same(hussar, result);
+            Assert.Same(hussar, result.Preset);
         }
 
         [Fact]
@@ -40,10 +40,10 @@ namespace XenogermTraderStock.Tests
             GeneDef b = TestHelpers.MakeGene(defName: "B");
             XenotypeDef candidate = MakeXenotype("Candidate", "candidate", new List<GeneDef> { a, b });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { b, a }, "nonsense", new List<XenotypeDef> { candidate });
 
-            Assert.Same(candidate, result);
+            Assert.Same(candidate, result.Preset);
         }
 
         [Fact]
@@ -53,10 +53,10 @@ namespace XenogermTraderStock.Tests
             GeneDef b = TestHelpers.MakeGene(defName: "B");
             XenotypeDef candidate = MakeXenotype("Candidate", "candidate", new List<GeneDef> { a });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a, b }, "candidate", new List<XenotypeDef> { candidate });
 
-            Assert.Null(result);
+            Assert.True(result.IsNone);
         }
 
         [Fact]
@@ -66,10 +66,10 @@ namespace XenogermTraderStock.Tests
             GeneDef b = TestHelpers.MakeGene(defName: "B");
             XenotypeDef candidate = MakeXenotype("Candidate", "candidate", new List<GeneDef> { a, b });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "candidate", new List<XenotypeDef> { candidate });
 
-            Assert.Null(result);
+            Assert.True(result.IsNone);
         }
 
         [Fact]
@@ -78,10 +78,10 @@ namespace XenogermTraderStock.Tests
             // The Baseliner guard: an empty germ must never resolve to a gene-less preset.
             XenotypeDef baseliner = MakeXenotype("Baseliner", "baseliner", new List<GeneDef>());
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef>(), "baseliner", new List<XenotypeDef> { baseliner });
 
-            Assert.Null(result);
+            Assert.True(result.IsNone);
         }
 
         [Fact]
@@ -92,10 +92,10 @@ namespace XenogermTraderStock.Tests
             XenotypeDef emptyGenes = MakeXenotype("EmptyGenes", "emptyGenes", new List<GeneDef>());
             XenotypeDef match = MakeXenotype("Match", "match", new List<GeneDef> { a });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "nonsense", new List<XenotypeDef> { nullGenes, emptyGenes, match });
 
-            Assert.Same(match, result);
+            Assert.Same(match, result.Preset);
         }
 
         [Fact]
@@ -105,10 +105,10 @@ namespace XenogermTraderStock.Tests
             XenotypeDef hussar = MakeXenotype("HussarDef", "hussar", new List<GeneDef> { a });
             XenotypeDef other = MakeXenotype("OtherDef", "other", new List<GeneDef> { a });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "Hussar", new List<XenotypeDef> { hussar, other });
 
-            Assert.Same(hussar, result);
+            Assert.Same(hussar, result.Preset);
         }
 
         [Fact]
@@ -118,10 +118,10 @@ namespace XenogermTraderStock.Tests
             XenotypeDef hussar = MakeXenotype("HussarDef", "labelOne", new List<GeneDef> { a });
             XenotypeDef other = MakeXenotype("OtherDef", "labelTwo", new List<GeneDef> { a });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "HussarDef", new List<XenotypeDef> { hussar, other });
 
-            Assert.Same(hussar, result);
+            Assert.Same(hussar, result.Preset);
         }
 
         [Fact]
@@ -131,10 +131,10 @@ namespace XenogermTraderStock.Tests
             XenotypeDef one = MakeXenotype("D1", "labelOne", new List<GeneDef> { a });
             XenotypeDef two = MakeXenotype("D2", "labelTwo", new List<GeneDef> { a });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "Nonsense", new List<XenotypeDef> { one, two });
 
-            Assert.Null(result);
+            Assert.True(result.IsNone);
         }
 
         [Fact]
@@ -144,10 +144,10 @@ namespace XenogermTraderStock.Tests
             XenotypeDef one = MakeXenotype("D1", "labelOne", new List<GeneDef> { a });
             XenotypeDef two = MakeXenotype("D2", "labelTwo", new List<GeneDef> { a });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, null, new List<XenotypeDef> { one, two });
 
-            Assert.Null(result);
+            Assert.True(result.IsNone);
         }
 
         [Fact]
@@ -157,10 +157,10 @@ namespace XenogermTraderStock.Tests
             XenotypeDef one = MakeXenotype("D1", "labelOne", new List<GeneDef> { a });
             XenotypeDef two = MakeXenotype("D2", "labelTwo", new List<GeneDef> { a });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "   ", new List<XenotypeDef> { one, two });
 
-            Assert.Null(result);
+            Assert.True(result.IsNone);
         }
 
         [Fact]
@@ -171,10 +171,10 @@ namespace XenogermTraderStock.Tests
             XenotypeDef one = MakeXenotype("D1", "Hussar", new List<GeneDef> { a });
             XenotypeDef two = MakeXenotype("D2", "Hussar", new List<GeneDef> { a });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "Hussar", new List<XenotypeDef> { one, two });
 
-            Assert.Null(result);
+            Assert.True(result.IsNone);
         }
 
         [Fact]
@@ -186,10 +186,10 @@ namespace XenogermTraderStock.Tests
             XenotypeDef other = MakeXenotype("D2", "Other", new List<GeneDef> { a });
             XenotypeDef unrelated = MakeXenotype("D3", "Unrelated", new List<GeneDef> { b });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "Hussar", new List<XenotypeDef> { hussar, other, unrelated });
 
-            Assert.Same(hussar, result);
+            Assert.Same(hussar, result.Preset);
         }
 
         [Fact]
@@ -199,10 +199,10 @@ namespace XenogermTraderStock.Tests
             GeneDef extra = TestHelpers.MakeGene(defName: "Extra", passOnDirectly: false);
             XenotypeDef candidate = MakeXenotype("Candidate", "candidate", new List<GeneDef> { a, extra });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "nonsense", new List<XenotypeDef> { candidate });
 
-            Assert.Same(candidate, result);
+            Assert.Same(candidate, result.Preset);
         }
 
         [Fact]
@@ -212,10 +212,10 @@ namespace XenogermTraderStock.Tests
             GeneDef extra = TestHelpers.MakeGene(defName: "Extra", passOnDirectly: false);
             XenotypeDef candidate = MakeXenotype("Candidate", "candidate", new List<GeneDef> { a });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a, extra }, "nonsense", new List<XenotypeDef> { candidate });
 
-            Assert.Same(candidate, result);
+            Assert.Same(candidate, result.Preset);
         }
 
         [Fact]
@@ -226,25 +226,135 @@ namespace XenogermTraderStock.Tests
             XenotypeDef hussar = MakeXenotype("Hussar", "hussar", new List<GeneDef> { a });
             var clone = new CustomXenotype { name = "Clone", inheritable = false, genes = new List<GeneDef> { a } };
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "hussar", new List<XenotypeDef> { hussar }, new List<CustomXenotype> { clone });
 
-            Assert.Null(result);
+            Assert.True(result.IsNone);
         }
 
         [Fact]
-        public void CustomTemplate_InheritableMatch_DoesNotClaimGerm()
+        public void CustomTemplate_InheritableMatch_IsTheSource_OverPreset()
         {
-            // An inheritable template matches endogenes, which a xenogene implant never
-            // writes, so it cannot label the outcome and the preset still wins.
+            // The player's inheritable template wins over a preset sharing its genes,
+            // whatever the germ is called: the retarget delivers it as a germline.
             GeneDef a = TestHelpers.MakeGene(defName: "A");
             XenotypeDef impid = MakeXenotype("Impid", "impid", new List<GeneDef> { a });
             var clone = new CustomXenotype { name = "Clone", inheritable = true, genes = new List<GeneDef> { a } };
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "impid", new List<XenotypeDef> { impid }, new List<CustomXenotype> { clone });
 
-            Assert.Same(impid, result);
+            Assert.Same(clone, result.Custom);
+            Assert.Null(result.Preset);
+            Assert.True(result.Inheritable);
+        }
+
+        [Fact]
+        public void CustomTemplate_InheritableMatch_NoPresets_IsTheSource()
+        {
+            // The commenter's case: a colony's own germline xenotype, sold by the trader.
+            GeneDef a = TestHelpers.MakeGene(defName: "A");
+            GeneDef b = TestHelpers.MakeGene(defName: "B");
+            var colony = new CustomXenotype { name = "Colony", inheritable = true, genes = new List<GeneDef> { a, b } };
+
+            XenogermSource result = XenogermIdentity.Infer(
+                new List<GeneDef> { b, a }, "Colony", new List<XenotypeDef>(), new List<CustomXenotype> { colony });
+
+            Assert.Same(colony, result.Custom);
+        }
+
+        [Fact]
+        public void CustomTemplate_InheritableMatch_GenesInDifferentOrderAndOtherName_StillTheSource()
+        {
+            GeneDef a = TestHelpers.MakeGene(defName: "A");
+            GeneDef b = TestHelpers.MakeGene(defName: "B");
+            var colony = new CustomXenotype { name = "Colony", inheritable = true, genes = new List<GeneDef> { a, b } };
+
+            XenogermSource result = XenogermIdentity.Infer(
+                new List<GeneDef> { b, a }, "colony2", null, new List<CustomXenotype> { colony });
+
+            Assert.Same(colony, result.Custom);
+        }
+
+        [Fact]
+        public void CustomTemplate_Tie_NameMatchesInheritableOne_ReturnsIt()
+        {
+            GeneDef a = TestHelpers.MakeGene(defName: "A");
+            var germline = new CustomXenotype { name = "Germline", inheritable = true, genes = new List<GeneDef> { a } };
+            var implant = new CustomXenotype { name = "Implant", inheritable = false, genes = new List<GeneDef> { a } };
+
+            XenogermSource result = XenogermIdentity.Infer(
+                new List<GeneDef> { a }, "germline", null, new List<CustomXenotype> { implant, germline });
+
+            Assert.Same(germline, result.Custom);
+        }
+
+        [Fact]
+        public void CustomTemplate_Tie_NameMatchesNonInheritableOne_ClaimsGermForVanilla()
+        {
+            GeneDef a = TestHelpers.MakeGene(defName: "A");
+            XenotypeDef impid = MakeXenotype("Impid", "impid", new List<GeneDef> { a });
+            var germline = new CustomXenotype { name = "Germline", inheritable = true, genes = new List<GeneDef> { a } };
+            var implant = new CustomXenotype { name = "Implant", inheritable = false, genes = new List<GeneDef> { a } };
+
+            XenogermSource result = XenogermIdentity.Infer(
+                new List<GeneDef> { a }, "Implant", new List<XenotypeDef> { impid }, new List<CustomXenotype> { germline, implant });
+
+            Assert.True(result.IsNone);
+        }
+
+        [Fact]
+        public void CustomTemplate_Tie_NameMatchesNeither_ClaimsGermForVanilla_NotPreset()
+        {
+            // Templates matched, so the preset never gets a look; the unbreakable tie is vanilla's.
+            GeneDef a = TestHelpers.MakeGene(defName: "A");
+            XenotypeDef impid = MakeXenotype("Impid", "impid", new List<GeneDef> { a });
+            var one = new CustomXenotype { name = "One", inheritable = true, genes = new List<GeneDef> { a } };
+            var two = new CustomXenotype { name = "Two", inheritable = true, genes = new List<GeneDef> { a } };
+
+            XenogermSource result = XenogermIdentity.Infer(
+                new List<GeneDef> { a }, "impid", new List<XenotypeDef> { impid }, new List<CustomXenotype> { one, two });
+
+            Assert.True(result.IsNone);
+        }
+
+        [Fact]
+        public void CustomTemplate_WithNullOrEmptyGenes_IsSkipped()
+        {
+            GeneDef a = TestHelpers.MakeGene(defName: "A");
+            XenotypeDef impid = MakeXenotype("Impid", "impid", new List<GeneDef> { a });
+            var empty = new CustomXenotype { name = "Empty", inheritable = true, genes = new List<GeneDef>() };
+            var nullGenes = new CustomXenotype { name = "NullGenes", inheritable = true, genes = null };
+
+            XenogermSource result = XenogermIdentity.Infer(
+                new List<GeneDef> { a }, "impid", new List<XenotypeDef> { impid }, new List<CustomXenotype> { empty, nullGenes });
+
+            Assert.Same(impid, result.Preset);
+        }
+
+        [Fact]
+        public void EmptyGermGenes_NeverMatchesGeneLessTemplate()
+        {
+            var empty = new CustomXenotype { name = "Empty", inheritable = true, genes = new List<GeneDef>() };
+
+            XenogermSource result = XenogermIdentity.Infer(
+                new List<GeneDef>(), "Empty", new List<XenotypeDef>(), new List<CustomXenotype> { empty });
+
+            Assert.True(result.IsNone);
+        }
+
+        [Fact]
+        public void Source_None_IsNotInheritable()
+        {
+            Assert.False(XenogermSource.None.Inheritable);
+            Assert.True(XenogermSource.None.IsNone);
+        }
+
+        [Fact]
+        public void Source_NonInheritablePreset_IsNotInheritable()
+        {
+            XenotypeDef hussar = MakeXenotype("Hussar", "hussar", new List<GeneDef>());
+            Assert.False(XenogermSource.Of(hussar).Inheritable);
         }
 
         [Fact]
@@ -255,10 +365,10 @@ namespace XenogermTraderStock.Tests
             XenotypeDef hussar = MakeXenotype("Hussar", "hussar", new List<GeneDef> { a });
             var other = new CustomXenotype { name = "Other", inheritable = false, genes = new List<GeneDef> { b } };
 
-            XenotypeDef result = XenogermIdentity.InferPreset(
+            XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "hussar", new List<XenotypeDef> { hussar }, new List<CustomXenotype> { other, null });
 
-            Assert.Same(hussar, result);
+            Assert.Same(hussar, result.Preset);
         }
 
         [Fact]
@@ -266,9 +376,9 @@ namespace XenogermTraderStock.Tests
         {
             XenotypeDef candidate = MakeXenotype("Candidate", "candidate", new List<GeneDef> { TestHelpers.MakeGene(defName: "A") });
 
-            XenotypeDef result = XenogermIdentity.InferPreset(null, "candidate", new List<XenotypeDef> { candidate });
+            XenogermSource result = XenogermIdentity.Infer(null, "candidate", new List<XenotypeDef> { candidate });
 
-            Assert.Null(result);
+            Assert.True(result.IsNone);
         }
 
         [Fact]
@@ -276,9 +386,9 @@ namespace XenogermTraderStock.Tests
         {
             GeneDef a = TestHelpers.MakeGene(defName: "A");
 
-            XenotypeDef result = XenogermIdentity.InferPreset(new List<GeneDef> { a }, "candidate", null);
+            XenogermSource result = XenogermIdentity.Infer(new List<GeneDef> { a }, "candidate", null);
 
-            Assert.Null(result);
+            Assert.True(result.IsNone);
         }
 
         [Fact]

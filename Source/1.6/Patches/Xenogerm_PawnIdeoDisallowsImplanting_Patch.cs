@@ -22,7 +22,8 @@ namespace XenogermTraderStock.Patches
     // gives the item path the same rule, predicting the post-implant identity via
     // PreferredXenotypeGate (preset by def, resolved the same way the implant patch
     // will - XenogermIdentity - so gate and stamp can never disagree; custom by the
-    // gene match vanilla uses).
+    // gene match vanilla uses, against the gene layer the implant patch's germline
+    // decision says the genes will land on).
     //
     // The precept's OTHER gate - refusing to propagate the Bloodfeeder gene - is
     // a separate history event and stays in force: a preferred Sanguophage germ
@@ -53,9 +54,11 @@ namespace XenogermTraderStock.Patches
                 return;
             }
 
-            XenotypeDef source = XenogermIdentity.Resolve(__instance);
+            XenogermSource source = XenogermIdentity.Resolve(__instance);
+            bool germlineRetarget = selPawn.genes != null
+                && GeneUtility_ImplantXenogermItem_Patch.WillRetargetGermline(selPawn, source);
             if (PreferredXenotypeGate.ImplantYieldsPreferred(
-                    source, genes, ideo.PreferredXenotypes, ideo.PreferredCustomXenotypes))
+                    source, germlineRetarget, genes, ideo.PreferredXenotypes, ideo.PreferredCustomXenotypes))
             {
                 __result = false;
             }

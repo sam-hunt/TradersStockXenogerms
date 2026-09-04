@@ -11,42 +11,49 @@ namespace XenogermTraderStock.Patches
     // The prediction mirrors what Ideo.IsPreferredXenotype will read AFTER the
     // implant, per implant path:
     //
-    //  * Preset (sourceXenotype resolved by XenogermIdentity - the trader comp, or
-    //    a comp-less germ whose genes equal exactly one preset's and no
-    //    non-inheritable template in the game's custom xenotype database): the
-    //    implant patch stamps the def onto the tracker, so the pawn reads as that
-    //    preset. Preferred iff the ideo's PreferredXenotypes list holds the def
-    //    (Baseliner included - it is a XenotypeDef and can be preferred like any
-    //    other). A preferred CUSTOM template sharing a preset's gene list never
-    //    reaches this branch: such a template can only come from the xenotype
-    //    editor (Precept_Xenotype's picker offers XenotypeDefs plus
+    //  * Preset (source.Preset - the trader comp, or a comp-less germ whose genes
+    //    equal exactly one preset's and no template in the game's custom xenotype
+    //    database): the implant patch stamps the def onto the tracker, so the pawn
+    //    reads as that preset. Preferred iff the ideo's PreferredXenotypes list
+    //    holds the def (Baseliner included - it is a XenotypeDef and can be
+    //    preferred like any other). A preferred CUSTOM template sharing a preset's
+    //    gene list never reaches this branch: such a template can only come from
+    //    the xenotype editor (Precept_Xenotype's picker offers XenotypeDefs plus
     //    CharacterCardUtility's on-disk custom xenotype files - the gene assembler
     //    saves xenogerm TEMPLATES, a different file kind that never reaches an
     //    ideo), and every custom precept's template is seeded into the game's
     //    database at scenario start, where XenogermIdentity lets it claim the germ
     //    first, so the germ falls through to the custom branch below.
     //
-    //  * Anything else (custom-template or player-crafted): vanilla leaves the
-    //    tracker at Baseliner with the germ's genes as xenogenes. The tracker then
-    //    resolves CustomXenotype by GENE MATCH against the database - the item's
-    //    xenotypeName is never consulted - and IsPreferredXenotype checks that
-    //    resolved template against the ideo's PreferredCustomXenotypes with the
-    //    same matcher (GeneUtility.PawnIsCustomXenotype). So: preferred iff a
-    //    preferred custom template's passOnDirectly genes equal the germ's. A
-    //    template marked inheritable is matched against ENDOgenes, which a
-    //    xenogene implant never writes, so no xenogerm can turn a pawn into one -
-    //    those templates grant no exception here.
+    //  * Anything else: the tracker ends at Baseliner and resolves CustomXenotype
+    //    by GENE MATCH against the database - the item's xenotypeName is never
+    //    consulted - and IsPreferredXenotype checks that resolved template against
+    //    the ideo's PreferredCustomXenotypes with the same matcher
+    //    (GeneUtility.PawnIsCustomXenotype), which reads ENDOgenes for an
+    //    inheritable template and xenogenes for any other. Which layer the germ's
+    //    genes land on is the implant patch's germlineRetarget decision
+    //    (GeneUtility_ImplantXenogermItem_Patch.WillRetargetGermline: an
+    //    inheritable scenario template, the setting on, a rewritable germline).
+    //    So: preferred iff a preferred template's passOnDirectly genes equal the
+    //    germ's AND its inheritable flag names the layer the genes will land on -
+    //    an inheritable template when the germline is being rewritten, a
+    //    non-inheritable one when vanilla's xenogene implant stands. (With a
+    //    retarget the xenogene layer holds only the pawn's restored pre-implant
+    //    xenogenes, never the germ's genes, so a non-inheritable template cannot
+    //    match then; without one the germline is untouched, so an inheritable
+    //    template cannot.)
     public static class PreferredXenotypeGate
     {
         public static bool ImplantYieldsPreferred(
-            XenotypeDef sourceXenotype,
+            XenogermSource source,
+            bool germlineRetarget,
             List<GeneDef> germGenes,
             List<XenotypeDef> preferredXenotypes,
             List<CustomXenotype> preferredCustomXenotypes)
         {
-            if (sourceXenotype != null)
+            if (source.Preset != null)
             {
-                return preferredXenotypes?.Contains(sourceXenotype) == true;
+                return preferredXenotypes?.Contains(source.Preset) == true;
             }
 
             if (preferredCustomXenotypes == null || germGenes == null)
@@ -56,7 +63,9 @@ namespace XenogermTraderStock.Patches
 
             foreach (CustomXenotype custom in preferredCustomXenotypes)
             {
-                if (!custom.inheritable && GenesMatch(germGenes, custom.genes))
+                if (custom != null
+                    && custom.inheritable == germlineRetarget
+                    && GenesMatch(germGenes, custom.genes))
                 {
                     return true;
                 }

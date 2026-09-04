@@ -56,8 +56,15 @@ namespace XenogermTraderStock
                 }
             }
 
-            // Note: No CompXenotypeSource set - pawn will get genes but not a preset xenotype reference
-            // This matches vanilla behavior for player-crafted xenogerms
+            // The template has no Def to store, so the comp records its name: the
+            // trader-sold marker pricing reads, and the tie-breaker XenogermIdentity
+            // uses when two templates share one gene list. Which template the germ
+            // implants as is resolved by gene set, never by this name.
+            var comp = xenogerm.TryGetComp<CompXenotypeSource>();
+            if (comp != null)
+            {
+                comp.sourceCustomName = customXenotype.name;
+            }
 
             return xenogerm;
         }

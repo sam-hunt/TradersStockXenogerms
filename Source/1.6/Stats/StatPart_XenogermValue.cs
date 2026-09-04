@@ -4,8 +4,8 @@ using Verse;
 
 namespace XenogermTraderStock
 {
-    // Adds market value to xenogerms that have a preset xenotype source (trader-sold xenogerms).
-    // Player-crafted xenogerms (no CompXenotypeSource) retain their base 20 silver value.
+    // Adds market value to trader-sold xenogerms (CompXenotypeSource names a preset or a
+    // scenario template). Player-crafted xenogerms (empty comp) retain their base 20 silver value.
     // Pricing formula is defined in XenogermPricing and configurable via mod settings.
     //
     // Reads the raw comp on purpose, not XenogermIdentity: a germ that merely CARRIES a
@@ -26,7 +26,7 @@ namespace XenogermTraderStock
 
             // Only add value for preset xenotype xenogerms (from traders)
             var comp = xenogerm.TryGetComp<CompXenotypeSource>();
-            if (comp?.sourceXenotype == null)
+            if (comp?.IsTraderSold != true)
                 return;
 
             var geneSet = xenogerm.GeneSet;
@@ -45,7 +45,7 @@ namespace XenogermTraderStock
                 return null;
 
             var comp = xenogerm.TryGetComp<CompXenotypeSource>();
-            if (comp?.sourceXenotype == null)
+            if (comp?.IsTraderSold != true)
                 return null;
 
             var geneSet = xenogerm.GeneSet;
@@ -56,7 +56,10 @@ namespace XenogermTraderStock
             var sb = new StringBuilder();
 
             // Show xenotype name
-            sb.AppendLine($"Preset xenotype ({comp.sourceXenotype.label}): +{Settings.basePresetValue}");
+            string source = comp.sourceXenotype != null
+                ? $"Preset xenotype ({comp.sourceXenotype.label})"
+                : $"Scenario xenotype ({comp.sourceCustomName})";
+            sb.AppendLine($"{source}: +{Settings.basePresetValue}");
 
             // Show metabolism contribution
             if (breakdown.AbsoluteMetabolism > 0)

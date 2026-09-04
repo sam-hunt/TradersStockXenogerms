@@ -21,10 +21,10 @@ namespace XenogermTraderStock
             if (!(req.Thing is Xenogerm xenogerm))
                 return;
 
-            // Only add bonus for preset xenotype xenogerms (from traders). Raw comp, not
+            // Only add bonus for trader-sold xenogerms. Raw comp, not
             // XenogermIdentity - see StatPart_XenogermValue for why copies stay base-priced.
             var comp = xenogerm.TryGetComp<CompXenotypeSource>();
-            if (comp?.sourceXenotype == null)
+            if (comp?.IsTraderSold != true)
                 return;
 
             var geneSet = xenogerm.GeneSet;
@@ -47,7 +47,7 @@ namespace XenogermTraderStock
                 return null;
 
             var comp = xenogerm.TryGetComp<CompXenotypeSource>();
-            if (comp?.sourceXenotype == null)
+            if (comp?.IsTraderSold != true)
                 return null;
 
             var geneSet = xenogerm.GeneSet;

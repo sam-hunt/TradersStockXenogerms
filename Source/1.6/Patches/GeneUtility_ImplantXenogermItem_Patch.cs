@@ -12,11 +12,19 @@ namespace XenogermTraderStock.Patches
     // copies the item's xenotypeName and iconDef onto the gene tracker, then adds the genes
     // as xenogenes. The result is a "custom" xenotype that merely shares the preset's name.
     //
-    // Which germs count as preset germs is XenogermIdentity's call: the trader comp,
-    // or - for a comp-less germ - a gene list equal to exactly one preset's. The
-    // latter covers copies made by ReSplice Core's xenogerm duplicator (it rebuilds
-    // the item from scratch and never copies comp state) and, by design, a
-    // player-assembled germ that reproduces a preset gene-for-gene.
+    // Which germs this applies to is XenogermIdentity's call: a preset via the trader
+    // comp, or - for a comp-less germ - a gene list equal to exactly one preset's, or
+    // an INHERITABLE player-scenario template (CustomXenotype) whose gene list the
+    // germ carries. The gene-set paths cover copies made by ReSplice Core's xenogerm
+    // duplicator (it rebuilds the item from scratch and never copies comp state) and,
+    // by design, a player-assembled germ that reproduces a xenotype gene-for-gene.
+    //
+    // For a preset the identity is stamped as below. For a scenario template the
+    // identity vanilla already wrote is the right one - Xenotype = Baseliner plus the
+    // template's name and icon - and the pawn's CustomXenotype resolves to the template
+    // by gene match (GeneUtility.PawnIsCustomXenotype). An inheritable template is
+    // matched against ENDOgenes, so that resolution only succeeds once the germline
+    // retarget below has run; the template's whole reason to be here is that retarget.
     //
     // This postfix runs inside Recipe_ImplantXenogerm.ApplyOnPawn, immediately after the
     // vanilla method returns and before anything else can observe the pawn, and leaves the
@@ -124,11 +132,8 @@ namespace XenogermTraderStock.Patches
 
             List<GeneDef> preservedXenogenes = null;
             bool restoreIdentity = false;
-            XenotypeDef source = XenogermIdentity.Resolve(xenogerm);
-            if (source != null
-                && source.inheritable
-                && settings.implantGermlineAsEndogenes
-                && GermlineIsRewritable(pawn))
+            XenogermSource source = XenogermIdentity.Resolve(xenogerm);
+            if (WillRetargetGermline(pawn, source))
             {
                 List<Gene> xenogenes = pawn.genes.Xenogenes;
                 if (xenogenes.Count > 0)
@@ -168,13 +173,14 @@ namespace XenogermTraderStock.Patches
                 return;
             }
 
-            // Same resolution the prefix made: the comp, or the preset whose gene list
-            // this comp-less germ carries (a ReSplice-duplicated copy, say). The
-            // DefDatabase cannot change between the two calls, so they always agree.
-            XenotypeDef source = XenogermIdentity.Resolve(xenogerm);
-            if (source == null)
+            // Same resolution the prefix made: the comp, or the preset / inheritable
+            // scenario template whose gene list this comp-less germ carries (a
+            // ReSplice-duplicated copy, say). Neither the DefDatabase nor the custom
+            // xenotype database can change between the two calls, so they always agree.
+            XenogermSource source = XenogermIdentity.Resolve(xenogerm);
+            if (source.IsNone)
             {
-                // Not a preset germ; only the deathrest carryover applies.
+                // Vanilla's implant is the whole story; only the deathrest carryover applies.
                 RestoreDeathrestCapacity(pawn, __state);
                 return;
             }
@@ -190,9 +196,8 @@ namespace XenogermTraderStock.Patches
             // be relabeled Baseliner while keeping every Impid germline gene.
             // The prefix never snapshots for Baseliner either: the conversion
             // wipes both layers, so a Hussar comes out a plain baseliner.
-            bool retarget = GermlineIsRewritable(pawn)
-                && (source == XenotypeDefOf.Baseliner
-                    || (source.inheritable && XenogermTraderStockMod.Settings.implantGermlineAsEndogenes));
+            bool retarget = WillRetargetGermline(pawn, source)
+                || (source.Preset == XenotypeDefOf.Baseliner && GermlineIsRewritable(pawn));
 
             // Both branches mirror GeneUtility.ReimplantXenogerm's field handling: set the
             // xenotype, then assign the remaining identity fields explicitly (SetXenotypeDirect
@@ -206,10 +211,21 @@ namespace XenogermTraderStock.Patches
                 pawn.genes.xenotypeName = __state.identityName;
                 pawn.genes.iconDef = __state.identityIcon;
             }
+            else if (source.Preset != null)
+            {
+                pawn.genes.SetXenotypeDirect(source.Preset);
+                pawn.genes.iconDef = null;
+            }
             else
             {
-                pawn.genes.SetXenotypeDirect(source);
-                pawn.genes.iconDef = null;
+                // Scenario template: vanilla's SetXenotype(Baseliner) already put the
+                // tracker where a custom identity lives; normalise the name and icon to
+                // the template's own (a duplicated or hand-assembled match may carry
+                // another name) so the pawn reads as the template it is about to
+                // match by genes. SetXenotypeDirect re-clears the CustomXenotype cache.
+                pawn.genes.SetXenotypeDirect(XenotypeDefOf.Baseliner);
+                pawn.genes.xenotypeName = source.Custom.name;
+                pawn.genes.iconDef = source.Custom.IconDef;
             }
 
             if (retarget)
@@ -231,6 +247,19 @@ namespace XenogermTraderStock.Patches
             }
         }
 
+        // The single decision behind the prefix snapshot, the postfix retarget and the
+        // ideology gate's prediction: does implanting this germ into this pawn rewrite
+        // the germline? An inheritable source (preset def or scenario template), the
+        // setting on, and a germline nothing has opted out of. The Baseliner
+        // conversion is deliberately NOT part of this - it retargets regardless of the
+        // setting and never snapshots (see the postfix) - so the postfix adds it.
+        public static bool WillRetargetGermline(Pawn pawn, XenogermSource source)
+        {
+            return source.Inheritable
+                && XenogermTraderStockMod.Settings.implantGermlineAsEndogenes
+                && GermlineIsRewritable(pawn);
+        }
+
         // Never rewrite the germline of a pawn whose endogenes include a gene opted
         // out of the xenogerm trade (GeneExtension.excludeFromXenogermStock). Those
         // genes are germline machinery no organic xenogerm accounts for - VREA android
@@ -245,7 +274,7 @@ namespace XenogermTraderStock.Patches
         // another mod calling ImplantXenogermItem directly, or a non-VREA geneline
         // flagged with the same extension. Such a pawn gets vanilla implant behaviour
         // plus the identity stamp, nothing more - the Baseliner conversion included.
-        private static bool GermlineIsRewritable(Pawn pawn)
+        public static bool GermlineIsRewritable(Pawn pawn)
         {
             return !XenotypeEligibility.ContainsExcludedGene(pawn.genes.Endogenes.Select(g => g.def));
         }
