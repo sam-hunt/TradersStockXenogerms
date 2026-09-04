@@ -5,17 +5,17 @@ All notable changes to Xenogerm Trader Stock will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.3] - 2026-09-05
 
 ### Added
 
-- Dev-mode tool "Reset genes to scenario xenotype": click a pawn and pick one of the game's custom xenotypes by name to rebuild the pawn as a born member of it. Vanilla's "Reset genes to base xenotype" only handles preset xenotypes. This is also the repair for pawns affected by the fix below.
+- Dev-mode tool to rebuild a pawn's genes as a chosen scenario xenotype; repairs pawns affected by the fix below.
 
 ### Fixed
 
-- Xenogerms for a scenario's own germline (inheritable) custom xenotype now implant into the germline like inheritable presets, so the pawn is recognised as that xenotype and its children inherit it. Previously they implanted as xenogenes: a pawn labelled with the xenotype's name that the game, ideoligions and inheritance did not treat as a member. Applies to germs already in saves and to ReSplice copies, since the template is matched by gene set.
-- Trader-sold xenogerms for scenario xenotypes are priced like preset xenogerms (the settings grid already showed that price; the item sold for base value).
-- Ideoligions with a preferred custom germline xenotype now accept a xenogerm that makes the pawn that xenotype.
+- Xenogerms for a scenario's own inheritable xenotype now implant into the germline, so the pawn is recognised as that xenotype and its children inherit it.
+- Trader-sold xenogerms for scenario xenotypes are priced like preset xenogerms instead of base value.
+- Ideoligions with a preferred custom germline xenotype now accept xenogerms for that xenotype.
 
 ## [1.0.2] - 2026-09-04
 
@@ -45,6 +45,7 @@ Initial release.
 - Compatible with Gene Trader; VRE Android xenotypes are excluded.
 - Nine translations: Chinese (Simplified/Traditional), French, German, Japanese, Korean, Brazilian Portuguese, Russian, Spanish.
 
+[1.0.3]: https://github.com/sam-hunt/XenogermTraderStock/releases/tag/v1.0.3
 [1.0.2]: https://github.com/sam-hunt/XenogermTraderStock/releases/tag/v1.0.2
 [1.0.1]: https://github.com/sam-hunt/XenogermTraderStock/releases/tag/v1.0.1
 [1.0.0]: https://github.com/sam-hunt/XenogermTraderStock/releases/tag/v1.0.0
