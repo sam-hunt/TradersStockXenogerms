@@ -32,6 +32,7 @@ Xenogerm prices configurable in settings, or take the defaults:
 [*]Orbital [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886375137]Gene Trader[/url] will also stock xenogerms
 [*]Automatically detects xenotypes added by other mods
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2975771801]VRE Android[/url] xenotypes intentionally excluded
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3236303965]ReSplice: Core[/url] duplicated xenogerms retain their xenotype identity on implantation
 [/list]
 
 [hr][/hr]

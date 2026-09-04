@@ -20,7 +20,9 @@ namespace XenogermTraderStock.Patches
     // target xenotype: CompAbilityEffect_ReimplantXenogerm.PawnIdeoCanAccept
     // allows the reimplant when the caster is a preferred xenotype. This postfix
     // gives the item path the same rule, predicting the post-implant identity via
-    // PreferredXenotypeGate (preset by def; custom by the gene match vanilla uses).
+    // PreferredXenotypeGate (preset by def, resolved the same way the implant patch
+    // will - XenogermIdentity - so gate and stamp can never disagree; custom by the
+    // gene match vanilla uses).
     //
     // The precept's OTHER gate - refusing to propagate the Bloodfeeder gene - is
     // a separate history event and stays in force: a preferred Sanguophage germ
@@ -51,7 +53,7 @@ namespace XenogermTraderStock.Patches
                 return;
             }
 
-            XenotypeDef source = __instance.TryGetComp<CompXenotypeSource>()?.sourceXenotype;
+            XenotypeDef source = XenogermIdentity.Resolve(__instance);
             if (PreferredXenotypeGate.ImplantYieldsPreferred(
                     source, genes, ideo.PreferredXenotypes, ideo.PreferredCustomXenotypes))
             {

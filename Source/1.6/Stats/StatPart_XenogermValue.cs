@@ -7,6 +7,11 @@ namespace XenogermTraderStock
     // Adds market value to xenogerms that have a preset xenotype source (trader-sold xenogerms).
     // Player-crafted xenogerms (no CompXenotypeSource) retain their base 20 silver value.
     // Pricing formula is defined in XenogermPricing and configurable via mod settings.
+    //
+    // Reads the raw comp on purpose, not XenogermIdentity: a germ that merely CARRIES a
+    // preset's genes (a ReSplice-duplicated copy, a player-assembled match) implants as the
+    // preset but is not trader stock, and pricing it as such would make buy-one-copy-many a
+    // silver printer.
     public class StatPart_XenogermValue : StatPart
     {
         private static XenogermTraderStockSettings Settings => XenogermTraderStockMod.Settings;

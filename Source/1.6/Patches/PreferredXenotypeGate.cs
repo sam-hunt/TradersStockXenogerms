@@ -11,10 +11,20 @@ namespace XenogermTraderStock.Patches
     // The prediction mirrors what Ideo.IsPreferredXenotype will read AFTER the
     // implant, per implant path:
     //
-    //  * Trader-sold preset (CompXenotypeSource set): the implant patch stamps the
-    //    source def onto the tracker, so the pawn reads as that preset. Preferred
-    //    iff the ideo's PreferredXenotypes list holds the def (Baseliner included -
-    //    it is a XenotypeDef and can be preferred like any other).
+    //  * Preset (sourceXenotype resolved by XenogermIdentity - the trader comp, or
+    //    a comp-less germ whose genes equal exactly one preset's and no
+    //    non-inheritable template in the game's custom xenotype database): the
+    //    implant patch stamps the def onto the tracker, so the pawn reads as that
+    //    preset. Preferred iff the ideo's PreferredXenotypes list holds the def
+    //    (Baseliner included - it is a XenotypeDef and can be preferred like any
+    //    other). A preferred CUSTOM template sharing a preset's gene list never
+    //    reaches this branch: such a template can only come from the xenotype
+    //    editor (Precept_Xenotype's picker offers XenotypeDefs plus
+    //    CharacterCardUtility's on-disk custom xenotype files - the gene assembler
+    //    saves xenogerm TEMPLATES, a different file kind that never reaches an
+    //    ideo), and every custom precept's template is seeded into the game's
+    //    database at scenario start, where XenogermIdentity lets it claim the germ
+    //    first, so the germ falls through to the custom branch below.
     //
     //  * Anything else (custom-template or player-crafted): vanilla leaves the
     //    tracker at Baseliner with the germ's genes as xenogenes. The tracker then
@@ -55,34 +65,11 @@ namespace XenogermTraderStock.Patches
             return false;
         }
 
-        // GeneUtility.PawnIsCustomXenotype's rule, applied to a gene list instead of a
-        // pawn layer: every passOnDirectly gene on either side must appear on the
-        // other. Genes with passOnDirectly=false (vanilla: none shipped, but modded
-        // ones exist) are ignored by both, exactly as vanilla ignores them.
+        // Vanilla's custom-xenotype matcher over two gene lists; shared with the
+        // preset inference, which is the same rule aimed at XenotypeDefs.
         public static bool GenesMatch(List<GeneDef> germGenes, List<GeneDef> templateGenes)
         {
-            if (templateGenes == null)
-            {
-                return false;
-            }
-
-            foreach (GeneDef gene in templateGenes)
-            {
-                if (gene.passOnDirectly && !germGenes.Contains(gene))
-                {
-                    return false;
-                }
-            }
-
-            foreach (GeneDef gene in germGenes)
-            {
-                if (gene.passOnDirectly && !templateGenes.Contains(gene))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return XenogermIdentity.GenesMatch(germGenes, templateGenes);
         }
     }
 }

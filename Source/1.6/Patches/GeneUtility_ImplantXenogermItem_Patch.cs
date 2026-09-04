@@ -12,6 +12,12 @@ namespace XenogermTraderStock.Patches
     // copies the item's xenotypeName and iconDef onto the gene tracker, then adds the genes
     // as xenogenes. The result is a "custom" xenotype that merely shares the preset's name.
     //
+    // Which germs count as preset germs is XenogermIdentity's call: the trader comp,
+    // or - for a comp-less germ - a gene list equal to exactly one preset's. The
+    // latter covers copies made by ReSplice Core's xenogerm duplicator (it rebuilds
+    // the item from scratch and never copies comp state) and, by design, a
+    // player-assembled germ that reproduces a preset gene-for-gene.
+    //
     // This postfix runs inside Recipe_ImplantXenogerm.ApplyOnPawn, immediately after the
     // vanilla method returns and before anything else can observe the pawn, and leaves the
     // gene tracker's identity fields exactly as PawnGenerator leaves them for a generated
@@ -118,9 +124,9 @@ namespace XenogermTraderStock.Patches
 
             List<GeneDef> preservedXenogenes = null;
             bool restoreIdentity = false;
-            var comp = xenogerm.TryGetComp<CompXenotypeSource>();
-            if (comp?.sourceXenotype != null
-                && comp.sourceXenotype.inheritable
+            XenotypeDef source = XenogermIdentity.Resolve(xenogerm);
+            if (source != null
+                && source.inheritable
                 && settings.implantGermlineAsEndogenes
                 && GermlineIsRewritable(pawn))
             {
@@ -162,10 +168,13 @@ namespace XenogermTraderStock.Patches
                 return;
             }
 
-            var comp = xenogerm.TryGetComp<CompXenotypeSource>();
-            if (comp?.sourceXenotype == null)
+            // Same resolution the prefix made: the comp, or the preset whose gene list
+            // this comp-less germ carries (a ReSplice-duplicated copy, say). The
+            // DefDatabase cannot change between the two calls, so they always agree.
+            XenotypeDef source = XenogermIdentity.Resolve(xenogerm);
+            if (source == null)
             {
-                // Not one of ours; only the deathrest carryover applies.
+                // Not a preset germ; only the deathrest carryover applies.
                 RestoreDeathrestCapacity(pawn, __state);
                 return;
             }
@@ -182,8 +191,8 @@ namespace XenogermTraderStock.Patches
             // The prefix never snapshots for Baseliner either: the conversion
             // wipes both layers, so a Hussar comes out a plain baseliner.
             bool retarget = GermlineIsRewritable(pawn)
-                && (comp.sourceXenotype == XenotypeDefOf.Baseliner
-                    || (comp.sourceXenotype.inheritable && XenogermTraderStockMod.Settings.implantGermlineAsEndogenes));
+                && (source == XenotypeDefOf.Baseliner
+                    || (source.inheritable && XenogermTraderStockMod.Settings.implantGermlineAsEndogenes));
 
             // Both branches mirror GeneUtility.ReimplantXenogerm's field handling: set the
             // xenotype, then assign the remaining identity fields explicitly (SetXenotypeDirect
@@ -199,7 +208,7 @@ namespace XenogermTraderStock.Patches
             }
             else
             {
-                pawn.genes.SetXenotypeDirect(comp.sourceXenotype);
+                pawn.genes.SetXenotypeDirect(source);
                 pawn.genes.iconDef = null;
             }
 
