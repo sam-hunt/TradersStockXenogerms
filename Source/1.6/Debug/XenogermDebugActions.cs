@@ -116,18 +116,17 @@ namespace XenogermTraderStock
                 return;
             }
 
+            // A plain float menu at the cursor, like vanilla's Devtool menu, rather
+            // than the full-screen searchable lister: the list is a handful of names.
             var customXenotypes = Current.Game?.customXenotypeDatabase?.customXenotypes;
-            var options = new List<DebugMenuOption>();
+            var options = new List<FloatMenuOption>();
             if (customXenotypes != null)
             {
                 foreach (var custom in customXenotypes
                     .Where(c => !c.genes.NullOrEmpty())
                     .OrderBy(c => c.name))
                 {
-                    string label = custom.name.CapitalizeFirst()
-                        + (custom.inheritable ? " (germline, " : " (xenogenes, ")
-                        + custom.genes.Count + " genes)";
-                    options.Add(new DebugMenuOption(label, DebugMenuOptionMode.Action, delegate
+                    options.Add(new FloatMenuOption(custom.name.CapitalizeFirst(), delegate
                     {
                         ResetTo(pawn, custom);
                     }));
@@ -140,7 +139,7 @@ namespace XenogermTraderStock
                     historical: false);
                 return;
             }
-            Find.WindowStack.Add(new Dialog_DebugOptionListLister(options));
+            Find.WindowStack.Add(new FloatMenu(options));
         }
 
         private static void ResetTo(Pawn pawn, CustomXenotype custom)
