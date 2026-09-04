@@ -331,31 +331,20 @@ namespace XenogermTraderStock.Patches
             return false;
         }
 
-        // Rebuilds the pawn's germline as the implant's genes. Vanilla has just
-        // SetXenotype(Baseliner)'d the pawn (every prior xenogene gone) and added exactly
-        // the xenogerm's genes as xenogenes, so clearing the xenogene list removes the
-        // implant and nothing else. The previous endogenes are then replaced wholesale,
-        // not merged: the pawn becomes a born member of the xenotype, not a hybrid of it
-        // and whatever germline it had before - and a merge would also let old genes win
-        // conflicts, because two endogenes resolve by display order (GeneUtility.Overrides
-        // -> GenesInOrder), not arrival order.
+        // Rebuilds the pawn's germline as the implant's genes (GeneLayerRebuild: wipe
+        // both layers, new endogenes, the pawn's own colour genes only where the
+        // germline supplies none, the pre-implant xenogenes back on top). Vanilla has
+        // just SetXenotype(Baseliner)'d the pawn (every prior xenogene gone) and added
+        // exactly the xenogerm's genes as xenogenes, so the wipe removes the implant
+        // and nothing else; the previous endogenes are replaced wholesale, not
+        // merged, making the pawn a born member of the xenotype rather than a hybrid
+        // of it and whatever germline it had before.
         //
-        // Skin and hair colour are the exception PawnGenerator itself makes: after
-        // SetXenotype it backfills a random melanin / hair-colour gene whenever the
-        // xenotype supplies none (GetMelaninGene / GetHairColorGene == null). Here the
-        // pawn's own genes are re-added instead of random ones - an Impid germline still
-        // turns the pawn red, but a xenotype with no skin gene leaves the pawn's natural
-        // colouring alone, exactly the born-member look.
-        //
-        // The pawn's pre-implant xenogenes (snapshotted by the prefix) are restored last:
-        // a germline implant rewrites the germline layer only, so a Hussar implanted with
-        // a Yttakin germline keeps the Hussar xenogenes on top of the new endogenes -
-        // just as vanilla-implanting a Hussar xenogerm into a born Yttakin would. Last,
-        // because GetMelaninGene/GetHairColorGene scan ALL genes: restoring earlier would
-        // let a coloured xenogene suppress the germline's own colour backfill, and a
-        // born member's germline always carries its colouring. Duplicates across the two
-        // layers are vanilla-legal; the xenogene copy always overrides (GeneDef.Overrides
-        // returns true whenever the xenogene side of a conflict is the caller).
+        // The pawn's pre-implant xenogenes (snapshotted by the prefix) come back on
+        // top: a germline implant rewrites the germline layer only, so a Hussar
+        // implanted with a Yttakin germline keeps the Hussar xenogenes over the new
+        // endogenes - just as vanilla-implanting a Hussar xenogerm into a born Yttakin
+        // would.
         //
         // Consequences when no xenogenes remain, exactly as for a born member:
         // no xenogerm can be extracted from the pawn (GeneUtility.CanAbsorbXenogerm), and
@@ -363,48 +352,7 @@ namespace XenogermTraderStock.Patches
         // whose pre-implant xenogenes were restored keeps them extractable as before.
         private static void RetargetToEndogenes(Pawn pawn, Xenogerm xenogerm, List<GeneDef> preservedXenogenes)
         {
-            Pawn_GeneTracker genes = pawn.genes;
-            genes.ClearXenogenes();
-
-            GeneDef melanin = genes.GetMelaninGene();
-            GeneDef hairColor = genes.GetHairColorGene();
-
-            List<Gene> endogenes = genes.Endogenes;
-            for (int i = endogenes.Count - 1; i >= 0; i--)
-            {
-                genes.RemoveGene(endogenes[i]);
-            }
-
-            foreach (GeneDef gene in xenogerm.GeneSet.GenesListForReading)
-            {
-                genes.AddGene(gene, xenogene: false);
-            }
-
-            if (genes.GetMelaninGene() == null && melanin != null)
-            {
-                genes.AddGene(melanin, xenogene: false);
-            }
-
-            if (genes.GetHairColorGene() == null && hairColor != null)
-            {
-                genes.AddGene(hairColor, xenogene: false);
-            }
-
-            if (preservedXenogenes != null)
-            {
-                foreach (GeneDef gene in preservedXenogenes)
-                {
-                    genes.AddGene(gene, xenogene: true);
-                }
-            }
-
-            // The germline is now uniformly the implant's xenotype (or empty, for the
-            // Baseliner conversion), so the pawn is no longer a germline hybrid. hybrid
-            // is read for gene inheritance (PregnancyUtility treats a hybrid germline
-            // as inheritable) and by the CustomXenotype matcher, so leaving a stale
-            // flag has real effects; vanilla implants never touch it only because they
-            // never touch the germline.
-            genes.hybrid = false;
+            GeneLayerRebuild.Apply(pawn.genes, xenogerm.GeneSet.GenesListForReading, preservedXenogenes);
         }
     }
 }
