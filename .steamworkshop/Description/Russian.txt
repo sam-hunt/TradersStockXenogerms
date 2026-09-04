@@ -32,6 +32,7 @@
 [*]Орбитальный [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886375137]Gene Trader[/url] тоже будет продавать ксеносемена
 [*]Автоматически учитывает ксенотипы, добавленные другими модами
 [*]Ксенотипы [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2975771801]VRE Android[/url] намеренно исключены
+[*]Ксеносемена, скопированные [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3236303965]ReSplice: Core[/url], сохраняют свой ксенотип при вживлении
 [/list]
 
 [hr][/hr]

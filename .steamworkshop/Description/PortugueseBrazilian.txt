@@ -32,6 +32,7 @@ Os preços dos xenogerminadores são configuráveis nas opções do mod, ou use 
 [*]O comerciante orbital [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886375137]Gene Trader[/url] também estocará xenogerminadores
 [*]Detecta automaticamente xenótipos adicionados por outros mods
 [*]Xenótipos do [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2975771801]VRE Android[/url] são propositalmente excluídos
+[*]Xenogerminadores duplicados pelo [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3236303965]ReSplice: Core[/url] mantêm seu xenótipo na implantação
 [/list]
 
 [hr][/hr]

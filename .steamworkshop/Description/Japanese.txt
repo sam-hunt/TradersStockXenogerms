@@ -32,6 +32,7 @@
 [*]軌道上の[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886375137]Gene Trader[/url]も異種胚を在庫します
 [*]他のMODが追加したゼノタイプも自動的に検出されます
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2975771801]VRE Android[/url]のゼノタイプは意図的に除外されています
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3236303965]ReSplice: Core[/url]で複製した異種胚も、移植時に元のゼノタイプが維持されます
 [/list]
 
 [hr][/hr]

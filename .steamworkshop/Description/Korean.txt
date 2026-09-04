@@ -32,6 +32,7 @@
 [*]궤도 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886375137]Gene Trader[/url]도 변형이식체를 취급합니다
 [*]다른 모드가 추가한 인종형도 자동으로 감지됩니다
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2975771801]VRE Android[/url] 인종형은 의도적으로 제외됩니다
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3236303965]ReSplice: Core[/url]로 복제한 변형이식체도 이식 시 원래 인종형이 유지됩니다
 [/list]
 
 [hr][/hr]

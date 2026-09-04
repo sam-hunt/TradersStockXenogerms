@@ -32,6 +32,7 @@
 [*]轨道[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886375137]Gene Trader[/url]同样会出售异种胚芽
 [*]自动识别其他模组添加的异种人
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2975771801]VRE Android[/url]的异种人特意排除在外
+[*]由[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3236303965]ReSplice: Core[/url]复制的异种胚芽在植入时保留其异种人身份
 [/list]
 
 [hr][/hr]

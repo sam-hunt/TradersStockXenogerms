@@ -32,6 +32,7 @@ Los precios de los xenogérmenes se pueden configurar en los ajustes, o usar los
 [*]El comerciante orbital de [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2886375137]Gene Trader[/url] también venderá xenogérmenes
 [*]Detecta automáticamente los xenotipos añadidos por otros mods
 [*]Los xenotipos de [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2975771801]VRE Android[/url] quedan excluidos intencionadamente
+[*]Los xenogérmenes duplicados por [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3236303965]ReSplice: Core[/url] conservan su xenotipo al implantarse
 [/list]
 
 [hr][/hr]
