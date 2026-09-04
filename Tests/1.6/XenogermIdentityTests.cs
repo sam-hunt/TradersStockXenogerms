@@ -219,9 +219,10 @@ namespace XenogermTraderStock.Tests
         }
 
         [Fact]
-        public void CustomTemplate_NonInheritableMatch_ClaimsGermOverPreset()
+        public void CustomTemplate_NonInheritableMatch_IsTheSource_OverPreset()
         {
-            // The player's own template names this germ already; vanilla gets it.
+            // The player's own template names this germ, not the preset it clones; the
+            // source is not inheritable, so the implant patch leaves the germline alone.
             GeneDef a = TestHelpers.MakeGene(defName: "A");
             XenotypeDef hussar = MakeXenotype("Hussar", "hussar", new List<GeneDef> { a });
             var clone = new CustomXenotype { name = "Clone", inheritable = false, genes = new List<GeneDef> { a } };
@@ -229,7 +230,9 @@ namespace XenogermTraderStock.Tests
             XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "hussar", new List<XenotypeDef> { hussar }, new List<CustomXenotype> { clone });
 
-            Assert.True(result.IsNone);
+            Assert.Same(clone, result.Custom);
+            Assert.Null(result.Preset);
+            Assert.False(result.Inheritable);
         }
 
         [Fact]
@@ -290,7 +293,7 @@ namespace XenogermTraderStock.Tests
         }
 
         [Fact]
-        public void CustomTemplate_Tie_NameMatchesNonInheritableOne_ClaimsGermForVanilla()
+        public void CustomTemplate_Tie_NameMatchesNonInheritableOne_ReturnsIt()
         {
             GeneDef a = TestHelpers.MakeGene(defName: "A");
             XenotypeDef impid = MakeXenotype("Impid", "impid", new List<GeneDef> { a });
@@ -300,7 +303,8 @@ namespace XenogermTraderStock.Tests
             XenogermSource result = XenogermIdentity.Infer(
                 new List<GeneDef> { a }, "Implant", new List<XenotypeDef> { impid }, new List<CustomXenotype> { germline, implant });
 
-            Assert.True(result.IsNone);
+            Assert.Same(implant, result.Custom);
+            Assert.False(result.Inheritable);
         }
 
         [Fact]

@@ -5,11 +5,13 @@ using Verse;
 
 namespace XenogermTraderStock
 {
-    // What a xenogerm implants as, when this mod has anything to say about it: a
-    // preset XenotypeDef, or an inheritable player-scenario CustomXenotype whose
-    // germline the implant patch will write. Neither set (None) means vanilla's
-    // implant is already the whole story - a non-inheritable custom template, an
-    // assembler germ matching nothing, or an unbreakable tie.
+    // Which xenotype a xenogerm yields: a preset XenotypeDef, or a player-scenario
+    // CustomXenotype template. Neither set (None) means no loaded xenotype claims
+    // the germ's gene set - an assembler germ matching nothing, or a tie the name
+    // could not break - and vanilla's implant is the whole story. Whether the
+    // implant patch rewrites the germline for a source is Inheritable's call, not
+    // the kind's: a non-inheritable template resolves like any other, and the
+    // patch then leaves vanilla's xenogene implant standing.
     public readonly struct XenogermSource
     {
         public static readonly XenogermSource None = default;
@@ -66,17 +68,20 @@ namespace XenogermTraderStock
     // and the chosen ideos' xenotype precepts) gets first claim on the germ's
     // gene set:
     //
-    //  * A NON-inheritable template that matches claims the germ and the resolver
-    //    returns None: vanilla's implant runs untouched and the pawn's
-    //    CustomXenotype resolves to that template exactly as it would without this
-    //    mod. A player who went to the trouble of authoring a preset clone and not
-    //    picking the preset has expressed a preference, whatever the reason (an
-    //    interaction with some other mod, say), and this mod should not overrule
-    //    it.
+    //  * A matching template is the source, whatever its inheritable flag, and no
+    //    preset is considered after it. A player who went to the trouble of
+    //    authoring a preset clone and not picking the preset has expressed a
+    //    preference, whatever the reason (an interaction with some other mod,
+    //    say), and this mod should not overrule it.
     //
-    //  * An INHERITABLE template that matches is returned as the source, because
-    //    here vanilla cannot deliver the template at all: PawnIsCustomXenotype
-    //    matches an inheritable template against ENDOgenes, which a xenogene
+    //  * For a NON-inheritable template the implant patch has nothing to rewrite:
+    //    vanilla's xenogene implant is exactly what PawnIsCustomXenotype matches
+    //    such a template against, so the pawn is the template with no help. The
+    //    patch only normalises the pawn's name and icon to the template's, the
+    //    same rule a preset match gets.
+    //
+    //  * For an INHERITABLE template vanilla cannot deliver the template at all:
+    //    PawnIsCustomXenotype matches it against ENDOgenes, which a xenogene
     //    implant never writes, so a vanilla implant of the template's own genes
     //    yields a pawn labeled with its name that the game does not recognise as
     //    the template, whose children inherit nothing. The implant patch writes the
@@ -141,11 +146,10 @@ namespace XenogermTraderStock
 
         // Pure over its inputs so the headless suite can cover it. Custom templates
         // first: the one whose genes match the germ's (see GenesMatch), or with
-        // several the one whose name equals xenotypeName (case-insensitive) - an
-        // inheritable match is the source, a non-inheritable one claims the germ
-        // for vanilla (None), an unbreakable tie is None. Only when no template
-        // matches: the one preset whose genes match, ties broken against label /
-        // defName the same way, otherwise None.
+        // several the one whose name equals xenotypeName (case-insensitive); a tie
+        // the name cannot break is None, never a preset - the templates claimed the
+        // genes. Only when no template matches: the one preset whose genes match,
+        // ties broken against label / defName the same way, otherwise None.
         public static XenogermSource Infer(
             List<GeneDef> germGenes,
             string xenotypeName,
@@ -159,20 +163,13 @@ namespace XenogermTraderStock
 
             string name = xenotypeName?.Trim();
 
-            if (customTemplates != null)
+            if (customTemplates != null
+                && TryPickMatch(customTemplates, germGenes, c => c?.genes, c => NameMatches(c, name),
+                    out CustomXenotype template))
             {
-                bool claimed = TryPickMatch(customTemplates, germGenes,
-                    c => c?.genes, c => NameMatches(c, name), out CustomXenotype template);
-                if (claimed)
-                {
-                    // A template matched (or several tied): the player's own xenotype
-                    // decides. Inheritable means the retarget can deliver it; anything
-                    // else - non-inheritable, or a tie the name did not break - is
-                    // vanilla's to handle.
-                    return template?.inheritable == true
-                        ? XenogermSource.Of(template)
-                        : XenogermSource.None;
-                }
+                // The player's own xenotypes claimed the genes; a tie the name did
+                // not break is vanilla's, not a preset's.
+                return template != null ? XenogermSource.Of(template) : XenogermSource.None;
             }
 
             if (candidates == null)
@@ -185,9 +182,9 @@ namespace XenogermTraderStock
         }
 
         // Shared match-then-tie-break over either candidate kind. Returns whether
-        // ANY candidate's genes matched (so a caller can tell "claimed but
-        // unresolved" from "nothing matched"); `picked` is the single match, or
-        // the single name-matching candidate among several, else null.
+        // ANY candidate's genes matched (so a tie among templates can stop the
+        // preset pass); `picked` is the single match, or the single name-matching
+        // candidate among several, else null.
         private static bool TryPickMatch<T>(
             IEnumerable<T> candidates,
             List<GeneDef> germGenes,

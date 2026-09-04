@@ -14,17 +14,19 @@ namespace XenogermTraderStock.Patches
     //
     // Which germs this applies to is XenogermIdentity's call: a preset via the trader
     // comp, or - for a comp-less germ - a gene list equal to exactly one preset's, or
-    // an INHERITABLE player-scenario template (CustomXenotype) whose gene list the
-    // germ carries. The gene-set paths cover copies made by ReSplice Core's xenogerm
-    // duplicator (it rebuilds the item from scratch and never copies comp state) and,
-    // by design, a player-assembled germ that reproduces a xenotype gene-for-gene.
+    // a player-scenario template (CustomXenotype) whose gene list the germ carries.
+    // The gene-set paths cover copies made by ReSplice Core's xenogerm duplicator (it
+    // rebuilds the item from scratch and never copies comp state) and, by design, a
+    // player-assembled germ that reproduces a xenotype gene-for-gene.
     //
     // For a preset the identity is stamped as below. For a scenario template the
-    // identity vanilla already wrote is the right one - Xenotype = Baseliner plus the
-    // template's name and icon - and the pawn's CustomXenotype resolves to the template
-    // by gene match (GeneUtility.PawnIsCustomXenotype). An inheritable template is
-    // matched against ENDOgenes, so that resolution only succeeds once the germline
-    // retarget below has run; the template's whole reason to be here is that retarget.
+    // identity vanilla already wrote is the right shape - Xenotype = Baseliner plus a
+    // name and icon, normalised here to the template's own - and the pawn's
+    // CustomXenotype resolves to the template by gene match
+    // (GeneUtility.PawnIsCustomXenotype): against xenogenes for a non-inheritable
+    // template, which vanilla's implant has just written, so nothing more happens;
+    // against ENDOgenes for an inheritable one, which only the germline retarget
+    // below can write - that retarget is the whole point of resolving such templates.
     //
     // This postfix runs inside Recipe_ImplantXenogerm.ApplyOnPawn, immediately after the
     // vanilla method returns and before anything else can observe the pawn, and leaves the
@@ -218,11 +220,12 @@ namespace XenogermTraderStock.Patches
             }
             else
             {
-                // Scenario template: vanilla's SetXenotype(Baseliner) already put the
-                // tracker where a custom identity lives; normalise the name and icon to
-                // the template's own (a duplicated or hand-assembled match may carry
-                // another name) so the pawn reads as the template it is about to
-                // match by genes. SetXenotypeDirect re-clears the CustomXenotype cache.
+                // Scenario template (inheritable or not): vanilla's SetXenotype(Baseliner)
+                // already put the tracker where a custom identity lives; normalise the
+                // name and icon to the template's own (a duplicated or hand-assembled
+                // match may carry another name) so the pawn reads as the template it
+                // matches by genes - as xenogenes already, or as endogenes once the
+                // retarget runs. SetXenotypeDirect re-clears the CustomXenotype cache.
                 pawn.genes.SetXenotypeDirect(XenotypeDefOf.Baseliner);
                 pawn.genes.xenotypeName = source.Custom.name;
                 pawn.genes.iconDef = source.Custom.IconDef;
